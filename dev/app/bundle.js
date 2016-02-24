@@ -1,0 +1,1 @@
+console.error("ReactifyError: c:\\BitSharesWallet\\www\\js\\app.js: Parse Error: Line 1: Illegal import declaration while parsing file: c:\\BitSharesWallet\\www\\js\\app.js");
