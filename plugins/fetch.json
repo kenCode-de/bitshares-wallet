@@ -1,0 +1,89 @@
+{
+    "cordova-plugin-whitelist": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-whitelist@1"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-media": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-media@~2.1.0"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file": {
+        "source": {
+            "type": "git",
+            "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "phonegap-plugin-barcodescanner": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wildabeast/BarcodeScanner",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-social-message": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-social-message"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-indexedDB": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/msopentech/cordova-plugin-indexedDB/",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-x-socialsharing": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-crosswalk-webview": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-indexeddb-async": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ABB-Austin/cordova-plugin-indexeddb-async",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-device": {
+        "source": {
+            "type": "git",
+            "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}
