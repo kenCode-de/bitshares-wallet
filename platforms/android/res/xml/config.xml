@@ -1,5 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="de.bitsharesmunich.wallet" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <icon density="ldpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="mdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="hdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xhdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xxhdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xxxhdpi" src="www/app/assets/img/icon.PNG" />
+    <config-file parent="/*" target="config.xml">
+    </config-file>
     <name>BitShares Wallet</name>
     <description>
         Multiplatform BitShares wallet.
@@ -8,8 +21,6 @@
         BitShares Munich
     </author>
     <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="nl.x-services.plugins.socialsharing" version="4.3.16" />
     <access origin="*" />
     <allow-intent href="*" />
     <allow-intent href="tel:*" />
@@ -17,20 +28,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="blob:*" />
-    <allow-intent href="http:*"/>
-    <platform name="android">
-        <icon src="www/app/assets/img/icon.PNG" density="ldpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="mdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="hdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxxhdpi" />
-        <config-file parent="/*" target="config.xml">
-            <feature name="Echo">
-                <param name="android-package" value="org.apache.cordova.plugin.SocialSharing" />
-            </feature>
-        </config-file>
-    </platform>
+    <allow-intent href="http:*" />
     <preference name="xwalkVersion" value="15+" />
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
