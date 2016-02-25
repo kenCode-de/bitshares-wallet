@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="de.bitsharesmunich.wallet" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="de.bitsharesmunich.wallet" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>BitShares Wallet</name>
     <description>
         Multiplatform BitShares wallet.
@@ -17,14 +17,14 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="blob:*" />
-    <allow-intent href="http:*"/>
+    <allow-intent href="http:*" />
     <platform name="android">
-        <icon src="www/app/assets/img/icon.PNG" density="ldpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="mdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="hdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxxhdpi" />
+        <icon density="ldpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="mdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="hdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xhdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xxhdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xxxhdpi" src="www/app/assets/img/icon.PNG" />
         <config-file parent="/*" target="config.xml">
             <feature name="Echo">
                 <param name="android-package" value="org.apache.cordova.plugin.SocialSharing" />
@@ -35,4 +35,6 @@
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
+    <engine name="browser" spec="~4.0.0" />
+    <engine name="android" spec="~5.1.0" />
 </widget>
