@@ -17,18 +17,16 @@
     },
     "cordova-plugin-file": {
         "source": {
-            "type": "git",
-            "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-file@~4.1.0"
         },
         "is_top_level": true,
         "variables": {}
     },
     "phonegap-plugin-barcodescanner": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/wildabeast/BarcodeScanner",
-            "subdir": "."
+            "type": "registry",
+            "id": "phonegap-plugin-barcodescanner"
         },
         "is_top_level": true,
         "variables": {}
@@ -44,7 +42,7 @@
     "cordova-plugin-indexedDB": {
         "source": {
             "type": "git",
-            "url": "https://github.com/msopentech/cordova-plugin-indexedDB/",
+            "url": "https://github.com/msopentech/cordova-plugin-indexedDB",
             "subdir": "."
         },
         "is_top_level": true,
@@ -61,9 +59,8 @@
     },
     "cordova-plugin-crosswalk-webview": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-crosswalk-webview"
         },
         "is_top_level": true,
         "variables": {}
