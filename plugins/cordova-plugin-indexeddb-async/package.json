@@ -1,0 +1,44 @@
+{
+  "name": "cordova-plugin-indexeddb-async",
+  "version": "2.2.1",
+  "description": "An asynchronous IndexedDB plug-in for Cordova apps",
+  "cordova": {
+    "id": "cordova-plugin-indexeddb-async",
+    "platforms": [
+      "android",
+      "ios",
+      "windows",
+      "browser"
+    ]
+  },
+  "scripts": {
+    "upgrade": "ncu --upgradeAll && npm update && cp node_modules/indexeddbshim/dist/indexeddbshim.min.js www/indexeddbshim.min.js",
+    "release": "npm run upgrade && bump --prompt --tag --push --all && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ABB-Austin/cordova-plugin-indexeddb-async.git"
+  },
+  "keywords": [
+    "cordova",
+    "indexeddb",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-windows8",
+    "cordova-windows",
+    "cordova-browser"
+  ],
+  "author": {
+    "name": "ABB Austin",
+    "url": "http://abb.com"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "indexeddbshim": "^2.2.1"
+  },
+  "devDependencies": {
+    "npm-check-updates": "^2.2.0",
+    "version-bump-prompt": "^1.5.1"
+  }
+}
