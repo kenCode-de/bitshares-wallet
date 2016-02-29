@@ -26,7 +26,6 @@ import org.json.JSONException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
 
@@ -47,8 +46,6 @@ public class PluginManager {
     private final CordovaInterface ctx;
     private final CordovaWebView app;
     private boolean isInitialized;
-
-    private CordovaPlugin permissionRequester;
 
     public PluginManager(CordovaWebView cordovaWebView, CordovaInterface cordova, Collection<PluginEntry> pluginEntries) {
         this.ctx = cordova;
@@ -510,18 +507,5 @@ public class PluginManager {
                 plugin.onConfigurationChanged(newConfig);
             }
         }
-    }
-
-    public Bundle onSaveInstanceState() {
-        Bundle state = new Bundle();
-        for (CordovaPlugin plugin : this.pluginMap.values()) {
-            if (plugin != null) {
-                Bundle pluginState = plugin.onSaveInstanceState();
-                if(pluginState != null) {
-                    state.putBundle(plugin.getServiceName(), pluginState);
-                }
-            }
-        }
-        return state;
     }
 }

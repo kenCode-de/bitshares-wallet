@@ -31,7 +31,7 @@ public class CallbackContext {
 
     private String callbackId;
     private CordovaWebView webView;
-    protected boolean finished;
+    private boolean finished;
     private int changingThreads;
 
     public CallbackContext(String callbackId, CordovaWebView webView) {

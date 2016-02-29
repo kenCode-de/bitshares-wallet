@@ -30,10 +30,20 @@ buildscript {
     // installed version of Gradle. This dependency is documented at
     // http://tools.android.com/tech-docs/new-build-system/version-compatibility
     // and https://issues.apache.org/jira/browse/CB-8143
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+    if (gradle.gradleVersion >= "2.2") {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:1.0.0+'
+        }
+    } else if (gradle.gradleVersion >= "2.1") {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:0.14.0+'
+        }
+    } else {
+        dependencies {
+            classpath 'com.android.tools.build:gradle:0.12.0+'
+        }
     }
-   }
+}
 
 // Allow plugins to declare Maven dependencies via build-extras.gradle.
 repositories {
@@ -41,7 +51,7 @@ repositories {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+    gradleVersion = '2.2.1'
 }
 
 // Configuration properties. Set these via environment variables, build-extras.gradle, or gradle.properties.
@@ -86,7 +96,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "cordova-plugin-crosswalk-webview/wallet-xwalk.gradle"
+apply from: "cordova-plugin-crosswalk-webview/hellocordova-xwalk.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -164,15 +174,9 @@ android {
 
     defaultConfig {
         versionCode cdvVersionCode ?: Integer.parseInt("" + privateHelpers.extractIntFromManifest("versionCode") + "0")
-        applicationId privateHelpers.extractStringFromManifest("package")
-
         if (cdvMinSdkVersion != null) {
             minSdkVersion cdvMinSdkVersion
         }
-    }
-
-    lintOptions {
-      abortOnError false;
     }
 
     compileSdkVersion cdvCompileSdkVersion
@@ -181,13 +185,13 @@ android {
     if (Boolean.valueOf(cdvBuildMultipleApks)) {
         productFlavors {
             armv7 {
-                versionCode defaultConfig.versionCode + 2
+                versionCode cdvVersionCode ?: defaultConfig.versionCode + 2
                 ndk {
                     abiFilters "armeabi-v7a", ""
                 }
             }
             x86 {
-                versionCode defaultConfig.versionCode + 4
+                versionCode cdvVersionCode ?: defaultConfig.versionCode + 4
                 ndk {
                     abiFilters "x86", ""
                 }
