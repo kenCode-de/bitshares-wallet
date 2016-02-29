@@ -19,6 +19,7 @@
     <allow-intent href="blob:*" />
     <allow-intent href="http:*"/>
     <platform name="android">
+		<hook src="plugins/install_plugins.js" type="after_platform_add" />
         <icon src="www/app/assets/img/icon.PNG" density="ldpi" />
         <icon src="www/app/assets/img/icon.PNG" density="mdpi" />
         <icon src="www/app/assets/img/icon.PNG" density="hdpi" />
