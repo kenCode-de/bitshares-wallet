@@ -58,4 +58,8 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+    
+    lintOptions {
+        abortOnError false
+    }
 }
