@@ -341,10 +341,8 @@ exports.defineAutoTests = function () {
             var mediaFile = 'http://cordova.apache.org/downloads/BlueZedEx.mp3',
                 mediaState = Media.MEDIA_STOPPED,
                 successCallback,
-                context = this,
                 flag = true,
                 statusChange = function (statusCode) {
-                    console.log("status code: " + statusCode);
                     if (statusCode == Media.MEDIA_RUNNING && flag) {
                         //flag variable used to ensure an extra security statement to ensure that the callback is processed only once,
                         //in case for some reason the statusChange callback is reached more than one time with the same status code.
@@ -357,16 +355,15 @@ exports.defineAutoTests = function () {
                                 media1.stop();
                                 media1.release();
                                 done();
-                            }, failed.bind(null, done, 'media1.getCurrentPosition - Error getting media current position'),context);
+                            }, failed.bind(null, done, 'media1.getCurrentPosition - Error getting media current position'));
                         }, 4000);
                     }
-                };
-                
-            var media1 = new Media(mediaFile, successCallback, failed.bind(null, done, 'media1 = new Media - Error creating Media object. Media file: ' + mediaFile, context), statusChange);
+                },
+                media1 = new Media(mediaFile, successCallback, failed.bind(null, done, 'media1 = new Media - Error creating Media object. Media file: ' + mediaFile), statusChange);
             //make audio playback two times faster
             media1.setRate(2);
             media1.play();
-        }, ACTUAL_PLAYBACK_TEST_TIMEOUT);
+        });
     });
 };
 
