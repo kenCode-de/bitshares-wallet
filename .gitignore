@@ -1,4 +1,5 @@
 node_modules
+build.gradle
 /www/assets/app.js.map
 /www/assets/bundle_new.js
 /www/assets/bundle_new.js.map
