@@ -109,6 +109,7 @@ languages: {
 
 
 home: {
+reward_points : "Reward Points",
 balances: "BALANCES",
 contacts: "CONTACTS",
 finder: "FINDER",
