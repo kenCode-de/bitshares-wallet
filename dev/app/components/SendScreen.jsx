@@ -7,6 +7,7 @@ import AccountSelect from "./Forms/AccountSelect";
 import AccountSelector from "./AccountSelector";
 import AccountStore from "stores/AccountStore";
 import AmountSelector from "./Utility/AmountSelector";
+import RewardUia from "./Utility/RewardUia";
 import utils from "common/utils";
 import counterpart from "counterpart";
 import TransactionConfirmStore from "stores/TransactionConfirmStore";
@@ -93,7 +94,8 @@ class SendScreen extends React.Component {
 
                     let invoice = JSON.parse(result);
                     let amount = invoice.line_items[0].price;
-                    this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount});
+                    this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount, 
+                      billed_currency:invoice.currency});
 
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
@@ -287,7 +289,9 @@ class SendScreen extends React.Component {
 
      let from_error = null;
         let from_my_account = AccountStore.isMyAccount(this.state.from_account)
-        let propose = this.state.propose
+        let propose = this.state.propose;
+        let { query, state } = this.props.location;   
+
         if(this.state.from_account && ! from_my_account && ! propose ) {
             from_error = <span>
                 {counterpart.translate("wallet.account_not_yours")}
@@ -297,6 +301,7 @@ class SendScreen extends React.Component {
 
         let asset_types = [];
         let balance = null;
+        let reward_uia = null;
         if (this.state.from_account && !from_error) {
             let account_balances = this.state.from_account.get("balances").toJS();
             asset_types = Object.keys(account_balances);
@@ -305,6 +310,21 @@ class SendScreen extends React.Component {
             else if (asset_types.length > 0) {
                 let current_asset_id = this.state.asset ? this.state.asset.get("id") : asset_types[0];
                 balance = (<span className="avalibel-label" onTouchTap={this.availableBalanceClick.bind(this)}  ><BalanceComponent  ref="bc1" balance={account_balances[current_asset_id]}/> <Translate component="span" content="wallet.transfer_available"/></span>)
+                if (state && state.hasOwnProperty("payment")) {   
+                  let reward_found = false    
+                  for(var i=0; i<asset_types.length; i++){    
+                      if(asset_types[i] == "1.3.562"){    
+                        reward_found = true;                            
+                        break;    
+                      }   
+                    }   
+                    if(reward_found){   
+                      reward_uia = (<span className="avalibel-label"   >   <RewardUia /><BalanceComponent  ref="bc2" balance={account_balances["1.3.562"]}/> <Translate component="span" content="wallet.transfer_available"/></span>)    
+                    }   
+                    else{   
+                      reward_uia = (<span className="avalibel-label"   >   <RewardUia /><BalanceComponent  ref="bc2" balance={0}/> <Translate component="span" content="wallet.transfer_available"/></span>)          
+                    }   
+                }                
             }
             else {
                 balance = <Translate component="span" content="wallet.no_funds"/>;
@@ -349,6 +369,10 @@ class SendScreen extends React.Component {
                       assets={asset_types}
                       display_balance={balance}/>
                    {balance}
+                   {reward_uia}
+              </div>
+              <div className="form-row">
+                <span> Remaining balance is {this.state.amount} {this.state.billed_currency}   </span>
               </div>
               <div className="form-row">
                     <span className="label bold">{counterpart.translate("wallet.home.memo") + ":"}</span>
