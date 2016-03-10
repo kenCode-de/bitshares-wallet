@@ -56,7 +56,8 @@ class SendScreen extends React.Component {
             propose_account: "",
             to_account_valid: false,
             donate: true,
-            outOfBalance : false
+            outOfBalance : false,
+            callback: ""
         };
 
          let { query, state } = this.props.location;
@@ -91,13 +92,16 @@ class SendScreen extends React.Component {
                 lzma.decompress(compressed_data, result => {
 
                     let invoice = JSON.parse(result);
+                    let amount = invoice.line_items[0].price;
+                    this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount});
 
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
                         let amount = invoice.line_items[0].price;
 
                       // TODO redirect on Send Screen with query params
-                        this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount, asset_id: assets_array[0].get("id")});
+                        this.setState({asset_id: assets_array[0].get("id"),
+                                      callback: invoice.callback});
 
                     });
 
@@ -152,6 +156,11 @@ class SendScreen extends React.Component {
 
     onTrxIncluded(confirm_store_state) {
         if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+          var callback = this.state.callback + "?block=" + confirm_store_state.trx_block_num + "&trx=" + confirm_store_state.trx_id;
+          var xhttp = new XMLHttpRequest();
+          xhttp.open("GET", callback, true);
+          xhttp.send();
+
               this.setState({
               from_name: "",
               to_name: "",
@@ -164,9 +173,11 @@ class SendScreen extends React.Component {
               error: null,
               propose: false,
               propose_account: "",
+              callback: ""
           });
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
             TransactionConfirmStore.reset();
+
         } else if (confirm_store_state.closed) {
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
             TransactionConfirmStore.reset();
