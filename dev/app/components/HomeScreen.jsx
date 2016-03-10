@@ -86,7 +86,7 @@ class HomeScreen extends React.Component {
     }
 
     _scan() {
-
+	let self = this;
         cordova.plugins.barcodeScanner.scan(
 
             function (result) {
@@ -97,6 +97,9 @@ class HomeScreen extends React.Component {
                     {
 
                         history.pushState({payment: JSON.stringify(result.text) }, 'send');
+                    }else {
+                        self._scan();
+                        window.plugins.toast.showLongBottom('Scanning failed, Please try again');
                     }
                 }
             },

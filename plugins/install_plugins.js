@@ -14,7 +14,8 @@ var pluginlist = [
     //"cordova-plugin-whitelist",
     "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
     "https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git",
-    "https://github.com/wildabeast/BarcodeScanner"	,
+    "https://github.com/wildabeast/BarcodeScanner",
+    "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
 	"cordova-plugin-media"
 ];
 
