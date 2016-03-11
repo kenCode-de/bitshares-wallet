@@ -315,7 +315,7 @@ var Utils = {
         }
 
         return {quoteAmount: quoteCoreRateQuoteAmount, baseAmount: baseCoreRateQuoteAmount};
-    }
+    },
 
     getExchangeRate: function(baseAssetId, quoteAssetId,callback) {
 
