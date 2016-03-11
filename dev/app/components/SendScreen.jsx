@@ -93,13 +93,14 @@ class SendScreen extends React.Component {
                 lzma.decompress(compressed_data, result => {
 
                     let invoice = JSON.parse(result);
-                    let amount = invoice.line_items[0].price;
+                    let amount = 0;
+                    for(var id=0; id<invoice.line_items.length; id++){
+                            amount = +amount + +invoice.line_items[id].price;
+                    }
                     this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount, 
                       billed_currency:invoice.currency});
 
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
-
-                        let amount = invoice.line_items[0].price;
 
                       // TODO redirect on Send Screen with query params
                         this.setState({asset_id: assets_array[0].get("id"),
