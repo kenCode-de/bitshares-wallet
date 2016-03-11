@@ -345,6 +345,22 @@ var Utils = {
                     console.log("Error in fetching exchange rate: ", error);
                     console.log(error);
                 });
+    },
+
+    getRequiredFee: function(feeAssetId, callback) {
+        Apis.instance().db_api().exec("get_required_fees", [
+                        [[1,{}]],feeAssetId
+                    ]).then(results => {
+                        console.log(results[0].amount);
+                        let feeAsset = ChainStore.getAsset(feeAssetId);
+                        let feeAssetPrecision = this.get_asset_precision(feeAsset.get("precision"));
+                        let feeAmount = results[0].amount / feeAssetPrecision;
+                        console.log(feeAmount);
+                        callback(feeAmount);
+                    }).catch((error) => {
+                        console.log("Error in fetching exchange rate: ", error);
+                        console.log(error);
+                    });
     }
 
 };
