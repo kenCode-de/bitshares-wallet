@@ -201,21 +201,24 @@ class Transaction extends React.Component {
                     color = "warning";
                     // missingAssets = this.getAssets([op[1].amount_to_sell.asset_id, op[1].min_to_receive.asset_id]);
                     // let price = (!missingAssets[0] && !missingAssets[1]) ? utils.format_price(op[1].amount_to_sell.amount, assets.get(op[1].amount_to_sell.asset_id), op[1].min_to_receive.amount, assets.get(op[1].min_to_receive.asset_id), false, inverted) : null;
+		    op[1].amount_to_sell.amount = +op[1].amount_to_sell.amount;
+		    op[1].min_to_receive.amount = +op[1].min_to_receive.amount;
+		    op[1].fee.amount = +op[1].fee.amount;
                     rows.push(
                         <tr key="1">
-                            <td><Translate component="span" content="exchange.sell" /></td>
+                            <td><Translate component="span" content="wallet.exchange.sell" /></td>
                             <td><FormattedAsset amount={op[1].amount_to_sell.amount} asset={op[1].amount_to_sell.asset_id} /></td>
                         </tr>
                     );
                     rows.push(
                         <tr key="2">
-                            <td><Translate component="span" content="exchange.buy" /></td>
+                            <td><Translate component="span" content="wallet.exchange.buy" /></td>
                             <td><FormattedAsset amount={op[1].min_to_receive.amount} asset={op[1].min_to_receive.asset_id} /></td>
                         </tr>
                     );
                     rows.push(
                         <tr key="3">
-                            <td><Translate component="span" content="exchange.price" /></td>
+                            <td><Translate component="span" content="wallet.exchange.price" /></td>
                             <td>
                                 <FormattedPrice
                                     base_asset={op[1].amount_to_sell.asset_id}
@@ -227,25 +230,26 @@ class Transaction extends React.Component {
                     );
                     // rows.push(
                     //     <tr key="2">
-                    //         <td><Translate component="span" content="transaction.min_receive" /></td>
+                    //         <td><Translate component="span" content="wallet.transaction.min_receive" /></td>
                     //         <td>{!missingAssets[1] ? <FormattedAsset amount={op[1].min_to_receive.amount} asset={op[1].min_to_receive.asset_id} /> : null}</td>
                     //     </tr>
                     // );
                     rows.push(
                         <tr key="4">
-                            <td><Translate component="span" content="transaction.seller" /></td>
+                            <td><Translate component="span" content="wallet.transaction.seller" /></td>
                             <td>{this.linkToAccount(op[1].seller)}</td>
                         </tr>
                     );
                     rows.push(
                         <tr key="5">
-                            <td><Translate component="span" content="transaction.expiration" /></td>
+                            <td><Translate component="span" content="wallet.transaction.expiration" /></td>
                             <td>
-                                <FormattedDate
+				{op[1].expiration}
+                                {/*<FormattedDate
                                     value={op[1].expiration}
                                     formats={intlData.formats}
                                     format="full"
-                                />
+                                />*/}
                             </td>
                         </tr>
                     );

@@ -285,6 +285,25 @@ class SendScreen extends React.Component {
         } );
     }
 
+    onTrade(e) {
+        console.log('trade called');
+        this.setState({error: null, loading: true});
+        let baseAsset = ChainStore.getAsset('1.3.0'); //sell
+        let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+        let quoteAsset = ChainStore.getAsset('1.3.121'); //buy
+        let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+
+        AccountActions.trade(
+            this.state.from_account.get("id"),
+            {amount: +(1 * basePrecision), asset_id: baseAsset.get("id")},
+            baseAsset.get("symbol"),
+            {amount: +(0.00609 * quotePrecision),asset_id: quoteAsset.get("id")},
+            quoteAsset.get("symbol")
+        ).then( () => {
+            console.log('trade then');
+        });
+    }
+
   // Render SendScreen view
   render() {
 
@@ -397,6 +416,9 @@ class SendScreen extends React.Component {
               </div>
               <button className={"btn btn-send-big upper "+ submitButtonClass} type="submit" value="Submit">
                   <Translate component="span" content="wallet.home.send"/>
+              </button>
+              <button className={"btn btn-send-big upper "+ submitButtonClass} type="button" value="button" onTouchTap={this.onTrade.bind(this)}>
+                  Trade
               </button>
             </form>
       </main>

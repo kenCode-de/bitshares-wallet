@@ -68,6 +68,8 @@ class FormattedPrice extends React.Component {
             if (base_asset.get("id") === "1.3.0") {
               decimals = 4;
             }
+            formatted_value = value;
+            /*
             formatted_value = (
                 <FormattedNumber
                     value={value}
@@ -75,6 +77,7 @@ class FormattedPrice extends React.Component {
                     maximumFractionDigits={decimals}
                 />
             );
+            */
         }
         let symbols = this.props.hide_symbols ? '' :
                       (<a onClick={this.onFlip.bind(this)}> {base_asset.get("symbol") + "/" + quote_asset.get("symbol")}</a>);

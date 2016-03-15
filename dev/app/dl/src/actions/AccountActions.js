@@ -64,6 +64,22 @@ class AccountActions {
         }
     }
 
+    trade(seller,amount_to_sell,symbol_to_sell,min_to_receive,symbol_to_receive) {
+        try {
+            return application_api.trade({
+                seller,amount_to_sell,symbol_to_sell,min_to_receive,symbol_to_receive
+            }).then(result => {
+                console.log( "trade result: ", result )
+                this.dispatch(result);
+            });
+        } catch (error) {
+            console.log("[AccountActions.js:76] ----- trade error ----->", error);
+            return new Promise((resolve, reject) => {
+                reject(error);
+            });
+        }
+    }
+
     /**
      *  This method exists ont he AccountActions because after creating the account via the wallet, the account needs
      *  to be linked and added to the local database.

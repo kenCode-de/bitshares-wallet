@@ -213,5 +213,45 @@ class ApplicationApi {
 
     }
 
+
+    trade({ // OBJECT: { ... }
+        seller,
+        amount_to_sell,
+        symbol_to_sell,
+        min_to_receive,
+        symbol_to_receive,
+        expiration = new Date(),
+        fill_or_kill = true,
+        broadcast = true
+    }) {
+        expiration.setMinutes(expiration.getMinutes() + 5);
+        var unlock_promise = WalletUnlockActions.unlock()
+        return Promise.all([unlock_promise]).then(()=> {
+            var tr = new ops.signed_transaction()
+            var transfer_op = tr.get_type_operation("limit_order_create", {
+                seller: seller,
+                amount_to_sell: amount_to_sell,
+                symbol_to_sell: symbol_to_sell,
+                min_to_receive: min_to_receive,
+                symbol_to_receive: symbol_to_receive,
+                expiration: expiration,
+                fill_or_kill: false,
+                broadcast: true
+            });
+            tr.add_operation( transfer_op );
+
+            return WalletDb.process_transaction(
+                tr,
+                null, //signer_private_keys,
+                true,
+                true
+            )
+        }).catch(error => {
+            console.log("[AplicationApi] ----- trade error ----->", error);
+            return false;
+        });
+
+    }
+
 }
 module.exports = ApplicationApi;
