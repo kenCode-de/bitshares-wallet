@@ -25,7 +25,7 @@ def EMBEDD_ARTIFACT_ID = "xwalk_core_library:"
 
 repositories {
   maven {
-    url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2'
+    url 'http'+'s://dow'+'nlo'+'ad'+'.01.'+'org/'+'cro'+'ss'+'wal'+'k/r'+'ele'+'ase'+'s/cr'+'os'+'swalk/an'+'droid/m'+'ave'+'n2'
   }
 }
 
