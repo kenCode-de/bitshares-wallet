@@ -41,7 +41,6 @@ class SendScreen extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state =  {
             from_name: "",
             to_name: "",
@@ -81,7 +80,6 @@ class SendScreen extends React.Component {
 
          }
 
-
          if (state && state.hasOwnProperty("payment")) {
 
             let payment = JSON.parse(state.payment);
@@ -98,12 +96,14 @@ class SendScreen extends React.Component {
                             amount = +amount + +invoice.line_items[id].price;
                     }
                     this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount, 
+                      remaining_amount : amount, actual_amount: amount,
                       billed_currency:invoice.currency});
 
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
                       // TODO redirect on Send Screen with query params
                         this.setState({asset_id: assets_array[0].get("id"),
+                                      billed_asset_id: assets_array[0].get("id"),
                                       callback: invoice.callback});
 
                     });
@@ -122,20 +122,75 @@ class SendScreen extends React.Component {
         this.onTrxIncluded = this.onTrxIncluded.bind(this);
     }
 
+    getExchangeRate(baseAssetId, quoteAssetId, amount){
+      this.setState({error: null, loading: true});
+      Promise.all([
+                    Apis.instance().db_api().exec("get_limit_orders", [
+                        baseAssetId,quoteAssetId, 1
+                    ]),
+                ])
+                .then(results => {
+                    let baseAmount = 0;
+                    let quoteAmount = 0;
+                    if (results[0][0].sell_price.base.asset_id == baseAssetId){
+                        baseAmount = results[0][0].sell_price.base.amount;
+                        quoteAmount = results[0][0].sell_price.quote.amount;
+                    }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
+                        quoteAmount = results[0][0].sell_price.base.amount;
+                        baseAmount = results[0][0].sell_price.quote.amount;
+                    }
+                    let baseAsset = ChainStore.getAsset(baseAssetId);
+                    let quoteAsset = ChainStore.getAsset(quoteAssetId);
+                    let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                    let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                    let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                    let remaining_amount = +this.state.actual_amount - (+amount * +exchangeRate);
+                    console.log('----Exchange rate block');
+                    console.log(exchangeRate);
+                    console.log(remaining_amount);
+                    this.setState({remaining_amount : remaining_amount});
+                    this.setState({error: null, loading: false});
+                    
+
+                }).catch((error) => {
+                    console.log("Error in fetching exchange rate: ", error);
+                    console.log(error);
+                });
+    }
 
     toChanged(to_name) {
         this.setState({to_name, error: null})
     }
 
+    
     onToAccountChanged(to_account) {
 
         this.setState({to_account, error: null, to_account_valid: !!to_account})
     }
 
-    onAmountChanged({amount, asset}) {
+    onAmountBlured({amount, asset}) {
+      if (amount && asset){
+        let remaining_amount = parseFloat(this.state.actual_amount) - parseFloat(amount);
+        this.setState({remaining_amount : remaining_amount});
+      }
+    }
 
+    onRewardPointsBlured({amount}) {
+      console.log('----On Reward points blurred called');
+      let sellAssetId = "1.3.562";
+      let buyAssetId = this.state.billed_asset_id;
+      this.setState({reward_points: amount});
+      this.getExchangeRate(sellAssetId, buyAssetId, amount);  
+    }
+
+    onRewardPointsChanged({amount}) {
+      console.log('----On Reward points changed called');
+      this.setState({reward_points: amount});
+    }
+
+    onAmountChanged({amount, asset, asset_changed}) {
         let outOfBalance = false;
-        if (amount && asset)
+        if (amount && asset && asset_changed == false)
         {
           let precision = utils.get_asset_precision(asset.get("precision"));
           let requestedAmount = parseInt(amount * precision, 10);
@@ -145,8 +200,23 @@ class SendScreen extends React.Component {
             outOfBalance = true;
             //console.log("$$$sendScreen._insufficient_balance"); //$$$
           }
+          this.setState({amount, asset, error: null,  outOfBalance: outOfBalance});
         }
-        this.setState({amount, asset, error: null,  outOfBalance: outOfBalance});
+        else if (amount && asset && asset_changed){
+          let sellAssetId = asset.get("id");
+          let buyAssetId = this.state.billed_asset_id;
+
+          console.log('------Get excahnge rate block called');
+          console.log(sellAssetId);
+          console.log(buyAssetId);
+          this.getExchangeRate(sellAssetId, buyAssetId, amount);
+
+        }
+        // console.log('-----On Amount Changed');
+        // console.log(amount);
+        // console.log(asset);
+        // console.log(asset_changed);
+        
     }
 
     onMemoChanged(e) {
@@ -254,8 +324,11 @@ class SendScreen extends React.Component {
         let asset = this.state.asset || ChainStore.getAsset(this.state.asset_id);
         let precision = utils.get_asset_precision(asset.get("precision"));
 
+        //let asset = ChainStore.getAsset("1.3.562");
+        //let precision = utils.get_asset_precision(asset.get("precision"));
 
-
+        console.log('-----On Submit');
+        console.log(this.state.reward_points);
 
         //let advancedSettings = SettingsStore.getAdvancedSettings();
         this.setState({error: null, loading: true});
@@ -272,7 +345,8 @@ class SendScreen extends React.Component {
             asset.get("id"),
             this.state.memo,
             this.state.propose ? this.state.propose_account : null,
-            this.state.donate
+            this.state.donate,
+            this.state.reward_points ? this.state.reward_points : null, 
         ).then( () => {
             this.setState({loading: false});
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
@@ -283,6 +357,24 @@ class SendScreen extends React.Component {
             console.log( "error: ", e, msg)
             this.setState({error: msg})
         } );
+        // AccountActions.transfer(
+        //     this.state.from_account.get("id"),
+        //     this.state.to_account.get("id"),
+        //     parseInt(this.state.reward_points * precision, 10),
+        //     asset.get("id"),
+        //     this.state.memo,
+        //     this.state.propose ? this.state.propose_account : null,
+        //     this.state.donate
+        // ).then( () => {
+        //     this.setState({loading: false});
+        //     TransactionConfirmStore.unlisten(this.onTrxIncluded);
+        //     TransactionConfirmStore.listen(this.onTrxIncluded);
+        // }).catch( e => {
+        //     this.setState({loading: false});
+        //     let msg = e.message ? e.message.split( '\n' )[1] : null;
+        //     console.log( "error: ", e, msg)
+        //     this.setState({error: msg})
+        // } );
     }
 
     onTrade(e) {
@@ -339,7 +431,11 @@ class SendScreen extends React.Component {
                       }   
                     }   
                     if(reward_found){   
-                      reward_uia = (<span className="avalibel-label"   >   <RewardUia /><BalanceComponent  ref="bc2" balance={account_balances["1.3.562"]}/> <Translate component="span" content="wallet.transfer_available"/></span>)    
+                      reward_uia = (<span className="avalibel-label"   >   
+                      <RewardUia
+                      onChange={this.onRewardPointsChanged.bind(this)}
+                      onBlur={this.onRewardPointsBlured.bind(this)} />
+                      <BalanceComponent  ref="bc2" balance={account_balances["1.3.562"]}/> <Translate component="span" content="wallet.transfer_available"/></span>)    
                     }   
                     else{   
                       reward_uia = (<span className="avalibel-label"   >   <RewardUia /><BalanceComponent  ref="bc2" balance={0}/> <Translate component="span" content="wallet.transfer_available"/></span>)          
@@ -384,6 +480,7 @@ class SendScreen extends React.Component {
               <div className="form-row curr-input">
                   <AmountSelector
                       amount={this.state.amount}
+                      onBlur={this.onAmountBlured.bind(this)}
                       onChange={this.onAmountChanged.bind(this)}
                       asset={asset_types.length > 0 && this.state.asset ? this.state.asset.get("id") : ( this.state.asset_id ? this.state.asset_id : asset_types[0])}
                       assets={asset_types}
@@ -392,7 +489,7 @@ class SendScreen extends React.Component {
                    {reward_uia}
               </div>
               <div className="form-row">
-                <span> Remaining balance is {this.state.amount} {this.state.billed_currency}   </span>
+                <span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency}   </span>
               </div>
               <div className="form-row">
                     <span className="label bold">{counterpart.translate("wallet.home.memo") + ":"}</span>

@@ -44,14 +44,14 @@ class RewardUia extends React.Component {
 
     _onChange(event) {
 
-        let reward_uia = event.target.value
-        this.setState({reward_uia})
-        this.props.onChange({reward_uia: reward_uia})
+        let reward_points = event.target.value;
+        this.setState({reward_points})
+        this.props.onChange({reward_points: reward_points})
     }
 
-    onAssetChange(selected_asset) {
-        this.setState({selected_asset})
-        this.props.onChange({amount: this.props.amount, asset: selected_asset})
+    _onBlur(event) {
+        let amount = event.target.value;
+        this.props.onBlur({amount: amount})
     }
 
     onKeyDown(e) {
@@ -69,7 +69,11 @@ class RewardUia extends React.Component {
         return (
                 <div>
                    <span className="label-amount bold">{counterpart.translate("wallet.home.reward_points") + ": "} </span>
-                   <input onChange={this._onChange.bind(this)}  onKeyDown={this.onKeyDown}  type="text" pattern="[0-9]" className="text-field input-amount"></input>
+                   <input onChange={this._onChange.bind(this)}  
+                   onBlur={this._onBlur.bind(this)}
+                   onKeyDown={this.onKeyDown}  
+                   type="text" pattern="[0-9]" 
+                   className="text-field input-amount"></input>
                 </div>
                 
 

@@ -5,7 +5,7 @@ import ChainTypes from "./ChainTypes";
 import BindToChainState from "./BindToChainState";
 import FormattedAsset from "./FormattedAsset";
 import counterpart from "counterpart";
-//import utils from "common/utils";
+// import utils from "common/utils";
 import TextField  from "./TextField";
 
 @BindToChainState()
@@ -36,6 +36,12 @@ class AssetSelector extends React.Component {
 
     onChange(event) {
         this.props.onChange(ChainStore.getAsset(event.target.value))
+        // let sellAssetId = event.target.value;
+        // let buyAssetId = this.props.billed_asset_id;
+        //args: Sell,Buy,Callback
+        // console.log('------Asset selector on change called');
+        
+        // this.props.onExchangeRateReturn({sellAssetId, buyAssetId});
     }
 
     render() {
@@ -90,12 +96,17 @@ class AmountSelector extends React.Component {
 
         let amount = event.target.value
         this.setState({amount})
-        this.props.onChange({amount: amount, asset: this.props.asset})
+        this.props.onChange({amount: amount, asset: this.props.asset, asset_changed: false})
+    }
+
+    _onBlur(event) {
+        let amount = event.target.value;
+        this.props.onBlur({amount: amount, asset: this.props.asset})
     }
 
     onAssetChange(selected_asset) {
         this.setState({selected_asset})
-        this.props.onChange({amount: this.props.amount, asset: selected_asset})
+        this.props.onChange({amount: this.props.amount, asset: selected_asset, asset_changed: true})
     }
 
     onKeyDown(e) {
@@ -113,7 +124,10 @@ class AmountSelector extends React.Component {
         return (
                 <div>
                    <span className="label-amount bold">{counterpart.translate("wallet.home.amount") + ": "} </span>
-                   <input onChange={this._onChange.bind(this)}  onKeyDown={this.onKeyDown} value={value}  type="text" pattern="[0-9]" className="text-field input-amount"></input>
+                   <input onChange={this._onChange.bind(this)}  
+                   onBlur={this._onBlur.bind(this)}
+                   onKeyDown={this.onKeyDown} value={value}  
+                   type="text" pattern="[0-9]" className="text-field input-amount"></input>
                     <AssetSelector
                            assets={this.props.assets}
                            value={this.props.asset.get("id")}
