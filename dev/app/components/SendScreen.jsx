@@ -324,9 +324,6 @@ class SendScreen extends React.Component {
         let asset = this.state.asset || ChainStore.getAsset(this.state.asset_id);
         let precision = utils.get_asset_precision(asset.get("precision"));
 
-        //let asset = ChainStore.getAsset("1.3.562");
-        //let precision = utils.get_asset_precision(asset.get("precision"));
-
         console.log('-----On Submit');
         console.log(this.state.reward_points);
 
@@ -357,24 +354,6 @@ class SendScreen extends React.Component {
             console.log( "error: ", e, msg)
             this.setState({error: msg})
         } );
-        // AccountActions.transfer(
-        //     this.state.from_account.get("id"),
-        //     this.state.to_account.get("id"),
-        //     parseInt(this.state.reward_points * precision, 10),
-        //     asset.get("id"),
-        //     this.state.memo,
-        //     this.state.propose ? this.state.propose_account : null,
-        //     this.state.donate
-        // ).then( () => {
-        //     this.setState({loading: false});
-        //     TransactionConfirmStore.unlisten(this.onTrxIncluded);
-        //     TransactionConfirmStore.listen(this.onTrxIncluded);
-        // }).catch( e => {
-        //     this.setState({loading: false});
-        //     let msg = e.message ? e.message.split( '\n' )[1] : null;
-        //     console.log( "error: ", e, msg)
-        //     this.setState({error: msg})
-        // } );
     }
 
     onTrade(e) {
