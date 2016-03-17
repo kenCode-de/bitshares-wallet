@@ -100,7 +100,8 @@ class TransactionConfirm extends BaseComponent {
                      ref="confirmModal">
                    <div style={{maxHeight: "60vh", overflowY:'auto'}}>
                             <Transaction key={Date.now()} trx={this.state.transaction.serialize()}
-                                index={0} no_links={true} donor={this.state.transaction.donor}/>
+                                index={0} no_links={true} donor={this.state.transaction.donor}
+                                reward_points={this.state.transaction.reward_points} />
                     </div>
                     <div className="grid-block shrink" style={{paddingTop: "1rem"}}>
                         {button_group}
