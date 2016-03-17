@@ -864,6 +864,9 @@ input[type="text"] {
 .form-row .full-input {
   width: 100%;
 }
+full-input {
+  width: 100%;
+}
 .form-row p {
   clear: both;
   font-size: 12px;
@@ -1936,11 +1939,41 @@ a {
     font-weight: bold;
 }
 
+.label-amount-rewards {
+    width: auto;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    display: inline-block;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.avalibel-label-reward {
+    width: auto;
+    margin: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+}
+
 .input-amount {
     border-right: none;
     text-align: center;
     width: 50%;
     font-weight: bold;
+}
+
+.input-amount-rewards {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+.move-rewards-box-right{
+    padding-left: 5px;
 }
 
 .avalibel-label .amount_span {
