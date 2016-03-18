@@ -84,9 +84,11 @@ class ApplicationApi {
         optional_nonce = null,
         sign = true,
         propose_account = null,
-        donate = false
+        donate = false,
+        reward_points = null,
+        reward_points_asset = null
     }) {
-        var reward_points = 1;
+        console.log('<----In App api ---->', reward_points, reward_points_asset);
         var memo_sender = propose_account || from_account
         var memo_from_public, memo_to_public, memo_donat_public
         //if (!memo && donate)
@@ -209,14 +211,14 @@ class ApplicationApi {
                             },
                             from: lookup.account_id(from_account),
                             to: lookup.account_id(to_account),
-                            amount: { amount: reward_points, asset_id: "1.3.562"},
+                            amount: { amount: reward_points, asset_id: reward_points_asset},
                             memo: memo_object
                             
                         });
                        tr.add_operation(reward_op);
                        tr.reward_points = reward_op;
                 }
-                console.log('<----Application api transfer op---->', tr);
+                // console.log('<----Application api transfer op---->', tr);
             }
 
             return WalletDb.process_transaction(

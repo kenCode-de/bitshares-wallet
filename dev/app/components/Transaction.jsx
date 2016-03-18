@@ -67,7 +67,7 @@ class OperationTable extends React.Component {
             reward_points_row = (
             <tr>
                 <td><Translate component="span" content="wallet.home.reward_points" /></td>
-                <td><FormattedAsset color="fee" amount={reward_points_obj[1].amount.amount.low} asset={"1.3." + reward_points_obj[1].amount.asset_id}/></td>
+                <td><FormattedAsset color="fee" amount={reward_points_obj[1].amount.amount} asset={"1.3." + reward_points_obj[1].amount.asset_id}/></td>
             </tr> )
         }
 
