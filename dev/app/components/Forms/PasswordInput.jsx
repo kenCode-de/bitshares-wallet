@@ -99,6 +99,8 @@ class PasswordInput extends Component {
             if (this.props.onChange) this.props.onChange(state);
             this.setState(state);
         }
+        else
+          this.setState({passwordValue: this.state.passwordValue});
     }
 
     onKeyDown(e) {

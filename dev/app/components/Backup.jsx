@@ -227,6 +227,13 @@ class NewWalletName extends BackupBaseComponent {
 @connectToStores
 class Download extends BackupBaseComponent {
 
+    /*constructor() {
+        super()
+        this.state = {
+            downloadedMessage: null
+        }
+    }*/
+
     componentWillMount() {
         try { this.isFileSaverSupported = !!new Blob; } catch (e) {}
     }
@@ -237,11 +244,28 @@ class Download extends BackupBaseComponent {
     }
 
     render() {
-        let translate = IntlStore.translate;
-        return   <section className="setting-item">
-                  <RaisedButton label={counterpart.translate("wallet.download")}
-                    onTouchTap={this._onDownload.bind(this)}   />
-          </section>
+
+        //return null;
+
+        let message = "Backup will appear in browser downloads";
+        if (typeof(cordova) != 'undefined')
+        {
+            let isIPhone = (window.navigator.userAgent.indexOf('AppleWebKit') != -1) && cordova.file.externalRootDirectory == null;
+            message =  counterpart.translate(isIPhone? "wallet.locateBackupIPhone": "wallet.locateBackupAndroid");
+        }
+
+
+
+            return <section className="setting-item">
+                    <span>{message}</span><br/>
+                    <RaisedButton label={counterpart.translate("wallet.download")} onTouchTap={this._onDownload.bind(this)}  />
+                  </section>
+    }
+
+
+    goHome()
+    {
+        history.pushState(null, '/');
     }
 
     _onDownload() {
@@ -259,9 +283,16 @@ class Download extends BackupBaseComponent {
         var blob = new Blob([ contents ], {
                             type: "application/octet-stream; charset=us-ascii"});
 
+        //cordova.file.externalRootDirectory
+        //cordova.file.documentsDirectory
 
          if (window.resolveLocalFileSystemURL) // phone
-             window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (directoryEntry) {
+         {
+             let isIPhone = (window.navigator.userAgent.indexOf('AppleWebKit') != -1) && cordova.file.externalRootDirectory == null;
+             window.resolveLocalFileSystemURL(isIPhone? cordova.file.documentsDirectory : cordova.file.externalRootDirectory, function (directoryEntry) {
+
+                //let that = this;
+
                 directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
                     fileEntry.createWriter(function (fileWriter) {
                         fileWriter.onwriteend = function (e) {
@@ -269,11 +300,14 @@ class Download extends BackupBaseComponent {
                             WalletActions.setBackupDate()
 
                             history.pushState(null, '/');
+                            //that.setState({downloadedMessage: counterpart.translate(isIPhone?"wallet.locateBackupAndroid": "wallet.locateBackupIPhone") })
                         };
 
                         fileWriter.onerror = function (e) {
                             // you could hook this up with our global error handler, or pass in an error callback
                             console.log('Write failed: ' + e.toString());
+                            //that.setState({downloadedMessage: counterpart.translate("wallet.backupDownloadFailed")})
+
                         };
 
                         console.log(contents, 'contents');
@@ -288,6 +322,7 @@ class Download extends BackupBaseComponent {
                     }, errorHandler.bind(null, fileName));
                 }, errorHandler.bind(null, fileName));
             }, errorHandler.bind(null, fileName));
+        }
         else
            saveAs(blob, this.props.backup.name); // browser
     }
@@ -304,7 +339,7 @@ class Create extends BackupBaseComponent {
 
         var ready = WalletDb.getWallet() != null
         let translate = IntlStore.translate
-        let buttonText = translate('backup.create_backup') + '(' + this.props.wallet.current_wallet+ ')';
+        let buttonText =  counterpart.translate("wallet.create_backup")  + '(' + this.props.wallet.current_wallet+ ')';
 
 
         return(<section>
