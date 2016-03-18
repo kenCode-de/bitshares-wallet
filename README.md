@@ -72,9 +72,33 @@ Send any amount.. anywhere.. for just a few cents.. and in only 3 seconds!
 2. `cd dev`
 3. `npm run buildprod`
 4. `cd ..`
-5. If any changes of external resources (css, images etc) occured since last build, manually copy these folders from `dev\app\assets\` to `www\assets` 
-6. `cordova build android --debug`
-7. Resulting .apk file is in `platforms\android\build\outputs\apk`
+5. If any changes of external resources (css, images etc) occured since last build, manually copy these folders from `dev\app\assets\` to `www\assets`
+6. Copy `index_android.html` to `index.html` (overwriting old `index.html`).
+7. `cordova build android --debug`
+8. Resulting .apk file is in `platforms\android\build\outputs\apk`
+
+### iOS build
+
+#### Platform installation:
+
+1. Copy the whole project folder (except platforms/ folder) to your Mac
+2. Install XCode 7.x 
+3. Open terminal window for root project folder
+4. `cordova platform add ios`
+5. Copy `index_ios.html` to `index.html` (overwriting old `index.html`).
+6. Copy `Intl.js` to `www/assets/` (next to `socialSharing.js`)
+
+
+#### Test build
+
+1. On a Windows machine, run `npm run build` against dev/ folder.
+2. Copy www\assets to the relevat folder on your Mac.
+3. Open OS X terminal for root project folder
+4. `cordova build ios --debug`
+5. Select `platforms\bitshareswallet.xcodeproj`. Project should open in XCode
+6. Select 'Generic device' and 'Debug\Archive'
+7. Create ad-hoc build 
+8. Install the .ipa file to your iOS device
 
 ## Pleeeeease Donate 
 

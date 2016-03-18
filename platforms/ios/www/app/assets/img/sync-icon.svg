@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="259px" height="259px" viewBox="0 0 259 259" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>sync</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="sync" sketch:type="MSLayerGroup">
+            <path d="M129.2,0 C57.8,0 0,57.8 0,129.2 C0,200.6 57.8,258.4 129.2,258.4 C200.6,258.4 258.4,200.6 258.4,129.2 C258.4,57.8 200.5,0 129.2,0 L129.2,0 Z M129.2,244.1 C65.7,244.1 14.3,192.6 14.3,129.2 C14.3,65.8 65.7,14.3 129.2,14.3 C192.7,14.3 244.1,65.8 244.1,129.2 C244.1,192.6 192.7,244.1 129.2,244.1 L129.2,244.1 Z" id="Shape" fill="#4B2D87" sketch:type="MSShapeGroup"></path>
+            <g id="Group" transform="translate(41.000000, 61.000000)" sketch:type="MSShapeGroup">
+                <path d="M88,138 C126.107648,138 157,107.107648 157,69 C157,30.8923523 126.107648,0 88,0 C49.8923523,0 19,30.8923523 19,69 C19,107.107648 49.8923523,138 88,138 Z" id="Oval-1" stroke="#4B2D87" stroke-width="19"></path>
+                <path d="M29,21 L73,88 L116,109 L131,132 L150,119 L110,59 L60,28 L49,10 L29,21 Z" id="Path-3" fill="#DEF6FF"></path>
+                <polygon id="Triangle-1" fill="#4B2D87" points="30 22 60 67 0 67 "></polygon>
+                <polygon id="Triangle-1-Copy" fill="#4B2D87" transform="translate(146.000000, 91.500000) scale(1, -1) translate(-146.000000, -91.500000) " points="146 69 176 114 116 114 "></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

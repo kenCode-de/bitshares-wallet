@@ -105,9 +105,10 @@ languages: {
     download: "Download",
     createBackupPrompt: 'Please make backup of your wallet to continue',
 	requirePinToOpen: 'Require PIN to open wallet',
+	locateBackupAndroid: 'Backup will appear in the root directory of you phone',
+	locateBackupIPhone: 'Backup will appear in  the application Documents folder and will be available via iTunes',
+	backupDownloadFailed: 'Backup downloading has failed ',
 	
-
-
 home: {
 balances: "BALANCES",
 contacts: "CONTACTS",
