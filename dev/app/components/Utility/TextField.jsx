@@ -37,7 +37,7 @@ class TextField extends React.Component {
             style = {"border": "none"};
         }
 
-        let value = this.props.value  ?  this.props.value  : null;
+        let value = this.props.value ; // zashkvar of digit inputs  ??//  this.props.value  : null;
 
         this.props.multiLine ? contents=[
             <span className="label bold">{lbl}</span>,
