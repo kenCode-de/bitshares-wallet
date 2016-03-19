@@ -16,6 +16,7 @@ import Brainkey from "./components/Brainkey";
 import ImportKeys from "./components/ImportKeys";
 import WalletChangePassword from "./components/WalletChangePassword";
 import WalletUnlockModal from "./components/WalletUnlockModal";
+import TradeBeforeSendModal from "./components/TradeBeforeSendModal"
 import AddContact from "./components/AddContact";
 import InviteFriend from "./components/InviteFriend";
 import EditContact from './components/EditContact';
@@ -145,6 +146,11 @@ class App extends React.Component {
     }
 
     static willTransitionTo(nextState, replaceState, callback)  {
+	
+	console.log("transitioning.....");
+	if (nextState && (nextState !== "undefined")) console.log("next state " + nextState.toString());
+	if (replaceState && (replaceState !== "undefined"))  console.log("replace state " + replaceState.toString());
+	if (callback && (callback !== "undefined")) console.log("callback " + callback.toString());
 
         if (nextState.location.pathname === "/init-error") {
             var db = iDB.init_instance(window.openDatabase ? (shimIndexedDB || indexedDB) :  indexedDB).init_promise
@@ -302,6 +308,7 @@ class App extends React.Component {
                     </AltContainer>
                     <TransactionConfirm />
                     <WalletUnlockModal />
+		    <TradeBeforeSendModal />
             </section>
         )
     }
