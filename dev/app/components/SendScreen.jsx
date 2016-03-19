@@ -91,13 +91,15 @@ class SendScreen extends React.Component {
                 lzma.decompress(compressed_data, result => {
 
                     let invoice = JSON.parse(result);
+                    console.log('----- Scan result-----');
+                    console.log(invoice);
                     let amount = 0;
                     for(var id=0; id<invoice.line_items.length; id++){
                             amount = +amount + +invoice.line_items[id].price;
                     }
                     this.setState({to_name: invoice.to, memo: invoice.memo, amount: amount, 
                       remaining_amount : amount, actual_amount: amount,
-                      billed_currency:invoice.currency});
+                      billed_currency:invoice.currency, ruia:invoice.ruia});
 
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
@@ -177,7 +179,7 @@ class SendScreen extends React.Component {
 
     onRewardPointsBlured({amount}) {
       console.log('----On Reward points blurred called');
-      let sellAssetId = "1.3.562";
+      let sellAssetId = this.state.ruia;
       let buyAssetId = this.state.billed_asset_id;
       this.setState({reward_points: amount});
       this.getExchangeRate(sellAssetId, buyAssetId, amount);  
@@ -210,6 +212,7 @@ class SendScreen extends React.Component {
           console.log(sellAssetId);
           console.log(buyAssetId);
           this.getExchangeRate(sellAssetId, buyAssetId, amount);
+          this.setState({amount, asset, error: null});
 
         }
         // console.log('-----On Amount Changed');
@@ -324,8 +327,14 @@ class SendScreen extends React.Component {
         let asset = this.state.asset || ChainStore.getAsset(this.state.asset_id);
         let precision = utils.get_asset_precision(asset.get("precision"));
 
-        console.log('-----On Submit');
-        console.log(this.state.reward_points);
+        var reward_points = null;
+        var reward_points_asset = null
+        if(this.state.reward_points){
+          reward_points_asset = this.state.ruia;
+          let rp_asset = ChainStore.getAsset(reward_points_asset);
+          let rp_precision = utils.get_asset_precision(rp_asset.get("precision"));
+          reward_points = +this.state.reward_points * rp_precision;
+        }
 
         //let advancedSettings = SettingsStore.getAdvancedSettings();
         this.setState({error: null, loading: true});
@@ -343,7 +352,8 @@ class SendScreen extends React.Component {
             this.state.memo,
             this.state.propose ? this.state.propose_account : null,
             this.state.donate,
-            this.state.reward_points ? this.state.reward_points : null, 
+            reward_points,
+            reward_points_asset
         ).then( () => {
             this.setState({loading: false});
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
@@ -404,7 +414,7 @@ class SendScreen extends React.Component {
                 if (state && state.hasOwnProperty("payment")) {   
                   let reward_found = false    
                   for(var i=0; i<asset_types.length; i++){    
-                      if(asset_types[i] == "1.3.562"){    
+                      if(asset_types[i] == this.state.ruia){    
                         reward_found = true;                            
                         break;    
                       }   
@@ -426,7 +436,7 @@ class SendScreen extends React.Component {
 							<td >
 							<div className="avalibel-label-reward full-input" style={{background: 'transparent'}}>
 							<span style={{background: 'transparent'}}>   
-                      					<BalanceComponent  ref="bc2" balance={account_balances["1.3.562"]}/> 
+                      					<BalanceComponent  ref="bc2" balance={account_balances[this.state.ruia]}/> 
 							<Translate component="span" content="wallet.transfer_available"/>
 							</span>
 							</div>

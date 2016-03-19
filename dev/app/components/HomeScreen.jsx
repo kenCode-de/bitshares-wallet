@@ -90,12 +90,11 @@ class HomeScreen extends React.Component {
     }
 
     _scan() {
-
-	console.log("Triggering popup---------");
-	TradeBeforeSendActions.talk();
-	//TradeBeforeSendModal.u();
-	console.log("Triggering popup completed---------");
-	/*
+	// use this to open popup
+	//console.log("Triggering popup---------");
+	//TradeBeforeSendActions.talk();
+	//console.log("Triggering popup completed---------");
+	
 	let self = this;
         cordova.plugins.barcodeScanner.scan(
 
@@ -117,7 +116,7 @@ class HomeScreen extends React.Component {
                 alert("Scanning failed: " + error);
             }
        );
-	*/
+	
     }
 
     _onQRCodeClick()
