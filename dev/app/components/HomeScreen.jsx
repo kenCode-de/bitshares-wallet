@@ -12,6 +12,7 @@ import AccountActions from "actions/AccountActions";
 import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
 import WalletUnlockStore from "stores/WalletUnlockStore";
+import WalletUnlockActions from "actions/WalletUnlockActions"
 import BackupStore from "stores/BackupStore";
 import Immutable from "immutable";
 import ChainTypes from "./Utility/ChainTypes";
@@ -41,6 +42,7 @@ class HomeScreen extends React.Component {
       );
     }
 
+
     componentDidMount() {
 
       var getDOMNode;
@@ -54,15 +56,15 @@ class HomeScreen extends React.Component {
         };
       }
 
-      let mainDom = getDOMNode(this.refs.qr_main);
+      if (this.refs.qr_main)
+      {
 
-    //  let mainPadding = 20;
+        let mainDom = getDOMNode(this.refs.qr_main);
+        //  let mainPadding = 20;
+        let mainWidth = mainDom.offsetWidth; //- mainPadding;
+        this.setState({qrContainerSize: mainWidth});
+      }
 
-      let mainWidth = mainDom.offsetWidth; //- mainPadding;
-
-
-
-      this.setState({qrContainerSize: mainWidth});
     }
 
     _shareBTSAddress()
