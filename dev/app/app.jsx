@@ -191,11 +191,11 @@ class App extends React.Component {
 
             if(error.name === "InvalidStateError") {
                 alert("Can't access local storage.\nPlease make sure your browser is not in private/incognito mode.");
-            } else {
+            } /*else {
               //  transition.redirect("/init-error");
                 callback();
-            }
-             history.pushState({error: error.name || 'Application error. Please check network connetction'}, 'error');
+            }*/
+             history.pushState({error: error.name || 'Application error. Please check network connection'}, 'error');
 
         })
     }
