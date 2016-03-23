@@ -382,7 +382,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "BitSharesWallet/BitSharesWallet-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitshares.wallet;
+				PRODUCT_BUNDLE_IDENTIFIER = de.bitsharesmunich.wallet;
 				PRODUCT_NAME = BitSharesWallet;
 			};
 			name = Debug;
@@ -403,7 +403,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "BitSharesWallet/BitSharesWallet-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitshares.wallet;
+				PRODUCT_BUNDLE_IDENTIFIER = de.bitsharesmunich.wallet;
 				PRODUCT_NAME = BitSharesWallet;
 			};
 			name = Release;
