@@ -273,6 +273,8 @@ exchange: {
     buy: "Buy",
     sell: "Sell",
     price: "Exchange Rate",
+    trade_currency: "Trade Currency",
+    trade : "Trade"
     },
 transaction: {
     seller: "Seller",

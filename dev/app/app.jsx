@@ -147,11 +147,6 @@ class App extends React.Component {
 
     static willTransitionTo(nextState, replaceState, callback)  {
 	
-	console.log("transitioning.....");
-	if (nextState && (nextState !== "undefined")) console.log("next state " + nextState.toString());
-	if (replaceState && (replaceState !== "undefined"))  console.log("replace state " + replaceState.toString());
-	if (callback && (callback !== "undefined")) console.log("callback " + callback.toString());
-
         if (nextState.location.pathname === "/init-error") {
             var db = iDB.init_instance(window.openDatabase ? (shimIndexedDB || indexedDB) :  indexedDB).init_promise
             db.then(() => {

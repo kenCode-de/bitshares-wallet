@@ -7,7 +7,9 @@ class WebSocketRpc {
     constructor(ws_server, update_rpc_connection_status_callback) {
         this.update_rpc_connection_status_callback = update_rpc_connection_status_callback;
         var WebSocketClient = typeof(WebSocket) !== "undefined" ? require("ReconnectingWebSocket") : require("websocket").w3cwebsocket;
-        this.web_socket = new WebSocketClient(ws_server);
+        console.log('------In web socket rpc', ws_server);
+        this.web_socket = new WebSocketClient(ws_server, null, {timeoutInterval: 20000, reconnectInterval: 1000});
+
         this.current_reject = null;
         this.on_reconnect = null;
         this.connect_promise = new Promise((resolve, reject) => {

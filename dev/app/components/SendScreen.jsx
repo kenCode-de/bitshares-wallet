@@ -24,6 +24,8 @@ import LoadingIndicator from "./LoadingIndicator";
 import bs58 from "common/base58";
 import lzma from "lzma";
 import {FetchChainObjects} from "api/ChainStore";
+import TradeBeforeSendActions from "actions/TradeBeforeSendActions"
+import TradeConfirmStore from "stores/TradeConfirmStore";
 import { createHashHistory, useBasename } from 'history';
 const history = useBasename(createHashHistory)({});
 
@@ -60,6 +62,8 @@ class SendScreen extends React.Component {
             callback: ""
         };
 
+        
+
          let { query, state } = this.props.location;
 
          if (query.hasOwnProperty("contact")) {
@@ -91,8 +95,6 @@ class SendScreen extends React.Component {
                 lzma.decompress(compressed_data, result => {
 
                     let invoice = JSON.parse(result);
-                    console.log('----- Scan result-----');
-                    console.log(invoice);
                     let amount = 0;
                     for(var id=0; id<invoice.line_items.length; id++){
                             amount = +amount + +invoice.line_items[id].price;
@@ -101,12 +103,31 @@ class SendScreen extends React.Component {
                       remaining_amount : amount, actual_amount: amount,
                       billed_currency:invoice.currency, ruia:invoice.ruia});
 
+
+
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
                       // TODO redirect on Send Screen with query params
                         this.setState({asset_id: assets_array[0].get("id"),
                                       billed_asset_id: assets_array[0].get("id"),
                                       callback: invoice.callback});
+                        let asset_types = [];
+                        let account_balances = this.props.account.get("balances").toJS();
+                        
+                        let billedBalance = ChainStore.getAccountBalance(this.props.account, assets_array[0].get("id"));
+                        let basePrecision = utils.get_asset_precision(assets_array[0].get("precision"));
+                        billedBalance = billedBalance / basePrecision;
+
+                        if(!(assets_array[0].get("id") in account_balances)){
+                          //Account balances, user account id, billed asset id, billing amount
+                          TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
+                            assets_array[0].get("id"), amount);
+                        }
+                        else if((billedBalance < amount)){
+                          let remainingAmount = amount - billedBalance;
+                          TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
+                            assets_array[0].get("id"), remainingAmount);
+                        }
 
                     });
 
@@ -122,6 +143,10 @@ class SendScreen extends React.Component {
         this.state.from_name = this.props.account.get("name");
         this.state.from_account = this.props.account;
         this.onTrxIncluded = this.onTrxIncluded.bind(this);
+        this.onTradeTrx = this.onTradeTrx.bind(this);
+
+        TradeConfirmStore.listen(this.onTradeTrx);
+
     }
 
     getExchangeRate(baseAssetId, quoteAssetId, amount){
@@ -191,6 +216,8 @@ class SendScreen extends React.Component {
     }
 
     onAmountChanged({amount, asset, asset_changed}) {
+      console.log('-----On Amount Changed');
+      console.log(amount);
         let outOfBalance = false;
         if (amount && asset && asset_changed == false)
         {
@@ -228,6 +255,21 @@ class SendScreen extends React.Component {
 
     onDonateChanged(e) {
         this.setState({donate: this.refs.chkDonate.isChecked()});
+    }
+
+    onTradeTrx(confirm_store_state) {
+      console.log('-----On Trade Trx called')
+      console.log('-----Trade Asset----');
+      console.log(confirm_store_state.trade_asset);
+          if(confirm_store_state.trade_asset == true) {
+            let selected_asset = ChainStore.getAsset(this.state.billed_asset_id);
+            console.log('------selected_asset----');
+            console.log(this.state.billed_asset_id);
+            console.log(selected_asset.toString())
+            this.setState({asset: selected_asset});
+            TradeConfirmStore.unlisten(this.onTradeTrx);
+            TradeConfirmStore.reset();
+        }
     }
 
     onTrxIncluded(confirm_store_state) {
@@ -429,7 +471,7 @@ class SendScreen extends React.Component {
 					<table className="full-input" style={{background: 'transparent'}}>
 						<tr>
 							<td>
-                      					<RewardUia onChange={this.onRewardPointsChanged.bind(this)} onBlur={this.onRewardPointsBlured.bind(this)} />
+                      					<RewardUia onBlur={this.onRewardPointsBlured.bind(this)} />
 							</td>							
 						</tr>
 						<tr>
@@ -451,7 +493,7 @@ class SendScreen extends React.Component {
 					<table className="full-input" style={{background: 'transparent'}}>
 						<tr>
 							<td>  
-                      					<RewardUia onChange={this.onRewardPointsChanged.bind(this)} onBlur={this.onRewardPointsBlured.bind(this)} />
+                      					<RewardUia onBlur={this.onRewardPointsBlured.bind(this)} />
 							</td>							
 						</tr>
 						<tr>
@@ -514,6 +556,7 @@ class SendScreen extends React.Component {
                       display_balance={balance}/>
                    {balance}
               </div>
+
 	      <div className="form-row full-input" style={{background: 'transparent'}}>
                 {reward_uia}
 	      </div>
@@ -542,9 +585,6 @@ class SendScreen extends React.Component {
               </div>
               <button className={"btn btn-send-big upper "+ submitButtonClass} type="submit" value="Submit">
                   <Translate component="span" content="wallet.home.send"/>
-              </button>
-              <button className={"btn btn-send-big upper "+ submitButtonClass} type="button" value="button" onTouchTap={this.onTrade.bind(this)}>
-                  Trade
               </button>
             </form>
       </main>

@@ -1,16 +1,16 @@
 import alt from "alt-instance"
-import TradeBeforeSendActions from "actions/TradeBeforeSendActions"
+import TradeConfirmActions from "actions/TradeConfirmActions"
 import WalletDb from "stores/WalletDb"
 import SettingsStore from "stores/SettingsStore"
 
 import { createHashHistory, useBasename } from 'history';
 const history = useBasename(createHashHistory)({});
 
-class TradeBeforeSendStore {
+class TradeConfirmStore {
 
     constructor() {
-        this.bindActions(TradeBeforeSendActions)
-        this.state = {locked: true, unclosable:false}
+        this.bindActions(TradeConfirmActions)
+        this.state = {locked: true, unclosable:false, trade_asset: false}
 	console.log('store constructor tbs setState', WalletDb.isLocked())
     }
 
@@ -47,13 +47,12 @@ class TradeBeforeSendStore {
         //this.setState({locked: WalletDb.isLocked()})
     }
 
-	onTalk({resolve, asset_types, account_id, billed_asset, billed_amount}) {
+	onTalk({resolve}) {
         //DEBUG console.log('... WalletUnlockStore\tprogramatic lock', WalletDb.isLocked())
-	//console.log('store ontalk tbs setState')
+	console.log('------Trade Confirm Store talk called ');
         resolve();
 	//return
-	   this.setState({unclosable:true, assets: asset_types, 
-        account_id:account_id, billed_asset:billed_asset, billed_amount:billed_amount });
+	   this.setState({trade_asset: true});
     }
 
     onClose() {
@@ -90,4 +89,4 @@ class TradeBeforeSendStore {
     }
 }
 
-export default alt.createStore(TradeBeforeSendStore, 'TradeBeforeSendStore')
+export default alt.createStore(TradeConfirmStore, 'TradeConfirmStore')

@@ -36,12 +36,6 @@ class AssetSelector extends React.Component {
 
     onChange(event) {
         this.props.onChange(ChainStore.getAsset(event.target.value))
-        // let sellAssetId = event.target.value;
-        // let buyAssetId = this.props.billed_asset_id;
-        //args: Sell,Buy,Callback
-        // console.log('------Asset selector on change called');
-        
-        // this.props.onExchangeRateReturn({sellAssetId, buyAssetId});
     }
 
     render() {

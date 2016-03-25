@@ -1,6 +1,6 @@
 import alt from "alt-instance"
 
-class TradeBeforeSendActions {
+class TradeConfirmActions {
 
     /** If you get resolved then the wallet is or was just unlocked.  If you get
         rejected then the wallet is still locked.
@@ -28,12 +28,11 @@ class TradeBeforeSendActions {
         })
     }
 
-	talk(asset_types, account_id, billed_asset, billed_amount) {
-        //console.log('talk trade befire send called');
+	talk() {
+        console.log('----Trade Confirm Actions talk called');
         return new Promise(  
 				resolve => {
-            				this.dispatch({resolve, asset_types, 
-                                account_id, billed_asset, billed_amount});
+            				this.dispatch({resolve});
 					}
 			)
 		}
@@ -59,5 +58,5 @@ class TradeBeforeSendActions {
 
 }
 
-var WrappedTradeBeforeSendActions = alt.createActions(TradeBeforeSendActions)
-export default WrappedTradeBeforeSendActions
+var WrappedTradeConfirmActions = alt.createActions(TradeConfirmActions)
+export default WrappedTradeConfirmActions

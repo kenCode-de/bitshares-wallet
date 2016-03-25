@@ -19,6 +19,12 @@ import If from "./If";
 import SettingsStore from "stores/SettingsStore";
 
 import { createHashHistory, useBasename } from 'history';
+import TradeAssetSelector from "./Utility/TradeAssetSelector";
+import {FetchChainObjects} from "api/ChainStore";
+import utils from "common/utils";
+import AccountActions from "actions/AccountActions";
+import TransactionConfirmStore from "stores/TransactionConfirmStore";
+import TradeConfirmActions from "actions/TradeConfirmActions";
 const history = useBasename(createHashHistory)({});
 
 
@@ -27,9 +33,8 @@ class TradeBeforeSendModal extends React.Component {
     constructor() {
         super();
         this.state = this._getInitialState();
-        this.onPasswordEnter = this.onPasswordEnter.bind(this);
         this.pin_attempts = 0;
-	console.log('modal trade before send constructor called',this.props);
+        this.onTrxIncluded = this.onTrxIncluded.bind(this);
     }
 
     componentWillReceiveProps(next_props) {
@@ -79,7 +84,7 @@ class TradeBeforeSendModal extends React.Component {
 
     componentDidUpdate() {
         //DEBUG console.log('... componentDidUpdate this.props.resolve', this.props.resolve)
-	console.log('modal componentDidUpdate tbs setState')
+	// console.log('modal componentDidUpdate tbs setState')
 	//this._show();
   
 	if (this.props.unclosable)
@@ -104,56 +109,132 @@ class TradeBeforeSendModal extends React.Component {
         }
     }
 
-    onPasswordEnter(e) {
-        //attepmts count here
-        e.preventDefault()
-        var password = this.refs.password_input.state.value;
-        this.setState({password_error: null})
-        WalletDb.validatePassword(
-            password || "",
-            true //unlock
-        )
-        if (WalletDb.isLocked()) {
-            this.pin_attempts++;
-            this.setState({password_error: true})
-            if (this.pin_attempts >= 3)
-            { // locking for 15 min
-                var unlockTime = new Date().getTime() + 15*60000;
-                SettingsStore.changeSetting({setting: "walletUnlockTime", value: unlockTime });
-                console.log("Invalid pin was entered 3 times, locking for 15 minutes until ", new Date(unlockTime))
-                TradeBeforeSendActions.quitApp();
-            }
-            return false
-        }
-        else {
-            this.pin_attempts = 0;
-            SettingsStore.changeSetting({setting: "walletUnlockTime", value: null});
-            //SettingsStore.changeSetting({setting: "currentAction", value: btoa(password) });
-            SettingsStore.rememberWalletPassword(password);
-            this.refs.password_input.clear()
-            this.setState({open:false});
-            //if (!this.props.unclosable)
-            //    this.props.resolve()
-            SessionActions.onUnlock()
-            TradeBeforeSendActions.change()
-            this.setState({password_input_reset: Date.now(), password_error: false})
-        }
-        return false
+    onSubmit(e) {
+        
     }
-    _handleClose() {
-        if (!this.props.unclosable)
-        {
-            WalletDb.tryUnlock();
-            this.setState({open:false});
-            this.closing = true;
 
+    getExchangeRate(baseAssetId, quoteAssetId, amount){
+      console.log('----In Exchange Rate method');
+      console.log(baseAssetId);
+      console.log(quoteAssetId);
+      Promise.all([
+                    Apis.instance().db_api().exec("get_limit_orders", [
+                        baseAssetId,quoteAssetId, 1
+                    ]),
+                ])
+                .then(results => {
+                    let baseAmount = 0;
+                    let quoteAmount = 0;
+                    if (results[0][0].sell_price.base.asset_id == baseAssetId){
+                        baseAmount = results[0][0].sell_price.base.amount;
+                        quoteAmount = results[0][0].sell_price.quote.amount;
+                    }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
+                        quoteAmount = results[0][0].sell_price.base.amount;
+                        baseAmount = results[0][0].sell_price.quote.amount;
+                    }
+                    let baseAsset = ChainStore.getAsset(baseAssetId);
+                    let quoteAsset = ChainStore.getAsset(quoteAssetId);
+                    let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                    let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                    let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                    console.log('----Exchange rate block');
+                    console.log(exchangeRate);
+                    let buyAmount = +(amount * exchangeRate);
+                    // buyAmount = Math.round(buyAmount * 100) / 100;
+                    // buyAmount = +((buyAmount + 0.01).toFixed(2));
+                    console.log('-----Buy Amount: ',buyAmount);
+                    console.log('------quote precision: ', quotePrecision);
+                    console.log('-----base Amount: ',amount);
+                    console.log('------base precision: ', basePrecision);
+                    console.log('-----baseAsset symbol: ',baseAsset.get("symbol"));
+                    console.log('------quoteAsset symbol: ', quoteAsset.get("symbol"));
+
+// 19.98414
+                    // AccountActions.trade(
+                    //     this.props.account_id,
+
+                    //     {amount: 21999999, asset_id: '1.3.0'},
+                    //     'BTS',
+                    //     {amount: 1000, asset_id: '1.3.120'},
+                    //     'EUR'
+                    // ).then( () => {
+                    //     console.log('trade then');
+                    //     TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                    //     TransactionConfirmStore.listen(this.onTrxIncluded);
+                    //     TradeBeforeSendActions.close();
+
+                    // });
+
+                    AccountActions.trade(
+                        this.props.account_id,
+                        {amount: parseInt(buyAmount * quotePrecision), asset_id: quoteAsset.get("id")},
+                        quoteAsset.get("symbol"),
+                        {amount: parseInt(amount * basePrecision),asset_id: baseAsset.get("id")},
+                        baseAsset.get("symbol")
+                    ).then( () => {
+                        console.log('trade then');
+                        TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                        TransactionConfirmStore.listen(this.onTrxIncluded);
+                        TradeBeforeSendActions.close();
+
+                    });
+
+
+
+                }).catch((error) => {
+                    console.log("Error in fetching exchange rate: ", error);
+                    console.log(error);
+                });
+    }
+    
+    _handleClose(e) {
+        console.log('----Trade modal: On close');
+
+        e.preventDefault();
+        TradeBeforeSendActions.close();
+    }
+
+    _handleTrade(e){
+        console.log('----Trade modal: On Trade');
+        e.preventDefault();
+        
+        this.getExchangeRate(this.props.billed_asset, 
+            this.state.selected_asset, +this.props.billed_amount);
+    }
+
+    onAssetChange(selected_asset) {
+        this.setState({selected_asset: selected_asset})
+    }
+
+    onTrxIncluded(confirm_store_state) {
+        if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+            TradeConfirmActions.talk();
+            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+            TransactionConfirmStore.reset();
+        } else if (confirm_store_state.closed) {
+            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+            TransactionConfirmStore.reset();
         }
-       // history.pushState(null, '/');
     }
 
     render() {
         //DEBUG console.log('... U N L O C K',this.props)
-	console.log('modal Render trade before send called',this.props);
+        console.log('-----In Trade Modal');
+        if ( !this.props.unclosable ) {return null; }
+
+       let assets = Object.keys(this.props.assets)
+       let tradeSelector = null;
+       if(this.props.assets !== undefined){
+        if(this.state.selected_asset === undefined){
+            this.state.selected_asset = assets[0];
+        } 
+        tradeSelector = (<div> Choose asset to trade:  <TradeAssetSelector
+                           assets={assets}
+                           value={this.state.selected_asset}
+                           onChange={this.onAssetChange.bind(this)}
+                           /> </div>);
+       }
+
         var unlock_what = this.props.unlock_what || counterpart.translate("wallet.title");
 
         // Modal overlayClose must be false pending a fix that allows us to detect
@@ -161,28 +242,25 @@ class TradeBeforeSendModal extends React.Component {
         // https://github.com/akiran/react-foundation-apps/issues/34
         return (
 
-            <Dialog title={counterpart.translate("wallet.unlock_wallet")}
+            <Dialog title={counterpart.translate("wallet.exchange.trade_currency")}
               actions={this.props.actions} autoScrollBodyContent={true}
-              ref="unlockDialog" open={this.state.open}
+              ref="tradeDialog" open={this.state.open}
               onRequestClose={this._handleDismiss.bind(this)}>
 
-                <form onSubmit={this.onPasswordEnter} noValidate>
-                    <PasswordInput ref="password_input"
-                        onEnter={this.onPasswordEnter.bind(this)}
-                        key={this.state.password_input_reset}
-                        wrongPassword={this.state.password_error}/>
+                    <div> You don't have asset which merchant wants. Would you like to buy? </div>
+                    {tradeSelector}
+                    
                     <div className="button-group">
-                        <If condition={!this.props.unclosable}>
-                           <RaisedButton  label={counterpart.translate("wallet.home.cancel")}
-                                        backgroundColor = "#FF4081" primary = {true}
-                                        onTouchTap={this._handleClose.bind(this)}  />
-                        </If>
+                        
+                       <RaisedButton  label={counterpart.translate("wallet.home.cancel")}
+                                    backgroundColor = "#FF4081" primary = {true}
+                                    onTouchTap={this._handleClose.bind(this)}  />
+                        
                        <RaisedButton
-                        label={counterpart.translate("wallet.unlock")}
+                        label={counterpart.translate("wallet.exchange.trade")}
                         backgroundColor = "#008000" secondary={true}
-                        type="submit" />
+                        onTouchTap={this._handleTrade.bind(this)} />
                     </div>
-                </form>
            </Dialog>
         )
     }
