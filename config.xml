@@ -31,7 +31,7 @@
                 <param name="android-package" value="org.apache.cordova.plugin.SocialSharing" />
             </feature>
         </config-file>
-    
+    </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
