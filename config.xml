@@ -9,23 +9,23 @@
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="nl.x-services.plugins.socialsharing" version="4.3.16" />	
+    <plugin name="nl.x-services.plugins.socialsharing" version="4.3.16" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <allow-intent href="*" />	
+    <allow-intent href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
-		<hook src="plugins/install_plugins.js" type="after_platform_add" />
-        <icon src="www/app/assets/img/icon.PNG" density="ldpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="mdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="hdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxhdpi" />
-        <icon src="www/app/assets/img/icon.PNG" density="xxxhdpi" />
+        <hook src="plugins/install_plugins.js" type="after_platform_add" />
+        <icon density="ldpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="mdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="hdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xhdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xxhdpi" src="www/app/assets/img/icon.PNG" />
+        <icon density="xxxhdpi" src="www/app/assets/img/icon.PNG" />
         <config-file parent="/*" target="config.xml">
             <feature name="Echo">
                 <param name="android-package" value="org.apache.cordova.plugin.SocialSharing" />
@@ -39,10 +39,10 @@
         <feature name="File">
             <param name="ios-package" value="CDVFile" />
         </feature>
-        <preference name="DisallowOverscroll" value="true"/>
+        <preference name="DisallowOverscroll" value="true" />
         <preference name="UIWebViewBounce" value="false" />
     </platform>
-    <preference name="xwalkVersion" value="16+" />
+    <preference name="xwalkVersion" value="17+" />
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />

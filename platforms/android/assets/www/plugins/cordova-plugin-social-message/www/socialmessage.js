@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-social-message.SocialMessage", function(require, exports, module) { 
+cordova.define("cordova-plugin-social-message.SocialMessage", function(require, exports, module) {
+
 var exec = require("cordova/exec");
 
 var SocialMessage = function () {

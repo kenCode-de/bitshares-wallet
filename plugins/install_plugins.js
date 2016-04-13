@@ -7,7 +7,7 @@
 // or the URL
 var pluginlist = [
     "https://github.com/msopentech/cordova-plugin-indexedDB/",
-    "cordova-plugin-crosswalk-webview",
+    //"cordova-plugin-crosswalk-webview",
     "https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git",
     "https://github.com/ABB-Austin/cordova-plugin-indexeddb-async",
     "cordova-plugin-social-message",

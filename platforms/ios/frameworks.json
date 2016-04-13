@@ -1,5 +1,6 @@
 {
-    "Social.framework": 1,
+    "Social.framework": 2,
+    "MessageUI.framework": 1,
     "libiconv.dylib": 1,
     "AVFoundation.framework": 1,
     "CoreVideo.framework": 1,

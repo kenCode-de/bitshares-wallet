@@ -164,6 +164,11 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/cordova-plugin-indexeddb-async/www/indexeddbshim.min.js",
+        "id": "cordova-plugin-indexeddb-async.IndexedDBShim",
+        "runs": true
+    },
+    {
         "file": "plugins/cordova-plugin-media/www/MediaError.js",
         "id": "cordova-plugin-media.MediaError",
         "clobbers": [
@@ -197,11 +202,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-indexeddb-async/www/indexeddbshim.min.js",
-        "id": "cordova-plugin-indexeddb-async.IndexedDBShim",
-        "runs": true
-    },
-    {
         "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
         "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
         "clobbers": [
@@ -211,6 +211,17 @@ module.exports = [
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{}
+{
+    "cordova-plugin-compat": "1.0.0",
+    "cordova-plugin-device": "1.1.2-dev",
+    "cordova-plugin-file": "4.1.1",
+    "cordova-plugin-indexedDB": "0.1.4",
+    "cordova-plugin-indexeddb-async": "0.0.1",
+    "cordova-plugin-media": "2.2.0",
+    "cordova-plugin-social-message": "0.4.0",
+    "cordova-plugin-whitelist": "1.2.1",
+    "cordova-plugin-x-socialsharing": "5.0.10",
+    "phonegap-plugin-barcodescanner": "4.0.1"
+};
 // BOTTOM OF METADATA
 });

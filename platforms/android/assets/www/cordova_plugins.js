@@ -1,44 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-        "id": "cordova-plugin-whitelist.whitelist",
-        "runs": true
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-social-message/www/socialmessage.js",
-        "id": "cordova-plugin-social-message.SocialMessage",
-        "clobbers": [
-            "socialmessage"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-media/www/MediaError.js",
-        "id": "cordova-plugin-media.MediaError",
-        "clobbers": [
-            "window.MediaError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-media/www/Media.js",
-        "id": "cordova-plugin-media.Media",
-        "clobbers": [
-            "window.Media"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-indexedDB/www/IndexedDBShim.min.js",
-        "id": "cordova-plugin-indexedDB.IndexedDBShim",
-        "runs": true
-    },
-    {
         "file": "plugins/cordova-plugin-device/www/device.js",
         "id": "cordova-plugin-device.device",
         "clobbers": [
@@ -195,19 +157,71 @@ module.exports = [
             "cordova"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-indexedDB/www/IndexedDBShim.min.js",
+        "id": "cordova-plugin-indexedDB.IndexedDBShim",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-indexeddb-async/www/indexeddbshim.min.js",
+        "id": "cordova-plugin-indexeddb-async.IndexedDBShim",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-media/www/MediaError.js",
+        "id": "cordova-plugin-media.MediaError",
+        "clobbers": [
+            "window.MediaError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-media/www/Media.js",
+        "id": "cordova-plugin-media.Media",
+        "clobbers": [
+            "window.Media"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-social-message/www/socialmessage.js",
+        "id": "cordova-plugin-social-message.SocialMessage",
+        "clobbers": [
+            "socialmessage"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+        "id": "cordova-plugin-whitelist.whitelist",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    },
+    {
+        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+        "clobbers": [
+            "cordova.plugins.barcodeScanner"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-whitelist": "1.2.1",
-    "nl.x-services.plugins.socialsharing": "4.3.16",
-    "cordova-plugin-social-message": "0.4.0",
-    "cordova-plugin-crosswalk-webview": "1.5.0",
-    "cordova-plugin-media": "2.2.0",
-    "cordova-plugin-indexedDB": "0.1.4",
+    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-device": "1.1.2-dev",
-    "cordova-plugin-file": "4.1.1"
-}
+    "cordova-plugin-file": "4.1.1",
+    "cordova-plugin-indexedDB": "0.1.4",
+    "cordova-plugin-indexeddb-async": "0.0.1",
+    "cordova-plugin-media": "2.2.0",
+    "cordova-plugin-social-message": "0.4.0",
+    "cordova-plugin-whitelist": "1.2.1",
+    "cordova-plugin-x-socialsharing": "5.0.10",
+    "phonegap-plugin-barcodescanner": "4.0.1"
+};
 // BOTTOM OF METADATA
 });
