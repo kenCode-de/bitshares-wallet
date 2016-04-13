@@ -186,7 +186,7 @@ class SendScreen extends React.Component {
                     let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
                     let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
                     let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
-                    let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(3);
+                    let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(this.state.ruia_precision);
                     console.log('----Exchange rate block');
                     console.log(exchangeRate);
                     console.log(rps_eq_amount);
@@ -403,7 +403,7 @@ class SendScreen extends React.Component {
 
     canSubmit(){
          return this.state.from_account && this.state.to_account && this.state.amount
-         && this.state.amount != "0" && (this.state.asset || this.state.asset_id) && this.state.amount.length != 0
+         && this.state.amount != "0" && this.state.remaining_amount >= 0  && (this.state.asset || this.state.asset_id) && this.state.amount.length != 0
          && !this.state.error && !this.state.outOfBalance
     }
 
@@ -479,6 +479,7 @@ class SendScreen extends React.Component {
   // Render SendScreen view
   render() {
 
+      console.log('----Render method called');
      let from_error = null;
         let from_my_account = AccountStore.isMyAccount(this.state.from_account)
         let propose = this.state.propose;
@@ -494,9 +495,20 @@ class SendScreen extends React.Component {
         let asset_types = [];
         let balance = null;
         let reward_uia = null;
+        let remain_balance = null;
+        let bill_amount_warning = null;
+
         if (this.state.from_account && !from_error) {
             let account_balances = this.state.from_account.get("balances").toJS();
             asset_types = Object.keys(account_balances);
+
+            if (this.state.remaining_amount) {
+              remain_balance = (<span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
+            }
+            if (this.state.remaining_amount < 0) {
+              bill_amount_warning = (<span style={{color: '#ff0000'}}>  Cannot send amount more than billing amount  </span>);
+            }
+            
             if (this.state.outOfBalance)
                 balance = <span className="avalibel-label" ><Translate component="span" content="wallet.out_of_balance"/></span>;
             else if (asset_types.length > 0) {
@@ -611,7 +623,10 @@ class SendScreen extends React.Component {
                 {reward_uia}
 	      </div>
               <div className="form-row">
-                <span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>
+                {bill_amount_warning}
+              </div>
+              <div className="form-row">
+                {remain_balance}
               </div>
               <div className="form-row">
                     <span className="label bold">{counterpart.translate("wallet.home.memo") + ":"}</span>
