@@ -45,7 +45,7 @@ class RewardUia extends React.Component {
     _onChange(event) {
 
         let reward_points = event.target.value;
-        this.setState({reward_points})
+        // this.setState({reward_points})
         this.props.onChange({reward_points: reward_points})
     }
 

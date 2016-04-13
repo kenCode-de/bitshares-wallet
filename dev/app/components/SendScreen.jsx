@@ -108,9 +108,24 @@ class SendScreen extends React.Component {
                     FetchChainObjects(ChainStore.getAsset, [invoice.currency]).then(assets_array => {
 
                       // TODO redirect on Send Screen with query params
+
+                      let uia_asset = ChainStore.getAsset(invoice.ruia);
+                      let uia_asset_symbol = uia_asset.get("symbol");
+                      let uia_asset_precision = uia_asset.get("precision");
+                      console.log("----Rp Asset");
+                      console.log(assets_array[0].get("precision"));
+                      
+                      
+
                         this.setState({asset_id: assets_array[0].get("id"),
                                       billed_asset_id: assets_array[0].get("id"),
-                                      callback: invoice.callback});
+                                      billed_asset_precision : assets_array[0].get("precision"),
+                                      callback: invoice.callback, 
+                                       ruia_symbol: uia_asset_symbol,
+                                       ruia_precision: uia_asset_precision });
+
+                        this.getExchangeRate(invoice.ruia, assets_array[0].get("id"));
+
                         let asset_types = [];
                         let account_balances = this.props.account.get("balances").toJS();
                         
@@ -149,7 +164,7 @@ class SendScreen extends React.Component {
 
     }
 
-    getExchangeRate(baseAssetId, quoteAssetId, amount){
+    getExchangeRate(baseAssetId, quoteAssetId){
       this.setState({error: null, loading: true});
       Promise.all([
                     Apis.instance().db_api().exec("get_limit_orders", [
@@ -171,12 +186,12 @@ class SendScreen extends React.Component {
                     let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
                     let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
                     let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
-                    let remaining_amount = +this.state.actual_amount - (+amount * +exchangeRate);
+                    let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(3);
                     console.log('----Exchange rate block');
                     console.log(exchangeRate);
-                    console.log(remaining_amount);
-                    this.setState({remaining_amount : remaining_amount});
-                    this.setState({error: null, loading: false});
+                    console.log(rps_eq_amount);
+                    this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 
+                                    rps_eq_amount: rps_eq_amount});
                     
 
                 }).catch((error) => {
@@ -197,22 +212,48 @@ class SendScreen extends React.Component {
 
     onAmountBlured({amount, asset}) {
       if (amount && asset){
-        let remaining_amount = parseFloat(this.state.actual_amount) - parseFloat(amount);
-        this.setState({remaining_amount : remaining_amount});
+
+          console.log('----On Amount blurred');
+          let user_typed_rp = 0;
+          if(this.state.reward_points){
+            user_typed_rp = this.state.reward_points;
+          }
+          let remaining_amount = +this.state.actual_amount - ((+user_typed_rp * +this.state.ruia_ex_rate) + +amount);
+          let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
+
+        this.setState({remaining_amount : remaining_amount, rps_eq_amount: ruia_remaining_amount});
       }
     }
 
     onRewardPointsBlured({amount}) {
       console.log('----On Reward points blurred called');
-      let sellAssetId = this.state.ruia;
-      let buyAssetId = this.state.billed_asset_id;
-      this.setState({reward_points: amount});
-      this.getExchangeRate(sellAssetId, buyAssetId, amount);  
+      let user_typed_amount = 0;
+      if(this.state.amount){
+        user_typed_amount = this.state.amount;
+      }
+      
+      let remaining_amount = +this.state.actual_amount - ((+amount * +this.state.ruia_ex_rate) + +user_typed_amount);
+      let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
+      console.log(remaining_amount);
+      this.setState({reward_points: amount, remaining_amount : remaining_amount, 
+        rps_eq_amount: ruia_remaining_amount});
+      //this.getExchangeRate(sellAssetId, buyAssetId, amount);  
     }
 
-    onRewardPointsChanged({amount}) {
+    onRewardPointsChanged({reward_points}) {
       console.log('----On Reward points changed called');
-      this.setState({reward_points: amount});
+      let user_typed_amount = 0;
+      if(this.state.amount){
+        user_typed_amount = this.state.amount;
+      }
+      
+      let remaining_amount = +this.state.actual_amount - ((+reward_points * +this.state.ruia_ex_rate) + +user_typed_amount);
+      let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
+      remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
+      ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
+
+      this.setState({reward_points: reward_points, remaining_amount : remaining_amount, 
+        rps_eq_amount: ruia_remaining_amount});
     }
 
     onAmountChanged({amount, asset, asset_changed}) {
@@ -224,12 +265,24 @@ class SendScreen extends React.Component {
           let precision = utils.get_asset_precision(asset.get("precision"));
           let requestedAmount = parseInt(amount * precision, 10);
           let availableBalance = this.getAvailableBalance();
+
           if (availableBalance && parseInt(availableBalance.amount * precision, 10) < requestedAmount)
           {
             outOfBalance = true;
             //console.log("$$$sendScreen._insufficient_balance"); //$$$
           }
-          this.setState({amount, asset, error: null,  outOfBalance: outOfBalance});
+          // Code for showing remaining balance
+          let user_typed_rp = 0;
+          if(this.state.reward_points){
+            user_typed_rp = this.state.reward_points;
+          }
+          let remaining_amount = +this.state.actual_amount - ((+user_typed_rp * +this.state.ruia_ex_rate) + +amount);
+          remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
+          let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
+          ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
+
+          this.setState({amount, asset, error: null,  outOfBalance: outOfBalance, 
+          remaining_amount : remaining_amount, rps_eq_amount: ruia_remaining_amount});
         }
         else if (amount && asset && asset_changed){
           let sellAssetId = asset.get("id");
@@ -238,14 +291,10 @@ class SendScreen extends React.Component {
           console.log('------Get excahnge rate block called');
           console.log(sellAssetId);
           console.log(buyAssetId);
-          this.getExchangeRate(sellAssetId, buyAssetId, amount);
-          this.setState({amount, asset, error: null});
+          // this.getExchangeRate(sellAssetId, buyAssetId);
+          // this.setState({amount, asset, error: null});
 
         }
-        // console.log('-----On Amount Changed');
-        // console.log(amount);
-        // console.log(asset);
-        // console.log(asset_changed);
         
     }
 
@@ -471,7 +520,8 @@ class SendScreen extends React.Component {
 					<table className="full-input" style={{background: 'transparent'}}>
 						<tr>
 							<td>
-                      					<RewardUia onBlur={this.onRewardPointsBlured.bind(this)} />
+                      					<RewardUia  
+                                          onChange={this.onRewardPointsChanged.bind(this)}/>
 							</td>							
 						</tr>
 						<tr>
@@ -493,7 +543,8 @@ class SendScreen extends React.Component {
 					<table className="full-input" style={{background: 'transparent'}}>
 						<tr>
 							<td>  
-                      					<RewardUia onBlur={this.onRewardPointsBlured.bind(this)} />
+                      					<RewardUia 
+                                          onChange={this.onRewardPointsChanged.bind(this)} />
 							</td>							
 						</tr>
 						<tr>
@@ -549,7 +600,6 @@ class SendScreen extends React.Component {
               <div className="form-row curr-input">
                   <AmountSelector
                       amount={this.state.amount}
-                      onBlur={this.onAmountBlured.bind(this)}
                       onChange={this.onAmountChanged.bind(this)}
                       asset={asset_types.length > 0 && this.state.asset ? this.state.asset.get("id") : ( this.state.asset_id ? this.state.asset_id : asset_types[0])}
                       assets={asset_types}
@@ -561,7 +611,7 @@ class SendScreen extends React.Component {
                 {reward_uia}
 	      </div>
               <div className="form-row">
-                <span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency}   </span>
+                <span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>
               </div>
               <div className="form-row">
                     <span className="label bold">{counterpart.translate("wallet.home.memo") + ":"}</span>
