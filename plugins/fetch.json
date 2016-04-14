@@ -10,7 +10,7 @@
     "cordova-plugin-media": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-media@~2.1.0"
+            "id": "cordova-plugin-media"
         },
         "is_top_level": true,
         "variables": {}
@@ -59,14 +59,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-crosswalk-webview": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-crosswalk-webview"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-indexeddb-async": {
         "source": {
             "type": "git",
@@ -91,6 +83,14 @@
             "id": "nl.x-services.plugins.socialsharing@4.3.16"
         },
         "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-compat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-compat"
+        },
+        "is_top_level": false,
         "variables": {}
     }
 }

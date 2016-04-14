@@ -7,6 +7,7 @@ import Apis from "rpc_api/ApiInstances";
 import ReceiveScreen from './components/ReceiveScreen';
 import ContactsScreen from './components/ContactsScreen';
 import HomeScreen from './components/HomeScreen';
+import ErrorScreen from './components/ErrorScreen';
 import SendScreen from './components/SendScreen';
 import SettingsScreen from './components/SettingsScreen';
 import CreateAccount from "./components/CreateAccount";
@@ -107,12 +108,15 @@ class App extends React.Component {
             this.setState({loading: false});
         }).catch(error => {
             console.log("[app.jsx] ----- ERROR ----->", error, error.stack);
-            this.setState({loading: false});
+            this.setState({loading: false, error: error});
              //WalletUnlockActions.forceLock();
         });
 
-        //WalletDb.onLock();//$$$$ if (WalletDb.isLocked())
-        if (WalletDb.getWallet() != null && WalletDb.tryUnlock() != true)
+
+
+      let advancedSettings = SettingsStore.getAdvancedSettings();
+
+        if (WalletDb.getWallet() != null && (advancedSettings.requirePinToOpen || WalletDb.tryUnlock() != true))
             WalletUnlockActions.forceLock();
 
         ChainStore.init().then(() => {
@@ -175,6 +179,7 @@ class App extends React.Component {
                         }
                     }).catch((error) => {
                         console.error("----- WalletDb.willTransitionTo error ----->", error);
+                        history.pushState({error: error.name || 'Wallet database error'}, 'error');
                     }),
                     WalletManagerStore.init()
                 ]).then(()=> {
@@ -186,10 +191,12 @@ class App extends React.Component {
 
             if(error.name === "InvalidStateError") {
                 alert("Can't access local storage.\nPlease make sure your browser is not in private/incognito mode.");
-            } else {
+            } /*else {
               //  transition.redirect("/init-error");
                 callback();
-            }
+            }*/
+             history.pushState({error: error.name || 'Application error. Please check network connection'}, 'error');
+
         })
     }
 
@@ -213,6 +220,7 @@ class App extends React.Component {
         if (closeOnIdle)
             WalletUnlockActions.quitApp();
     }
+
 
     render() {
         const { pathname } = this.props.location;
@@ -330,6 +338,7 @@ var app = {
                 <Route path="backup" component={BackupCreate}/>
                 <Route path="changepin" component={WalletChangePassword}/>
                 <Route path="create-account" component={CreateAccount} onEnter={App.willTransitionTo}/>
+                <Route path="error" component={ErrorScreen}/>
                 <Route path="existing-account" component={ExistingAccount}>
                     <IndexRoute component={ExistingAccountOptions}/>
                     <Route path="import-backup" component={BackupRestore}/>

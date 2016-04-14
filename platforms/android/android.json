@@ -9,26 +9,6 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference default=\"16+\" name=\"xwalkVersion\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference default=\"--disable-pull-to-refresh-effect\" name=\"xwalkCommandLine\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference default=\"embedded\" name=\"xwalkMode\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference default=\"true\" name=\"xwalkMultipleApk\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
@@ -62,14 +42,6 @@
             "AndroidManifest.xml": {
                 "parents": {
                     "/*": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
-                            "count": 1
-                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 4
@@ -602,7 +574,7 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-crosswalk-webview": {
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "cordova-plugin-device": {
@@ -612,6 +584,9 @@
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "cordova-plugin-indexedDB": {
+            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
+        },
+        "cordova-plugin-indexeddb-async": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "cordova-plugin-media": {
@@ -624,9 +599,6 @@
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "cordova-plugin-x-socialsharing": {
-            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
-        },
-        "cordova-plugin-indexeddb-async": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "phonegap-plugin-barcodescanner": {
@@ -799,6 +771,11 @@
             "runs": true
         },
         {
+            "file": "plugins/cordova-plugin-indexeddb-async/www/indexeddbshim.min.js",
+            "id": "cordova-plugin-indexeddb-async.IndexedDBShim",
+            "runs": true
+        },
+        {
             "file": "plugins/cordova-plugin-media/www/MediaError.js",
             "id": "cordova-plugin-media.MediaError",
             "clobbers": [
@@ -832,16 +809,23 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-indexeddb-async/www/indexeddbshim.min.js",
-            "id": "cordova-plugin-indexeddb-async.IndexedDBShim",
-            "runs": true
-        },
-        {
             "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
             "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
             "clobbers": [
                 "cordova.plugins.barcodeScanner"
             ]
         }
-    ]
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-compat": "1.0.0",
+        "cordova-plugin-device": "1.1.2-dev",
+        "cordova-plugin-file": "4.1.1",
+        "cordova-plugin-indexedDB": "0.1.4",
+        "cordova-plugin-indexeddb-async": "0.0.1",
+        "cordova-plugin-media": "2.2.0",
+        "cordova-plugin-social-message": "0.4.0",
+        "cordova-plugin-whitelist": "1.2.1",
+        "cordova-plugin-x-socialsharing": "5.0.10",
+        "phonegap-plugin-barcodescanner": "4.0.1"
+    }
 }
