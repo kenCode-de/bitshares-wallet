@@ -160,6 +160,12 @@ class SendScreen extends React.Component {
         this.onTrxIncluded = this.onTrxIncluded.bind(this);
         this.onTradeTrx = this.onTradeTrx.bind(this);
 
+        // let account_balances = this.props.account.get("balances").toJS();
+
+        // //Account balances, user account id, billed asset id, billing amount
+        // TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
+        //   "1.3.120", 0.1);
+
         TradeConfirmStore.listen(this.onTradeTrx);
 
     }
@@ -307,21 +313,69 @@ class SendScreen extends React.Component {
     }
 
     onTradeTrx(confirm_store_state) {
-      console.log('-----On Trade Trx called')
-      console.log('-----Trade Asset----');
-      console.log(confirm_store_state.trade_asset);
-          if(confirm_store_state.trade_asset == true) {
-            let selected_asset = ChainStore.getAsset(this.state.billed_asset_id);
-            console.log('------selected_asset----');
-            console.log(this.state.billed_asset_id);
-            console.log(selected_asset.toString())
-            this.setState({asset: selected_asset});
-            TradeConfirmStore.unlisten(this.onTradeTrx);
-            TradeConfirmStore.reset();
-        }
+      console.log('-----Send Trade Trx called');
+      this.setState({loading: true});      
+// Change hardcoded values
+// this.state.billed_asset_id
+// this.state.actual_amount
+      setTimeout(() => { 
+          console.log('----Transfer called after few seconds');
+          // // In real transaction uncomment these line
+            let asset = ChainStore.getAsset(this.state.billed_asset_id);
+            let precision = utils.get_asset_precision(asset.get("precision"));
+            // let asset = ChainStore.getAsset('1.3.0');
+            // let precision = utils.get_asset_precision(asset.get("precision"));
+            Promise.all([
+              // In real transaction uncomment these line
+                    Apis.instance().db_api().exec("get_account_balances", 
+                        [this.props.account.get("id"), [this.state.billed_asset_id] ])
+                    // Apis.instance().db_api().exec("get_account_balances", 
+                    //     [this.props.account.get("id"), ['1.3.0'] ])
+                ])
+                .then(results => {
+                    let accountBalance = results[0][0].amount;
+                    console.log(accountBalance);
+                    console.log(precision);
+                    console.log(this.state.amount);
+                    // Change hardcoded value with this.state.amount
+                    if( (accountBalance / precision) >= this.state.amount){
+                        // Call Transfer method
+                        AccountActions.transfer(
+                          this.state.from_account.get("id"),
+                          this.state.to_account.get("id"),
+                          parseInt(1 * precision, 10),
+                          asset.get("id"),
+                          this.state.memo,
+                          this.state.propose ? this.state.propose_account : null,
+                          null,
+                          null,
+                          null,
+                          true
+                            
+                        ).then( () => {
+                            this.setState({loading: false});
+                            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                            TransactionConfirmStore.listen(this.onTrxIncluded);
+                        }).catch( e => {
+                            this.setState({loading: false});
+                            let msg = e.message ? e.message.split( '\n' )[1] : null;
+                            console.log( "error: ", e, msg)
+                            this.setState({error: msg})
+                        } );
+                    }
+                    TradeConfirmStore.unlisten(this.onTradeTrx);
+                    
+                }).catch((error) => {
+                    console.log("Error in transfer method: ", error);
+                    console.log(error);
+                    TradeConfirmStore.unlisten(this.onTradeTrx);
+                })
+       }, 30000);
+      ;
     }
 
     onTrxIncluded(confirm_store_state) {
+        console.log('-----SendScreen Trx');
         if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
           var callback = this.state.callback + "?block=" + confirm_store_state.trx_block_num + "&trx=" + confirm_store_state.trx_id;
           var xhttp = new XMLHttpRequest();

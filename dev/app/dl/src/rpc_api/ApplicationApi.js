@@ -86,7 +86,8 @@ class ApplicationApi {
         propose_account = null,
         donate = false,
         reward_points = null,
-        reward_points_asset = null
+        reward_points_asset = null,
+        silent_tr = false
     }) {
         console.log('<----In App api ---->', reward_points, reward_points_asset);
         var memo_sender = propose_account || from_account
@@ -225,7 +226,7 @@ class ApplicationApi {
                 tr,
                 null, //signer_private_keys,
                 broadcast,
-                sign
+                silent_tr
             )
         }).catch(error => {
             console.log("[AplicationApi] ----- transfer error ----->", error);
@@ -245,7 +246,8 @@ class ApplicationApi {
         fill_or_kill = true,
         broadcast = true
     }) {
-        expiration.setMinutes(expiration.getMinutes() + 5);
+        // expiration.setMinutes(expiration.getMinutes() + 1);
+        expiration.setSeconds(expiration.getSeconds() + 30);
         var unlock_promise = WalletUnlockActions.unlock()
         return Promise.all([unlock_promise]).then(()=> {
             var tr = new ops.signed_transaction()
@@ -264,7 +266,6 @@ class ApplicationApi {
             return WalletDb.process_transaction(
                 tr,
                 null, //signer_private_keys,
-                true,
                 true
             )
         }).catch(error => {

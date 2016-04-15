@@ -49,6 +49,33 @@ class TransactionConfirm extends BaseComponent {
     }
 
     render() {
+        console.log('<---- In transaction confirm--->');
+
+        if(this.state.transaction){
+            let trx_obj = this.state.transaction.toObject();
+            if(this.state.inProgress && this.state.included && this.state.error == null){
+                console.log('-----setting in progress false');
+                this.setState({inProgress: false}); 
+            }
+            else if(trx_obj.operations[0][0] == 1){
+                console.log('<---- Silent Trade called ---->');
+                if (!this.state.inProgress && !this.state.included) {
+                    console.log('---Trade only once');
+                   this.setState({inProgress: true}); 
+                   TransactionConfirmActions.broadcast_trade(this.state.transaction);
+                }
+                return null;
+            }
+            else if(this.state.silent && trx_obj.operations[0][0] == 0){
+                console.log('<---- Silent Transfer called ---->');
+                if (!this.state.inProgress && !this.state.included) {
+                    console.log('---Transfer only once');
+                   this.setState({inProgress: true}); 
+                   TransactionConfirmActions.broadcast_trade(this.state.transaction);
+                }
+                return null;   
+            }
+        }
         if ( !this.state.transaction || this.state.closed ) {return null; }
 
         //console.log('$$$ this.state.transaction =', this.state.transaction);

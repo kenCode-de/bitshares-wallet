@@ -7,6 +7,10 @@ class TransactionConfirmActions {
         this.dispatch({transaction})
     }
 
+    confirmSilently(transaction, silent) {
+        this.dispatch({transaction, silent})
+    }
+
     broadcast(transaction) {
         this.dispatch();
 
@@ -20,6 +24,20 @@ class TransactionConfirmActions {
         }).catch( error => {
             console.error(error)
             clearTimeout(broadcast_timeout);
+            // messages of length 1 are local exceptions (use the 1st line)
+            // longer messages are remote API exceptions (use the 2nd line)
+            let splitError = error.message.split( '\n' );
+            let message = splitError[splitError.length === 1 ? 0 : 1];
+            this.actions.error(message);
+        });
+    }
+
+    broadcast_trade(transaction) {
+        // this.dispatch();
+        transaction.broadcast(() => this.actions.wasBroadcast()).then( (res)=> {
+            this.actions.wasIncluded(res);
+        }).catch( error => {
+            console.error(error)
             // messages of length 1 are local exceptions (use the 1st line)
             // longer messages are remote API exceptions (use the 2nd line)
             let splitError = error.message.split( '\n' );

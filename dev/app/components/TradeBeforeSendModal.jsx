@@ -25,6 +25,7 @@ import utils from "common/utils";
 import AccountActions from "actions/AccountActions";
 import TransactionConfirmStore from "stores/TransactionConfirmStore";
 import TradeConfirmActions from "actions/TradeConfirmActions";
+import SendScreen from "./SendScreen";
 const history = useBasename(createHashHistory)({});
 
 
@@ -197,9 +198,9 @@ class TradeBeforeSendModal extends React.Component {
     _handleTrade(e){
         console.log('----Trade modal: On Trade');
         e.preventDefault();
-        
         this.getExchangeRate(this.props.billed_asset, 
             this.state.selected_asset, +this.props.billed_amount);
+        // TradeConfirmActions.talk();
     }
 
     onAssetChange(selected_asset) {
@@ -207,10 +208,12 @@ class TradeBeforeSendModal extends React.Component {
     }
 
     onTrxIncluded(confirm_store_state) {
+        console.log('----TradeBeforeSend Trx');
         if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
-            TradeConfirmActions.talk();
+            setTimeout(() => { TradeConfirmActions.talk(); }, 1000);
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
             TransactionConfirmStore.reset();
+            
         } else if (confirm_store_state.closed) {
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
             TransactionConfirmStore.reset();
