@@ -28,6 +28,8 @@ import TradeBeforeSendActions from "actions/TradeBeforeSendActions"
 import TradeConfirmStore from "stores/TradeConfirmStore";
 import { createHashHistory, useBasename } from 'history';
 const history = useBasename(createHashHistory)({});
+import key from "common/key_utils";
+var Aes = require('ecc/aes');
 
 // Flux SendScreen view to to configure the application
 @BindToChainState()
@@ -112,17 +114,13 @@ class SendScreen extends React.Component {
                       let uia_asset = ChainStore.getAsset(invoice.ruia);
                       let uia_asset_symbol = uia_asset.get("symbol");
                       let uia_asset_precision = uia_asset.get("precision");
-                      console.log("----Rp Asset");
-                      console.log(assets_array[0].get("precision"));
                       
-                      
-
-                        this.setState({asset_id: assets_array[0].get("id"),
-                                      billed_asset_id: assets_array[0].get("id"),
-                                      billed_asset_precision : assets_array[0].get("precision"),
-                                      callback: invoice.callback, 
-                                       ruia_symbol: uia_asset_symbol,
-                                       ruia_precision: uia_asset_precision });
+                      this.setState({asset_id: assets_array[0].get("id"),
+                                    billed_asset_id: assets_array[0].get("id"),
+                                    billed_asset_precision : assets_array[0].get("precision"),
+                                    callback: invoice.callback, 
+                                     ruia_symbol: uia_asset_symbol,
+                                     ruia_precision: uia_asset_precision });
 
                         this.getExchangeRate(invoice.ruia, assets_array[0].get("id"));
 
@@ -134,14 +132,18 @@ class SendScreen extends React.Component {
                         billedBalance = billedBalance / basePrecision;
 
                         if(!(assets_array[0].get("id") in account_balances)){
-                          //Account balances, user account id, billed asset id, billing amount
-                          TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
-                            assets_array[0].get("id"), amount);
+                          //memo, asset id, account balances, account id, amount
+                          this.openTradePopUpWithRequiredFees(invoice.memo, 
+                            assets_array[0].get("id"), 
+                            account_balances, 
+                            this.props.account.get("id"), amount);
                         }
                         else if((billedBalance < amount)){
                           let remainingAmount = amount - billedBalance;
-                          TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
-                            assets_array[0].get("id"), remainingAmount);
+                          this.openTradePopUpWithRequiredFees(invoice.memo, 
+                            assets_array[0].get("id"), 
+                            account_balances, 
+                            this.props.account.get("id"), remainingAmount);
                         }
 
                     });
@@ -168,6 +170,28 @@ class SendScreen extends React.Component {
 
         TradeConfirmStore.listen(this.onTradeTrx);
 
+    }
+
+    openTradePopUpWithRequiredFees(memo, asset_id, account_balances, account_id, amount_needed){
+        // var memo = 'Order: a9fdbb24-d2b7-4886-9690-bb866e576794 #sapos';
+        var encryption_buffer = key.get_random_key().toBuffer();
+        var local_aes_private = Aes.fromSeed( encryption_buffer );
+        var hash = local_aes_private.encryptToHex( memo );
+        let transfer_op_object = { "memo":{ "message": hash } }
+        Apis.instance().db_api().exec("get_required_fees", [
+              [[0, transfer_op_object ]], asset_id
+          ]).then(results => {
+              let feeAsset = ChainStore.getAsset(asset_id);
+              let feeAssetPrecision = utils.get_asset_precision(feeAsset.get("precision"));
+              let feeAmount = results[0].amount / feeAssetPrecision;
+              let actual_amount = +amount_needed + +feeAmount;
+              actual_amount = actual_amount.toFixed(feeAsset.get("precision"));
+              TradeBeforeSendActions.talk(account_balances, account_id, asset_id, actual_amount);
+              
+          }).catch((error) => {
+              console.log("Error in fetching required fees: ", error);
+              console.log(error);
+          });
     }
 
     getExchangeRate(baseAssetId, quoteAssetId){
