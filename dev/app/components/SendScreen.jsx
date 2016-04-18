@@ -367,7 +367,7 @@ class SendScreen extends React.Component {
                         AccountActions.transfer(
                           this.state.from_account.get("id"),
                           this.state.to_account.get("id"),
-                          parseInt(1 * precision, 10),
+                          parseInt(this.state.amount * precision, 10),
                           asset.get("id"),
                           this.state.memo,
                           this.state.propose ? this.state.propose_account : null,

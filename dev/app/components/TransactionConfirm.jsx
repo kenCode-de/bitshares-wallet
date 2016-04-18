@@ -49,8 +49,6 @@ class TransactionConfirm extends BaseComponent {
     }
 
     render() {
-        console.log('<---- In transaction confirm--->');
-
         if(this.state.transaction){
             let trx_obj = this.state.transaction.toObject();
             if(this.state.inProgress && this.state.included && this.state.error == null){
@@ -73,13 +71,13 @@ class TransactionConfirm extends BaseComponent {
                    this.setState({inProgress: true}); 
                    TransactionConfirmActions.broadcast_trade(this.state.transaction);
                 }
-                return null;   
+                if(!this.state.included && this.state.error == null){ return null; }
             }
         }
+
         if ( !this.state.transaction || this.state.closed ) {return null; }
 
         //console.log('$$$ this.state.transaction =', this.state.transaction);
-
         let button_group, header;
 
         if(this.state.error || this.state.included) {
