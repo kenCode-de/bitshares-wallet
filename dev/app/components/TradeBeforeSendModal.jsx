@@ -25,7 +25,7 @@ import utils from "common/utils";
 import AccountActions from "actions/AccountActions";
 import TransactionConfirmStore from "stores/TransactionConfirmStore";
 import TradeConfirmActions from "actions/TradeConfirmActions";
-import SendScreen from "./SendScreen";
+import IntlStore from "stores/IntlStore";
 const history = useBasename(createHashHistory)({});
 
 
@@ -198,9 +198,9 @@ class TradeBeforeSendModal extends React.Component {
     _handleTrade(e){
         console.log('----Trade modal: On Trade');
         e.preventDefault();
+        let selected_asset = IntlStore.getAsset();
         this.getExchangeRate(this.props.billed_asset, 
-            this.state.selected_asset, +this.props.billed_amount);
-        // TradeConfirmActions.talk();
+            selected_asset, +this.props.billed_amount);
     }
 
     onAssetChange(selected_asset) {
