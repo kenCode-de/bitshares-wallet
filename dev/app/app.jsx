@@ -302,8 +302,9 @@ class App extends React.Component {
                         {this.props.children}
                     </AltContainer>
                     <TransactionConfirm />
+                    <TradeBeforeSendModal />
                     <WalletUnlockModal />
-		    <TradeBeforeSendModal />
+		    
             </section>
         )
     }

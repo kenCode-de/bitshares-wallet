@@ -167,7 +167,6 @@ class SendScreen extends React.Component {
         // //Account balances, user account id, billed asset id, billing amount
         // TradeBeforeSendActions.talk(account_balances, this.props.account.get("id"), 
         //   "1.3.120", 0.1);
-
         TradeConfirmStore.listen(this.onTradeTrx);
 
     }
@@ -183,9 +182,11 @@ class SendScreen extends React.Component {
           ]).then(results => {
               let feeAsset = ChainStore.getAsset(asset_id);
               let feeAssetPrecision = utils.get_asset_precision(feeAsset.get("precision"));
-              let feeAmount = results[0].amount / feeAssetPrecision;
+              let feeAmount = (results[0].amount / feeAssetPrecision).toFixed(feeAsset.get("precision"));
               let actual_amount = +amount_needed + +feeAmount;
               actual_amount = actual_amount.toFixed(feeAsset.get("precision"));
+              //10 percent increase in original amount for margin
+              actual_amount = ((+actual_amount * 0.005) + +actual_amount).toFixed(feeAsset.get("precision"));
               TradeBeforeSendActions.talk(account_balances, account_id, asset_id, actual_amount);
               
           }).catch((error) => {
@@ -357,13 +358,16 @@ class SendScreen extends React.Component {
                     //     [this.props.account.get("id"), ['1.3.0'] ])
                 ])
                 .then(results => {
+                    console.log('----Account balances result');
                     let accountBalance = results[0][0].amount;
                     console.log(accountBalance);
                     console.log(precision);
                     console.log(this.state.amount);
+                    console.log(( (accountBalance / precision) >= this.state.amount));
                     // Change hardcoded value with this.state.amount
                     if( (accountBalance / precision) >= this.state.amount){
                         // Call Transfer method
+                        console.log('-----Call transfer after trade');
                         AccountActions.transfer(
                           this.state.from_account.get("id"),
                           this.state.to_account.get("id"),
@@ -387,6 +391,11 @@ class SendScreen extends React.Component {
                             this.setState({error: msg})
                         } );
                     }
+                    else{
+                      // Pop up for Msg : Sorry you cannot pay
+                      this.setState({loading: false});
+                      console.log('-----Transfer error');
+                    }
                     TradeConfirmStore.unlisten(this.onTradeTrx);
                     
                 }).catch((error) => {
@@ -394,7 +403,7 @@ class SendScreen extends React.Component {
                     console.log(error);
                     TradeConfirmStore.unlisten(this.onTradeTrx);
                 })
-       }, 30000);
+       }, 35000);
       ;
     }
 
