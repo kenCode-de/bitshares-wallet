@@ -199,8 +199,15 @@ class TradeBeforeSendModal extends React.Component {
         console.log('----Trade modal: On Trade');
         e.preventDefault();
         let selected_asset = IntlStore.getAsset();
-        this.getExchangeRate(this.props.billed_asset, 
-            selected_asset, +this.props.billed_amount);
+        if(selected_asset != undefined && selected_asset != "false"){
+            console.log('Back up asset is selected');
+            this.getExchangeRate(this.props.billed_asset, 
+                selected_asset, +this.props.billed_amount);
+        }
+        else{
+            console.log('Back up asset not selected');
+            window.plugins.toast.showLongBottom('Back up asset is not selected in settings. Please select first');
+        }
     }
 
     onAssetChange(selected_asset) {
@@ -208,8 +215,8 @@ class TradeBeforeSendModal extends React.Component {
     }
 
     onTrxIncluded(confirm_store_state) {
-        console.log('----TradeBeforeSend Trx');
         if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+            console.log('----TradeBeforeSend Trx');    
             setTimeout(() => { TradeConfirmActions.talk(); }, 1000);
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
             TransactionConfirmStore.reset();

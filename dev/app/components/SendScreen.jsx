@@ -122,6 +122,7 @@ class SendScreen extends React.Component {
                                      ruia_symbol: uia_asset_symbol,
                                      ruia_precision: uia_asset_precision });
 
+                        // Uncomment this line & handle error properly
                         this.getExchangeRate(invoice.ruia, assets_array[0].get("id"));
 
                         let asset_types = [];
@@ -395,6 +396,7 @@ class SendScreen extends React.Component {
                       // Pop up for Msg : Sorry you cannot pay
                       this.setState({loading: false});
                       console.log('-----Transfer error');
+                      window.plugins.toast.showLongBottom('You cannot pay. You have low balance');
                     }
                     TradeConfirmStore.unlisten(this.onTradeTrx);
                     

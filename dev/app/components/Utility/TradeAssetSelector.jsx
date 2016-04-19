@@ -17,9 +17,14 @@ class AssetOption extends React.Component {
     }
 
     render() {
-        
-        let symbol = this.props.asset ? this.props.asset.get("symbol") : this.props.asset_id;
-        return (<option value={this.props.asset_id}>{symbol}</option>);
+
+        if(this.props.asset_option == "-1"){
+            return (<option value="false">Choose Asset</option>);
+        }
+        else{
+            let symbol = this.props.asset ? this.props.asset.get("symbol") : this.props.asset_id;
+            return (<option value={this.props.asset_id}>{symbol}</option>);
+        }
         
     }
 }
@@ -42,11 +47,13 @@ class TradeAssetSelector extends React.Component {
     }
 
     render() {
+        
         var options = [];
         options = this.props.assets.map(function (value) {
-            return <AssetOption key={value} asset={value} asset_id={value}/>
+            return <AssetOption key={value} asset={value} asset_id={value} />
         });
-
+        options.splice(0, 0, <AssetOption asset_option={"-1"} />);
+        
 
         return (
             <select value={this.props.value} className="nice-select" style={{"font-weight": "bold"}} onChange={this.onChange.bind(this)}>
