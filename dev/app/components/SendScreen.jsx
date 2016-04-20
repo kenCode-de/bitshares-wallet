@@ -410,8 +410,7 @@ class SendScreen extends React.Component {
     }
 
     onTrxIncluded(confirm_store_state) {
-        console.log('-----SendScreen Trx');
-        if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+        if(confirm_store_state.included && confirm_store_state.trx_id != null) {
           var callback = this.state.callback + "?block=" + confirm_store_state.trx_block_num + "&trx=" + confirm_store_state.trx_id;
           var xhttp = new XMLHttpRequest();
           xhttp.open("GET", callback, true);
