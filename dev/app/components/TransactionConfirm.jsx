@@ -49,10 +49,35 @@ class TransactionConfirm extends BaseComponent {
     }
 
     render() {
+        if(this.state.transaction && this.state.error == null){
+            let trx_obj = this.state.transaction.toObject();
+            if(this.state.inProgress && this.state.included){
+                console.log('-----setting in progress false');
+                this.setState({inProgress: false}); 
+            }
+            else if(trx_obj.operations[0][0] == 1){
+                console.log('<---- Silent Trade called ---->');
+                if (!this.state.inProgress && !this.state.included) {
+                    console.log('---Trade only once');
+                   this.setState({inProgress: true}); 
+                   TransactionConfirmActions.broadcast_trade(this.state.transaction);
+                }
+                return null;
+            }
+            else if(this.state.silent && trx_obj.operations[0][0] == 0){
+                console.log('<---- Silent Transfer called ---->');
+                if (!this.state.inProgress && !this.state.included) {
+                    console.log('---Transfer only once');
+                   this.setState({inProgress: true}); 
+                   TransactionConfirmActions.broadcast_trade(this.state.transaction);
+                }
+                if(!this.state.included){ return null; }
+            }
+        }
+
         if ( !this.state.transaction || this.state.closed ) {return null; }
 
         //console.log('$$$ this.state.transaction =', this.state.transaction);
-
         let button_group, header;
 
         if(this.state.error || this.state.included) {
@@ -100,7 +125,8 @@ class TransactionConfirm extends BaseComponent {
                      ref="confirmModal">
                    <div style={{maxHeight: "60vh", overflowY:'auto'}}>
                             <Transaction key={Date.now()} trx={this.state.transaction.serialize()}
-                                index={0} no_links={true} donor={this.state.transaction.donor}/>
+                                index={0} no_links={true} donor={this.state.transaction.donor}
+                                reward_points={this.state.transaction.reward_points} />
                     </div>
                     <div className="grid-block shrink" style={{paddingTop: "1rem"}}>
                         {button_group}

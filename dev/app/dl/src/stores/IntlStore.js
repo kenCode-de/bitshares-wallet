@@ -21,18 +21,20 @@ class IntlStore extends BaseStore {
         this.timezones = timezones.timezones;
         this.currentTimezone = null;
         this.currency== null;
+        this.asset = null;
         this.languages = locale_en.languages;
 
         this.bindListeners({
             onSwitchLocale: IntlActions.switchLocale,
             onGetLocale: IntlActions.getLocale,
             onSwitchTimezone: IntlActions.switchTimezone,
-            onSwitchCurrency: IntlActions.switchCurrency
+            onSwitchCurrency: IntlActions.switchCurrency,
+            onSwitchAsset: IntlActions.switchAsset
         });
 
         this._export("getCurrentLocale", "translate" ,"hasLocale", "getLanguages", "getCurrencies", "getCurrencyById",
             "getTimezones", "getCurrentTimeZone", "formatNow", "formatTime", "formatTimeSeparated",
-            "getCurrency","formatCurrency");
+            "getCurrency","formatCurrency", "getAsset");
     }
 
     hasLocale(locale) {
@@ -87,6 +89,11 @@ class IntlStore extends BaseStore {
         }
         return this.currency;
     }
+    getAsset(){
+        var id = SettingsStore.getSetting("assetid");
+        return id;
+    }
+
     formatCurrency(amount, thouSeparator, decSeparator) {
         var cur = this.getCurrency();
         //var fract = Math.abs(~~((amount%1)*cur.ratio).toFixed());
@@ -250,6 +257,10 @@ class IntlStore extends BaseStore {
         this.currency = currency;
         SettingsStore.changeSetting({setting: "currencyid", value: id });
     }
+    onSwitchAsset(id){
+        SettingsStore.changeSetting({setting: "assetid", value: id });
+    }
+
 
     onGetLocale(locale) {
         if (this.locales.indexOf(locale) === -1) {

@@ -315,6 +315,52 @@ var Utils = {
         }
 
         return {quoteAmount: quoteCoreRateQuoteAmount, baseAmount: baseCoreRateQuoteAmount};
+    },
+
+    getExchangeRate: function(baseAssetId, quoteAssetId,callback) {
+
+        return Promise.all([
+                    Apis.instance().db_api().exec("get_limit_orders", [
+                        baseAssetId,quoteAssetId, 1
+                    ]),
+                ])
+                .then(results => {
+                    let baseAmount = 0;
+                    let quoteAmount = 0;
+                    if (results[0][0].sell_price.base.asset_id == baseAssetId){
+                        baseAmount = results[0][0].sell_price.base.amount;
+                        quoteAmount = results[0][0].sell_price.quote.amount;
+                    }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
+                        quoteAmount = results[0][0].sell_price.base.amount;
+                        baseAmount = results[0][0].sell_price.quote.amount;
+                    }
+                    let baseAsset = ChainStore.getAsset(baseAssetId);
+                    let quoteAsset = ChainStore.getAsset(quoteAssetId);
+                    let quotePrecision = this.get_asset_precision(quoteAsset.get("precision"));
+                    let basePrecision = this.get_asset_precision(baseAsset.get("precision"));
+                    let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                    callback(exchangeRate);
+
+                }).catch((error) => {
+                    console.log("Error in fetching exchange rate: ", error);
+                    console.log(error);
+                });
+    },
+
+    getRequiredFee: function(feeAssetId, callback) {
+        Apis.instance().db_api().exec("get_required_fees", [
+                        [[1,{}]],feeAssetId
+                    ]).then(results => {
+                        console.log(results[0].amount);
+                        let feeAsset = ChainStore.getAsset(feeAssetId);
+                        let feeAssetPrecision = this.get_asset_precision(feeAsset.get("precision"));
+                        let feeAmount = results[0].amount / feeAssetPrecision;
+                        console.log(feeAmount);
+                        callback(feeAmount);
+                    }).catch((error) => {
+                        console.log("Error in fetching exchange rate: ", error);
+                        console.log(error);
+                    });
     }
 
 };

@@ -416,32 +416,30 @@ i {
 }
 .btn {
   display: inline-block;
-  width: 95px;
-  line-height: 30px;
+  /*width: 43%;*/
+  width: calc(45% - 10px);
+  height: 26px;
+  line-height: 26px;
   text-align: center;
+ /* border: 1px solid #fff;*/
   color: #fff;
+  font-size: 12px;
+  font-size: 0.75rem;
+ /* text-transform: uppercase;*/
   letter-spacing: 1px;
+  position: relative;
+  /*box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);*/
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   outline: none;
-  position: relative;
-
 }
 .btn-receive {
-  background: #42b36e url("../img/arrow-down-white.svg") center 20% no-repeat;
-  background-size: 25%;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-  border-radius: 5px;
-  padding-top: 30px;
+  background: #42b36e url("../img/arrow-down-white.svg") 4px center no-repeat;
+  background-size: auto 70%;
+
 }
 .btn-send {
-    background: #d34b4d url("../img/arrow-up-white.svg") center 20% no-repeat;
-    background-size: 25%;
-    padding: 0 17px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    border-radius: 5px;
-    padding-top: 30px;
+  background: #d34b4d url("../img/arrow-up-white.svg") 4px center no-repeat;
+  background-size: auto 70%;
 }
 .btn-send:focus{
 	margin-right: 5px;
@@ -454,37 +452,37 @@ i {
 
 
 .btn-qr-scan {
+    width: 24px;
+    height: 24px;
     background: #d34b4d url("../img/camera.svg") center center no-repeat;
-    background-size: 50%;
+    background-size: 70%;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    border-radius: 5px;
 }
 .btn-send:after {
-   content: '';
-    width: 34px;
-    height: 1px;
-    background-color: #d34b4d;
-    position: absolute;
-    top: 50%;
-    left: -17px;
-
+  content: '';
+  width: 9px;
+  height: 1px;
+  background-color: #d34b4d;
+  position: absolute;
+  top: 50%;
+  left: -9px;
 }
 
 .send-btn-container {
-  width: 205px;
+  /*width: 57%;*/
+  width: calc(55% - 10px);
   float: right;
 }
 
 .send-btn-container .btn-qr-scan {
-  height: 60px;
-  padding: 27px;
-  float: left;
+  /*margin-left: calc(25% - 33px);*/
+  /*margin-left: 10px;*/
 
 }
 
 .send-btn-container .btn-send {
-   /*width: calc(100% - 33px);*/
+   width: calc(100% - 33px);
 }
 
 .balances {
@@ -862,6 +860,9 @@ input[type="text"] {
   clear: both;
 }
 .form-row .full-input {
+  width: 100%;
+}
+full-input {
   width: 100%;
 }
 .form-row p {
@@ -1936,11 +1937,41 @@ a {
     font-weight: bold;
 }
 
+.label-amount-rewards {
+    width: auto;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    display: inline-block;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.avalibel-label-reward {
+    width: auto;
+    margin: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+}
+
 .input-amount {
     border-right: none;
     text-align: center;
     width: 50%;
     font-weight: bold;
+}
+
+.input-amount-rewards {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+.move-rewards-box-right{
+    padding-left: 5px;
 }
 
 .avalibel-label .amount_span {

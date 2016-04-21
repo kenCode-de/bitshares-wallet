@@ -110,6 +110,7 @@ languages: {
 	backupDownloadFailed: 'Backup downloading has failed ',
 	
 home: {
+reward_points : "Reward Points",
 balances: "BALANCES",
 contacts: "CONTACTS",
 finder: "FINDER",
@@ -268,8 +269,18 @@ unused: {
 	never_backed_up: "This Wallet has never been backed up",
 	need_backup: "This Wallet needs a backup",
 	noneed_backup: "No backup is needed"
-}
-
+},
+exchange: {
+    buy: "Buy",
+    sell: "Sell",
+    price: "Exchange Rate",
+    trade_currency: "Trade Currency",
+    trade : "Trade"
+    },
+transaction: {
+    seller: "Seller",
+    expiration: "Expired On",
+    },
 
 
 	} //wallet

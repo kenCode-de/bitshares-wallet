@@ -21,13 +21,25 @@ class TransactionConfirmStore {
             trx_id: null,
             trx_block_num: null,
             closed: true,
-            broadcasted_transaction: null
+            broadcasted_transaction: null,
+            silent: false
         };
     }
 
     onConfirm({transaction}) {
+        console.log('<-----On confirm called---->');
         let init_state = this.getInitialState();
-        let state = {...init_state, transaction: transaction, closed: false, broadcasted_transaction: null}
+        let state = {...init_state, transaction: transaction, closed: false, broadcasted_transaction: null,
+            silent:false}
+        //console.log("-- TransactionConfirmStore.onConfirm -->", state);
+        this.setState(state);
+    }
+
+    onConfirmSilently({transaction, silent}) {
+        console.log('<-----On silent confirm called---->');
+        let init_state = this.getInitialState();
+        let state = {...init_state, transaction: transaction, closed: false, broadcasted_transaction: null,
+            silent: silent}
         //console.log("-- TransactionConfirmStore.onConfirm -->", state);
         this.setState(state);
     }

@@ -19,6 +19,10 @@ import ChainTypes from "./Utility/ChainTypes";
 import KeyGenComponent from  "./KeyGenComponent"
 import WalletDb from "stores/WalletDb";
 import counterpart from "counterpart";
+import TradeBeforeSendActions from "actions/TradeBeforeSendActions"
+
+//const Dialog = require('material-ui/lib/dialog');
+//const RaisedButton = require('material-ui/lib/raised-button');
 
 import { createHashHistory, useBasename } from 'history';
 const history = useBasename(createHashHistory)({});
@@ -88,6 +92,11 @@ class HomeScreen extends React.Component {
     }
 
     _scan() {
+	// use this to open popup
+	//console.log("Triggering popup---------");
+	//TradeBeforeSendActions.talk();
+	//console.log("Triggering popup completed---------");
+	
 	let self = this;
         cordova.plugins.barcodeScanner.scan(
 
@@ -109,6 +118,7 @@ class HomeScreen extends React.Component {
                 alert("Scanning failed: " + error);
             }
        );
+	
     }
 
     _onQRCodeClick()
@@ -126,6 +136,31 @@ class HomeScreen extends React.Component {
       var isLocked = WalletDb.isLocked();
       console.log('$$$isLocked', isLocked);
 
+	
+
+/*
+	console.log('making trade modal');
+
+	let tradeModal = (
+		
+			this.state.open = true;
+
+				<Dialog title={"test"
+				      actions={this.props.actions}  autoScrollBodyContent={true}
+				      ref="unlockDialog" open={this.state.open}>
+
+					<form noValidate>
+					    <div className="button-group">
+					       <RaisedButton
+						label={"label"}
+						backgroundColor = "#008000" secondary={true}
+						type="submit" />
+					    </div>
+					</form>
+				   </Dialog>
+			)
+		console.log('made trade modal');
+*/
       var contents = isBackupRequired ?        <section className="code content-home">
         <Link to="backup" className="active"><Translate content="wallet.createBackupPrompt" /></Link>
       </section> :       [

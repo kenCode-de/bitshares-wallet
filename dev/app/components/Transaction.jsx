@@ -61,6 +61,16 @@ class OperationTable extends React.Component {
                 <td><FormattedAsset color="fee" amount={this.props.fee.amount} asset={this.props.fee.asset_id}/>{this.props.isDonorOp? <Translate component="span" content="wallet.donation_fee_text" /> : null}</td>
             </tr> ) : null;
 
+        var reward_points_row = null
+        let reward_points_obj = this.props.reward_points_op;
+        if(reward_points_obj !== undefined){
+            reward_points_row = (
+            <tr>
+                <td><Translate component="span" content="wallet.home.reward_points" /></td>
+                <td><FormattedAsset color="fee" amount={reward_points_obj[1].amount.amount} asset={"1.3." + reward_points_obj[1].amount.asset_id}/></td>
+            </tr> )
+        }
+
         return (
             <div >
             {/*  <h6><Translate component="span" content="explorer.block.op" /> #{this.props.index + 1}/{this.props.opCount}</h6> */}
@@ -70,6 +80,7 @@ class OperationTable extends React.Component {
                         <OpType type={this.props.type} color={this.props.color}/>
                         {this.props.children}
                         {fee_row}
+                        {reward_points_row}
                     </tbody>
                 </table>
             </div>
@@ -96,7 +107,11 @@ class Transaction extends React.Component {
     }
 
     render() {
-        let {trx, donor} = this.props;
+
+        let {trx, donor, reward_points} = this.props;
+        // console.log('<----- In Transaction---->', trx);
+        // console.log('-----donor', donor);
+        // console.log('------Reward Points -------',reward_points);
         let info = null;
         info = [];
         //let hideDonations = null;
@@ -108,6 +123,7 @@ class Transaction extends React.Component {
 
         let donor_info_row = null;
         let donate_op = null; // IK --supposing that there can be the only donor operation  in transaction
+        let reward_points_op = null;
 
         //amount: {amount: 200000, asset_id: "1.3.0"} -- donation
 
@@ -116,20 +132,26 @@ class Transaction extends React.Component {
             let rows = [];
             let color = "";
             let isDonorOp = false;
+            
             switch (ops[op[0]]) { // For a list of trx types, see chain_types.coffee
 
                 case "transfer":
-
                     color = "success";
 
                     let memo_text = null;
 
                     // is donor?
-                    if (donor)
+                    if (donor && "1.2." + donor[1].to == "1.2.90200" && donor[1].amount.amount.low == 200000 )
                     {
-                        isDonorOp = op[1].to.indexOf(donor.to) != -1
-                                    && op[1].amount.amount == donor.amount.amount
+                        //isDonorOp = op[1].to.indexOf(donor[1].to) != -1
+                          //          && op[1].amount.amount == donor[1].amount.amount
                                     //&& op[1].amount.asset_id == donor.amount.asset_id;
+                        isDonorOp = true;
+                    }
+
+                    if(reward_points && op[1].amount.asset_id == "1.3." + reward_points[1].amount.asset_id){
+                        reward_points_op = op[1];
+                        return;
                     }
 
 
@@ -167,33 +189,35 @@ class Transaction extends React.Component {
                         return null;
                     }
 
-
-                    rows.push(
-                        <tr>
-                            <td><Translate component="span" content="wallet.transaction_from" /></td>
-                            <td>{this.linkToAccount(op[1].from)}</td>
-                        </tr>
-                    );
-                    rows.push(
-                        <tr>
-                            <td><Translate component="span" content="wallet.transaction_to" /></td>
-                            <td>{this.linkToAccount(op[1].to)}</td>
-                        </tr>
-                    );
-                    rows.push(
-                        <tr>
-                            <td><Translate component="span" content="wallet.transaction_amount" /></td>
-                            <td><FormattedAsset amount={op[1].amount.amount} asset={op[1].amount.asset_id} /></td>
-                        </tr>
-                    );
-
-                    {memo_text ?
                         rows.push(
                             <tr>
-                                <td><Translate content="wallet.home.memo" /></td>
-                                <td>{memo_text}</td>
+                                <td><Translate component="span" content="wallet.transaction_from" /></td>
+                                <td>{this.linkToAccount(op[1].from)}</td>
                             </tr>
-                    ) : null}
+                        );
+                        rows.push(
+                            <tr>
+                                <td><Translate component="span" content="wallet.transaction_to" /></td>
+                                <td>{this.linkToAccount(op[1].to)}</td>
+                            </tr>
+                        );
+                        rows.push(
+                            <tr>
+                                <td><Translate component="span" content="wallet.transaction_amount" /></td>
+                                <td><FormattedAsset amount={op[1].amount.amount} asset={op[1].amount.asset_id} /></td>
+                            </tr>
+                        );
+
+                        {memo_text ?
+                            rows.push(
+                                <tr>
+                                    <td><Translate content="wallet.home.memo" /></td>
+                                    <td>{memo_text}</td>
+                                </tr>
+                        ) : null}
+                        
+                    
+                    
 
                     break;
 
@@ -201,21 +225,24 @@ class Transaction extends React.Component {
                     color = "warning";
                     // missingAssets = this.getAssets([op[1].amount_to_sell.asset_id, op[1].min_to_receive.asset_id]);
                     // let price = (!missingAssets[0] && !missingAssets[1]) ? utils.format_price(op[1].amount_to_sell.amount, assets.get(op[1].amount_to_sell.asset_id), op[1].min_to_receive.amount, assets.get(op[1].min_to_receive.asset_id), false, inverted) : null;
+		    op[1].amount_to_sell.amount = +op[1].amount_to_sell.amount;
+		    op[1].min_to_receive.amount = +op[1].min_to_receive.amount;
+		    op[1].fee.amount = +op[1].fee.amount;
                     rows.push(
                         <tr key="1">
-                            <td><Translate component="span" content="exchange.sell" /></td>
+                            <td><Translate component="span" content="wallet.exchange.sell" /></td>
                             <td><FormattedAsset amount={op[1].amount_to_sell.amount} asset={op[1].amount_to_sell.asset_id} /></td>
                         </tr>
                     );
                     rows.push(
                         <tr key="2">
-                            <td><Translate component="span" content="exchange.buy" /></td>
+                            <td><Translate component="span" content="wallet.exchange.buy" /></td>
                             <td><FormattedAsset amount={op[1].min_to_receive.amount} asset={op[1].min_to_receive.asset_id} /></td>
                         </tr>
                     );
                     rows.push(
                         <tr key="3">
-                            <td><Translate component="span" content="exchange.price" /></td>
+                            <td><Translate component="span" content="wallet.exchange.price" /></td>
                             <td>
                                 <FormattedPrice
                                     base_asset={op[1].amount_to_sell.asset_id}
@@ -227,25 +254,26 @@ class Transaction extends React.Component {
                     );
                     // rows.push(
                     //     <tr key="2">
-                    //         <td><Translate component="span" content="transaction.min_receive" /></td>
+                    //         <td><Translate component="span" content="wallet.transaction.min_receive" /></td>
                     //         <td>{!missingAssets[1] ? <FormattedAsset amount={op[1].min_to_receive.amount} asset={op[1].min_to_receive.asset_id} /> : null}</td>
                     //     </tr>
                     // );
                     rows.push(
                         <tr key="4">
-                            <td><Translate component="span" content="transaction.seller" /></td>
+                            <td><Translate component="span" content="wallet.transaction.seller" /></td>
                             <td>{this.linkToAccount(op[1].seller)}</td>
                         </tr>
                     );
                     rows.push(
                         <tr key="5">
-                            <td><Translate component="span" content="transaction.expiration" /></td>
+                            <td><Translate component="span" content="wallet.transaction.expiration" /></td>
                             <td>
-                                <FormattedDate
+				{op[1].expiration}
+                                {/*<FormattedDate
                                     value={op[1].expiration}
                                     formats={intlData.formats}
                                     format="full"
-                                />
+                                />*/}
                             </td>
                         </tr>
                     );
@@ -908,15 +936,20 @@ class Transaction extends React.Component {
                     );
                     break;
             }
+            
 
-            var infoItem = (
-                <OperationTable key={opIndex} opCount={opCount} index={opIndex} color={color} type={op[0]} fee={op[1].fee} isDonorOp={isDonorOp} >
-                    {rows}
-                </OperationTable>
-            );
-            if (isDonorOp)
-                donor_info_row = infoItem;
-            info.push(infoItem);
+
+                var infoItem = (
+                    <OperationTable reward_points_op={reward_points} key={opIndex} opCount={opCount} index={opIndex} color={color} type={op[0]} fee={op[1].fee} isDonorOp={isDonorOp} >
+                        {rows}
+                    </OperationTable>
+                );
+                if (isDonorOp)
+                    donor_info_row = infoItem;
+                info.push(infoItem);
+
+                
+            
         });
 
         if (donor_info_row && donate_op && donor_info_row.props.fee.asset_id == donate_op.fee.asset_id)
