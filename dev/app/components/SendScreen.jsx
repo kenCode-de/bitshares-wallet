@@ -204,27 +204,90 @@ class SendScreen extends React.Component {
                     ]),
                 ])
                 .then(results => {
-                    let baseAmount = 0;
-                    let quoteAmount = 0;
-                    if (results[0][0].sell_price.base.asset_id == baseAssetId){
-                        baseAmount = results[0][0].sell_price.base.amount;
-                        quoteAmount = results[0][0].sell_price.quote.amount;
-                    }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
-                        quoteAmount = results[0][0].sell_price.base.amount;
-                        baseAmount = results[0][0].sell_price.quote.amount;
-                    }
-                    let baseAsset = ChainStore.getAsset(baseAssetId);
-                    let quoteAsset = ChainStore.getAsset(quoteAssetId);
-                    let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
-                    let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
-                    let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
-                    let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(this.state.ruia_precision);
-                    console.log('----Exchange rate block');
-                    console.log(exchangeRate);
-                    console.log(rps_eq_amount);
-                    this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 
-                                    rps_eq_amount: rps_eq_amount});
+                  console.log('---Results', results);
+                    if(results[0].length > 1){                  
+                      let baseAmount = 0;
+                      let quoteAmount = 0;
+                      
+                      if (results[0][0].sell_price.base.asset_id == baseAssetId){
+                          baseAmount = results[0][0].sell_price.base.amount;
+                          quoteAmount = results[0][0].sell_price.quote.amount;
+                      }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
+                          quoteAmount = results[0][0].sell_price.base.amount;
+                          baseAmount = results[0][0].sell_price.quote.amount;
+                      }
+                      let baseAsset = ChainStore.getAsset(baseAssetId);
+                      let quoteAsset = ChainStore.getAsset(quoteAssetId);
+                      let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                      let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                      let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                      let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(this.state.ruia_precision);
+                      console.log('----Exchange rate block');
+                      console.log(exchangeRate);
+                      // console.log(rps_eq_amount);
+                      this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 
+                                      rps_eq_amount: rps_eq_amount});
+
+                  }
+                  else{
+                    console.log('-----Other condition');
+                    Promise.all([
+                        Apis.instance().db_api().exec("get_limit_orders", [
+                            "1.3.0",quoteAssetId, 1
+                        ]),
+                    ])
+                    .then(results => {
+                        if(results[0].length > 1){                  
+                          let baseAmount = 0;
+                          let quoteAmount = 0;
+                          baseAmount = results[0][0].sell_price.quote.amount;
+                          quoteAmount = results[0][0].sell_price.base.amount;
+                          
+                          let baseAsset = ChainStore.getAsset(quoteAssetId);
+                          let quoteAsset = ChainStore.getAsset('1.3.0');
+                          let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                          let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                          var exchangeRate_quote = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                          
+                          console.log('----Exchange rate quote');
+                          console.log(exchangeRate_quote);
+                            Promise.all([
+                                Apis.instance().db_api().exec("get_limit_orders", [
+                                    baseAssetId,"1.3.0", 1
+                                ]),
+                            ])
+                            .then(results => {
+                                if(results[0].length > 1){                  
+                                  let baseAmount = 0;
+                                  let quoteAmount = 0;
+                                  baseAmount = results[0][0].sell_price.quote.amount;
+                                  quoteAmount = results[0][0].sell_price.base.amount;
+                                  
+                                  let baseAsset = ChainStore.getAsset('1.3.0');
+                                  let quoteAsset = ChainStore.getAsset(baseAssetId);
+                                  let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                                  let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                                  let exchangeRate_base = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                                  
+                                  let exchangeRate = +exchangeRate_quote * +exchangeRate_base;
+                                  
+                                  let rps_eq_amount = (this.state.amount * exchangeRate).toFixed(this.state.ruia_precision);
+                                  
+                                  this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 
+                                                  rps_eq_amount: rps_eq_amount});
+                                  console.log('----Exchange rate');
+                                  console.log(exchangeRate);
+                                  console.log('-----Reward point');
+                                  console.log(rps_eq_amount);
+
+                            }
+                          })
+
+                        }
+                    })
                     
+                  }
+                
 
                 }).catch((error) => {
                     console.log("Error in fetching exchange rate: ", error);
