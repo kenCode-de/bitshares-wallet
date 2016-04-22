@@ -27,6 +27,7 @@ import {FetchChainObjects} from "api/ChainStore";
 import TradeBeforeSendActions from "actions/TradeBeforeSendActions"
 import TradeConfirmStore from "stores/TradeConfirmStore";
 import { createHashHistory, useBasename } from 'history';
+import IntlStore from "stores/IntlStore";
 const history = useBasename(createHashHistory)({});
 import key from "common/key_utils";
 var Aes = require('ecc/aes');
@@ -122,8 +123,7 @@ class SendScreen extends React.Component {
                                      ruia_symbol: uia_asset_symbol,
                                      ruia_precision: uia_asset_precision });
 
-                        // Uncomment this line & handle error properly
-                        this.getExchangeRate(invoice.ruia, assets_array[0].get("id"));
+                        this.getExchangeRate(assets_array[0].get("id"), invoice.ruia);
 
                         let asset_types = [];
                         let account_balances = this.props.account.get("balances").toJS();
@@ -178,22 +178,69 @@ class SendScreen extends React.Component {
         var local_aes_private = Aes.fromSeed( encryption_buffer );
         var hash = local_aes_private.encryptToHex( memo );
         let transfer_op_object = { "memo":{ "message": hash } }
-        Apis.instance().db_api().exec("get_required_fees", [
-              [[0, transfer_op_object ]], asset_id
-          ]).then(results => {
-              let feeAsset = ChainStore.getAsset(asset_id);
-              let feeAssetPrecision = utils.get_asset_precision(feeAsset.get("precision"));
-              let feeAmount = (results[0].amount / feeAssetPrecision).toFixed(feeAsset.get("precision"));
-              let actual_amount = +amount_needed + +feeAmount;
-              actual_amount = actual_amount.toFixed(feeAsset.get("precision"));
-              //10 percent increase in original amount for margin
-              actual_amount = ((+actual_amount * 0.005) + +actual_amount).toFixed(feeAsset.get("precision"));
-              TradeBeforeSendActions.talk(account_balances, account_id, asset_id, actual_amount);
-              
-          }).catch((error) => {
-              console.log("Error in fetching required fees: ", error);
-              console.log(error);
-          });
+        let selected_asset = IntlStore.getAsset();
+        let baseAssetId = selected_asset;
+        let quoteAssetId = asset_id;
+        if(selected_asset != undefined && selected_asset != "false"){
+        Promise.all([
+                    Apis.instance().db_api().exec("get_limit_orders", [
+                        baseAssetId,quoteAssetId, 1
+                    ]),
+                ])
+                .then(results => {
+                    if(results[0].length > 1){                  
+                      let baseAmount = 0;
+                      let quoteAmount = 0;
+                      baseAmount = results[0][1].sell_price.quote.amount;
+                      quoteAmount = results[0][1].sell_price.base.amount;
+                      let baseAsset = ChainStore.getAsset(baseAssetId);
+                      let quoteAsset = ChainStore.getAsset(quoteAssetId);
+                      let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+                      let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+                      var exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
+                      exchangeRate =  exchangeRate
+
+                      console.log('----Exchange rate block');
+                      console.log(exchangeRate);
+                      Apis.instance().db_api().exec("get_required_fees", [
+                            [[0, transfer_op_object ]], asset_id
+                        ]).then(results => {
+                            let feeAsset = ChainStore.getAsset(asset_id);
+                            let feeAssetPrecision = utils.get_asset_precision(feeAsset.get("precision"));
+                            let feeAmount = (results[0].amount / feeAssetPrecision).toFixed(feeAsset.get("precision"));
+                            let actual_amount = +amount_needed + +feeAmount;
+                            actual_amount = actual_amount.toFixed(feeAsset.get("precision"));
+                            //10 percent increase in original amount for margin
+                            actual_amount = ((+actual_amount * 0.005) + +actual_amount).toFixed(feeAsset.get("precision"));
+                            TradeBeforeSendActions.talk(account_balances, account_id, asset_id, actual_amount, exchangeRate);
+                            
+                        }).catch((error) => {
+                            console.log("Error in fetching required fees: ", error);
+                            console.log(error);
+                        });
+
+
+                  }
+                  else{
+                    // Open trade modal and set excahnge rate null
+                    // Check exchange rate in modal and show toast there
+                    // console.log('-----Exchange rate is not available');
+                    console.log('Exchange rate is not available');
+                    TradeBeforeSendActions.talk(account_balances, account_id, asset_id, 0, -1);
+                  }
+                }).catch((error) => {
+                    console.log("Error in fetching exchange rate: ", error);
+                    console.log(error);
+                });
+        }
+        else{
+          // Open trade modal
+          // console.log('-----Please select back up asset'); 
+          console.log('Back up asset not selected');
+          TradeBeforeSendActions.talk(account_balances, account_id, asset_id, 0, 1);
+        }
+
+        
     }
 
     getExchangeRate(baseAssetId, quoteAssetId){
@@ -208,23 +255,19 @@ class SendScreen extends React.Component {
                     if(results[0].length > 1){                  
                       let baseAmount = 0;
                       let quoteAmount = 0;
+                      baseAmount = results[0][1].sell_price.quote.amount;
+                      quoteAmount = results[0][1].sell_price.base.amount;
                       
-                      if (results[0][0].sell_price.base.asset_id == baseAssetId){
-                          baseAmount = results[0][0].sell_price.base.amount;
-                          quoteAmount = results[0][0].sell_price.quote.amount;
-                      }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
-                          quoteAmount = results[0][0].sell_price.base.amount;
-                          baseAmount = results[0][0].sell_price.quote.amount;
-                      }
                       let baseAsset = ChainStore.getAsset(baseAssetId);
                       let quoteAsset = ChainStore.getAsset(quoteAssetId);
                       let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
                       let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
                       let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
-                      let rps_eq_amount = (this.state.amount/exchangeRate).toFixed(this.state.ruia_precision);
+                      let rps_eq_amount = (this.state.amount * exchangeRate).toFixed(this.state.ruia_precision);
+                      
                       console.log('----Exchange rate block');
                       console.log(exchangeRate);
-                      // console.log(rps_eq_amount);
+                      console.log(rps_eq_amount);
                       this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 
                                       rps_eq_amount: rps_eq_amount});
 
@@ -233,17 +276,17 @@ class SendScreen extends React.Component {
                     console.log('-----Other condition');
                     Promise.all([
                         Apis.instance().db_api().exec("get_limit_orders", [
-                            "1.3.0",quoteAssetId, 1
+                            baseAssetId,"1.3.0", 1
                         ]),
                     ])
                     .then(results => {
                         if(results[0].length > 1){                  
                           let baseAmount = 0;
                           let quoteAmount = 0;
-                          baseAmount = results[0][0].sell_price.quote.amount;
-                          quoteAmount = results[0][0].sell_price.base.amount;
+                          baseAmount = results[0][1].sell_price.quote.amount;
+                          quoteAmount = results[0][1].sell_price.base.amount;
                           
-                          let baseAsset = ChainStore.getAsset(quoteAssetId);
+                          let baseAsset = ChainStore.getAsset(baseAssetId);
                           let quoteAsset = ChainStore.getAsset('1.3.0');
                           let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
                           let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
@@ -253,24 +296,23 @@ class SendScreen extends React.Component {
                           console.log(exchangeRate_quote);
                             Promise.all([
                                 Apis.instance().db_api().exec("get_limit_orders", [
-                                    baseAssetId,"1.3.0", 1
+                                    "1.3.0",quoteAssetId, 1
                                 ]),
                             ])
                             .then(results => {
                                 if(results[0].length > 1){                  
                                   let baseAmount = 0;
                                   let quoteAmount = 0;
-                                  baseAmount = results[0][0].sell_price.quote.amount;
-                                  quoteAmount = results[0][0].sell_price.base.amount;
+                                  baseAmount = results[0][1].sell_price.quote.amount;
+                                  quoteAmount = results[0][1].sell_price.base.amount;
                                   
                                   let baseAsset = ChainStore.getAsset('1.3.0');
-                                  let quoteAsset = ChainStore.getAsset(baseAssetId);
+                                  let quoteAsset = ChainStore.getAsset(quoteAssetId);
                                   let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
                                   let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
                                   let exchangeRate_base = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
                                   
                                   let exchangeRate = +exchangeRate_quote * +exchangeRate_base;
-                                  
                                   let rps_eq_amount = (this.state.amount * exchangeRate).toFixed(this.state.ruia_precision);
                                   
                                   this.setState({ ruia_ex_rate : exchangeRate, error: null, loading: false, 

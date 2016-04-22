@@ -28,12 +28,13 @@ class TradeBeforeSendActions {
         })
     }
 
-	talk(asset_types, account_id, billed_asset, billed_amount) {
+	talk(asset_types, account_id, billed_asset, billed_amount, exchangeRate) {
         //console.log('talk trade befire send called');
         return new Promise(  
 				resolve => {
             				this.dispatch({resolve, asset_types, 
-                                account_id, billed_asset, billed_amount});
+                                account_id, billed_asset, billed_amount, 
+                                exchangeRate});
 					}
 			)
 		}

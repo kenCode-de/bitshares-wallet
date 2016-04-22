@@ -47,13 +47,14 @@ class TradeBeforeSendStore {
         //this.setState({locked: WalletDb.isLocked()})
     }
 
-	onTalk({resolve, asset_types, account_id, billed_asset, billed_amount}) {
+	onTalk({resolve, asset_types, account_id, billed_asset, billed_amount, exchangeRate}) {
         //DEBUG console.log('... WalletUnlockStore\tprogramatic lock', WalletDb.isLocked())
 	//console.log('store ontalk tbs setState')
         resolve();
 	//return
 	   this.setState({unclosable:true, assets: asset_types, 
-        account_id:account_id, billed_asset:billed_asset, billed_amount:billed_amount });
+        account_id:account_id, billed_asset:billed_asset, billed_amount:billed_amount,
+        exchange_rate: exchangeRate});
     }
 
     onClose() {
