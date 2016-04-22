@@ -127,19 +127,49 @@ class TradeBeforeSendModal extends React.Component {
         let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
 
         console.log('-----Call trade method');
-        AccountActions.trade(
-            this.props.account_id,
-            {amount: parseInt(buyAmount * basePrecision), asset_id: baseAsset.get("id")},
-            baseAsset.get("symbol"),
-            {amount: parseInt(amount * quotePrecision),asset_id: quoteAsset.get("id")},
-            quoteAsset.get("symbol")
-        ).then( () => {
-            console.log('trade then');
-            TransactionConfirmStore.unlisten(this.onTrxIncluded);
-            TransactionConfirmStore.listen(this.onTrxIncluded);
-            TradeBeforeSendActions.close();
+        Promise.all([
+              // In real transaction uncomment these line
+                    Apis.instance().db_api().exec("get_account_balances", 
+                        [this.props.account_id, [baseAssetId] ])
+                    
+                ])
+                .then(results => {
+                    console.log('----Account balances result');
+                    let billedBalance = results[0][0].amount;
+                    billedBalance = billedBalance / basePrecision;
 
-        });
+                    console.log('-----Billed Balance', billedBalance);
+                    console.log(buyAmount)
+                    if(billedBalance < buyAmount){
+                        console.log('----Amount is less');
+                        window.plugins.toast.showLongBottom('You do not have enough balance to trade. Please select other backup asset');    
+                    }
+                    else{
+                        console.log('----Trade initiate')
+                        AccountActions.trade(
+                            this.props.account_id,
+                            {amount: parseInt(buyAmount * basePrecision), asset_id: baseAsset.get("id")},
+                            baseAsset.get("symbol"),
+                            {amount: parseInt(amount * quotePrecision),asset_id: quoteAsset.get("id")},
+                            quoteAsset.get("symbol")
+                        ).then( () => {
+                            console.log('trade then');
+                            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                            TransactionConfirmStore.listen(this.onTrxIncluded);
+                            TradeBeforeSendActions.close();
+
+                        });
+                    }
+                    
+                    
+                }).catch((error) => {
+                    console.log("Error in transfer method: ", error);
+                    console.log(error);
+                    
+                })
+
+
+        
 
     }
     
