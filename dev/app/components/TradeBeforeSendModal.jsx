@@ -206,7 +206,7 @@ class TradeBeforeSendModal extends React.Component {
     }
 
     onTrxIncluded(confirm_store_state) {
-        if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+        if(confirm_store_state.included && confirm_store_state.trx_id != null) {
             console.log('----TradeBeforeSend Trx');    
             setTimeout(() => { TradeConfirmActions.talk(); }, 1000);
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
