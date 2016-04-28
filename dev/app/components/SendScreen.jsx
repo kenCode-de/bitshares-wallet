@@ -384,8 +384,8 @@ class SendScreen extends React.Component {
         user_typed_amount = this.state.amount;
       }
       
-      let remaining_amount = +this.state.actual_amount - ((+reward_points * +this.state.ruia_ex_rate) + +user_typed_amount);
-      let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
+      let remaining_amount = +this.state.actual_amount - ((+reward_points / +this.state.ruia_ex_rate) + +user_typed_amount);
+      let ruia_remaining_amount = remaining_amount * this.state.ruia_ex_rate;
       remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
       ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
 
@@ -413,9 +413,9 @@ class SendScreen extends React.Component {
           if(this.state.reward_points){
             user_typed_rp = this.state.reward_points;
           }
-          let remaining_amount = +this.state.actual_amount - ((+user_typed_rp * +this.state.ruia_ex_rate) + +amount);
+          let remaining_amount = +this.state.actual_amount - ((+user_typed_rp / +this.state.ruia_ex_rate) + +amount);
+          let ruia_remaining_amount = remaining_amount * this.state.ruia_ex_rate;
           remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
-          let ruia_remaining_amount = remaining_amount / this.state.ruia_ex_rate;
           ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
 
           this.setState({amount, asset, error: null,  outOfBalance: outOfBalance, 
