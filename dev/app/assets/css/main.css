@@ -1985,3 +1985,17 @@ a {
   /*display: table-cell;*/
   vertical-align: middle;
 }
+
+.trade-info{
+  padding-bottom: 10px;
+}
+.trade-modal-btn{
+  padding-top: 15px; 
+}
+.backup-asset{
+  width: 100%;
+  background: #fff;
+  color: #333;
+  border: 1px;
+
+}
