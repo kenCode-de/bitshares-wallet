@@ -880,7 +880,7 @@ input[type="text"] {
   padding-left: 40px;
 }
 .curr-input input {
-  width: 55%;
+  width: 46%;
 }
 .curr-input .nice-select {
   width: 23%;
@@ -1929,7 +1929,7 @@ a {
 }
 
 .label-amount {
-    width: 22%;
+    width: 31%;
     display: inline-block;
     font-weight: bold;
 }
@@ -1998,4 +1998,8 @@ a {
   color: #333;
   border: 1px;
 
+}
+
+.reward-input input{
+  width: 69%;
 }

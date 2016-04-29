@@ -67,32 +67,16 @@ class RewardUia extends React.Component {
         //let value = this.formatAmount(this.props.amount);
 
         return (
-		<table className="full-input" style={{background: 'transparent'}}>
-			<tr>
-				<td style={{background: 'transparent'}}>
-				<span className="avalibel-label-reward label-amount-rewards bold">{counterpart.translate("wallet.home.reward_points") + ": "}</span>
-				</td>	
-				<td style={{background: 'transparent'}}>
-				<div className="move-rewards-box-right">
-				<input onChange={this._onChange.bind(this)}  
-				   onBlur={this._onBlur.bind(this)}
-				   onKeyDown={this.onKeyDown}  
-				   type="text" pattern="[0-9]" 
-				   className="text-field input-amount-rewards"></input>
-				</div>				
-				</td>							
-			</tr>
-		</table>
-		/*
-                <div>
-                   <span className="label-amount bold">{counterpart.translate("wallet.home.reward_points") + ": "} </span>
-                   <input onChange={this._onChange.bind(this)}  
+            <div>
+            <span className="label-amount bold">{counterpart.translate("wallet.home.reward_points") + ": "}</span>
+
+                <input onChange={this._onChange.bind(this)}  
                    onBlur={this._onBlur.bind(this)}
                    onKeyDown={this.onKeyDown}  
                    type="text" pattern="[0-9]" 
-                   className="text-field input-amount"></input>
-                </div>
-		*/
+                   className="text-field input-amount-rewards"></input>
+            </div>
+            
         );
     }
 

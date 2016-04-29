@@ -690,13 +690,13 @@ class SendScreen extends React.Component {
         let reward_uia = null;
         let remain_balance = null;
         let bill_amount_warning = null;
-
+        
         if (this.state.from_account && !from_error) {
             let account_balances = this.state.from_account.get("balances").toJS();
             asset_types = Object.keys(account_balances);
 
             if (this.state.remaining_amount) {
-              remain_balance = (<span> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
+              remain_balance = (<span className="bold"> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
             }
             if (this.state.remaining_amount < 0) {
               bill_amount_warning = (<span style={{color: '#ff0000'}}>  Cannot send amount more than billing amount  </span>);
@@ -718,52 +718,47 @@ class SendScreen extends React.Component {
 
 				  
   
-                    if(reward_found)
+              if(reward_found)
 			{  
 
-              		reward_uia = 	(
-					<table className="full-input" style={{background: 'transparent'}}>
-						<tr>
-							<td>
-                      					<RewardUia  
-                                          onChange={this.onRewardPointsChanged.bind(this)}/>
-							</td>							
-						</tr>
-						<tr>
-							<td >
-							<div className="avalibel-label-reward full-input" style={{background: 'transparent'}}>
-							<span style={{background: 'transparent'}}>   
-                      					<BalanceComponent  ref="bc2" balance={account_balances[this.state.ruia]}/> 
-							<Translate component="span" content="wallet.transfer_available"/>
-							</span>
-							</div>
-							</td>							
-						</tr>						
-					</table>
-					)    
-                    	}   
-                    else{   
+        reward_uia =  (
 
-                      reward_uia = 	(
-					<table className="full-input" style={{background: 'transparent'}}>
-						<tr>
-							<td>  
-                      					<RewardUia 
-                                          onChange={this.onRewardPointsChanged.bind(this)} />
-							</td>							
-						</tr>
-						<tr>
-							<td >
-							<div className="avalibel-label-reward full-input" style={{background: 'transparent'}}>
-							<span style={{background: 'transparent'}}>   
-                      					<BalanceComponent  ref="bc2" balance={0}/> 
-							<Translate component="span" content="wallet.transfer_available"/>
-							</span>
-							</div>
-							</td>							
-						</tr>						
-					</table>
-					)          
+          <div>
+                                <RewardUia  
+                                          onChange={this.onRewardPointsChanged.bind(this)}/>
+            
+              
+              <span className="avalibel-label" style={{background: 'transparent'}}>   
+                                <BalanceComponent  ref="bc2" balance={account_balances[this.state.ruia]}/> 
+              <span> </span>
+              <Translate component="span" content="wallet.transfer_available"/>
+              </span>
+              
+
+            </div>
+                        
+          )
+       
+                    }   
+                    else{   
+                      reward_uia =  (
+
+          <div>
+                                <RewardUia  
+                                          onChange={this.onRewardPointsChanged.bind(this)}/>
+            
+              
+              <span className="avalibel-label" style={{background: 'transparent'}}>   
+                                <BalanceComponent  ref="bc2" balance={0}/> 
+              <span> </span>
+              <Translate component="span" content="wallet.transfer_available"/>
+              </span>
+              
+
+            </div>
+                        
+          )
+         
                     }   
                 }                
             }
@@ -812,7 +807,7 @@ class SendScreen extends React.Component {
                    {balance}
               </div>
 
-	      <div className="form-row full-input" style={{background: 'transparent'}}>
+	      <div className="form-row reward-input" style={{background: 'transparent'}}>
                 {reward_uia}
 	      </div>
               <div className="form-row">
