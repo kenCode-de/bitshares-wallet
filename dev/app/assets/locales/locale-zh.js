@@ -146,6 +146,11 @@ publicKey: "公钥",
 privateKey: "私钥",
 yes: "是",
 no: "否",
+remaining_balance: "保持平衡",
+excess_amount: "不能发送量超过开票金额",
+backup_asset: "备份资产",
+reward_points : "奖励分数"
+
 
 }, settings: {
 bitsharesWalletSettings: "比特股钱包设置",
@@ -200,7 +205,13 @@ enterPin: "输入PIN",
 incorrectPin: "PIN无效",
 protectPinMessage: "请保管好您的PIN",
 fraudAttemptMessage: "警告（连续3次输错PIN）",
-}
+},
+
+exchange: {
+    price: "汇率",
+    trade_currency: "交易货币",
+    trade : "Trade",
+    }
 
 
 

@@ -145,6 +145,10 @@ publicKey: "公開鍵",
 privateKey: "秘密鍵",
 yes: "はい",
 no: "ノー",
+remaining_balance: "保たれているバランス",
+excess_amount: "請求金額よりも多くの量を送信することはできません",
+backup_asset: "バックアップ・アセット",
+reward_points : "報酬ポイント"
 
 }, settings: {
 bitsharesWalletSettings: "BitSharesウォレット設定",
@@ -199,8 +203,13 @@ enterPin: "INを入力してください",
 incorrectPin: "不正なPIN",
 protectPinMessage: "あなたのPINコードを保護してください",
 fraudAttemptMessage: "詐欺の試み！ （連続3間違ったピンの上）",
-}
+},
 
+exchange: {
+    price: "為替レート",
+    trade_currency: "貿易通貨",
+    trade : "トレード",
+    }
 
 
   }

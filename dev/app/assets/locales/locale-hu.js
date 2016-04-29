@@ -145,6 +145,11 @@ publicKey: "nyilvános kulcs",
 privateKey: "privát kulcs",
 yes: "Igen",
 no: "Nem",
+remaining_balance: "Fennmaradó egyenleg",
+excess_amount: "Nem lehet elküldeni a mennyiség több mint számlázás összeg",
+backup_asset: "Backup Asset",
+reward_points : "Jutalompontok"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Pénztárca beállítások",
@@ -199,8 +204,13 @@ enterPin: "PIN-kód megadása",
 incorrectPin: "helytelen PIN",
 protectPinMessage: "Kérjük Védje a PIN-kódot",
 fraudAttemptMessage: "Csalás kísérlete ! ( 3 egymást követő helytelen PIN)",
-}
+},
 
+exchange: {
+    price: "Árfolyam",
+    trade_currency: "Kereskedelmi Árfolyam",
+    trade : "KERESKEDELMI",
+    }
 
 
 

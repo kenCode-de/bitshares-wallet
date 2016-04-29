@@ -146,6 +146,11 @@ publicKey: "Öffentlicher Schlüssel",
 privateKey: "Privater Schlüssel",
 yes: "Ja",
 no: "Nein",
+remaining_balance: "Die verbleibende Summe",
+excess_amount: "Kann nicht Menge von mehr als Rechnungsbetrag senden",
+backup_asset: "Backup Asset",
+reward_points : "Belohnungspunkte"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Wallet Einstellungen",
@@ -200,8 +205,13 @@ enterPin: "PIN eingeben",
 incorrectPin: "Falsche PIN",
 protectPinMessage: "Bitte schützen Sie Ihren PIN Code",
 fraudAttemptMessage: "Betrugsversuch! (3 mal falsche PIN Eingabe)",
-}
+},
 
+exchange: {
+    price: "Tauschrate",
+    trade_currency: "Handelswährung",
+    trade : "HANDEL",
+    }
 
 
 

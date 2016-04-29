@@ -145,6 +145,10 @@ publicKey: "Llave pública",
 privateKey: "Clave Privada",
 yes: "Sí",
 no: "Sin",
+remaining_balance: "Balance restante",
+excess_amount: "No se puede enviar la cantidad más que la cantidad de facturación",
+backup_asset: "Activos de copia de seguridad",
+reward_points : "Puntos de recompensa"
 
 }, settings: {
 bitsharesWalletSettings: "Ajustes del monedero BitShares",
@@ -199,8 +203,13 @@ enterPin: "Entrez le code PIN",
 incorrectPin: "PIN erroné",
 protectPinMessage: "S'il vous plaît Protégez votre code PIN",
 fraudAttemptMessage: "Tentative de fraude ! ( sur 3 codes PIN erronés consécutifs )",
-}
+},
 	
+exchange: {
+    price: "Tipo de cambio",
+    trade_currency: "comercio de divisas",
+    trade : "COMERCIO",
+    }
 
     }
 };

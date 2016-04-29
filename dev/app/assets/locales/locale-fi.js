@@ -145,6 +145,11 @@ publicKey: "Public Key",
 privateKey: "Yksityinen Avain",
 yes: "Kyllä",
 no: "Ei",
+remaining_balance: "Jäljelläoleva saldo",
+excess_amount: "Ei voi lähettää summa yli laskutuksen määrä",
+backup_asset: "Backup Asset",
+reward_points : "palkita pistettä"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Lompakon asetukset",
@@ -199,8 +204,13 @@ enterPin: "Anna PIN-",
 incorrectPin: "Väärä PIN-koodi",
 protectPinMessage: "Ota Suojaa PIN-koodi",
 fraudAttemptMessage: "Väärinkäytöksen yrityksestä ! ( 3 peräkkäisenä virheellinen PIN )",
-}
+},
 
+exchange: {
+    price: "Vaihtokurssi",
+    trade_currency: "kauppavaluutta",
+    trade : "KÄYDÄ KAUPPAA",
+    }
 
 
 

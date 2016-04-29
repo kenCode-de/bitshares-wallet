@@ -146,6 +146,10 @@ publicKey: "Açık Anahtar",
 privateKey: "Özel Anahtar",
 yes: "Evet",
 no: "Hayır",
+remaining_balance: "bakiye",
+excess_amount: "Fatura miktardan fazla miktarda gönderilemiyor",
+backup_asset: "yedekleme Varlık",
+reward_points : "Ödül Puanları"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Cüzdan Ayarları",
@@ -200,8 +204,13 @@ enterPin: "PIN Kodunu Girin",
 incorrectPin: "Yanlış PIN",
 protectPinMessage: "Lütfen PIN Kodunuzu Koruyun",
 fraudAttemptMessage: "Dolandırıcılık Girişimi ! ( 3 üst üste yanlış PIN)",
-}
+},
 
+exchange: {
+    price: "Döviz kuru",
+    trade_currency: "Ticaret Döviz",
+    trade : "TİCARET",
+    }
 
 
   }

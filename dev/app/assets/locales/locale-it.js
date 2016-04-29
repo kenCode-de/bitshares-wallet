@@ -144,6 +144,10 @@ publicKey: "chiave pubblica",
 privateKey: "chiave privata",
 yes: "sì",
 no: "No",
+remaining_balance: "Equilibrio restante",
+excess_amount: "Non è possibile inviare importo superiore all'importo di fatturazione",
+backup_asset: "Asset Backup",
+reward_points : "Punti premio"
 
 }, settings: {
 bitsharesWalletSettings: "Impostazioni Wallet BitShares",
@@ -198,7 +202,12 @@ enterPin: "Inserire il PIN",
 incorrectPin: "PIN errato",
 protectPinMessage: "Si prega di proteggere il codice PIN",
 fraudAttemptMessage: "Frode Tentativo ! ( su 3 PIN consecutivi errati )",
-}
+},
+exchange: {
+    price: "Tasso di cambio",
+    trade_currency: "commercio di valuta",
+    trade : "COMMERCIO",
+ }
 
 
 

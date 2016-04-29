@@ -145,6 +145,11 @@ publicKey: "Javni ključ",
 privateKey: "Privatni ključ",
 yes: "da",
 no: "Nema",
+remaining_balance: "preostali saldo",
+excess_amount: "Ne možete poslati iznos više od iznosa za naplatu",
+backup_asset: "Backup imovinom",
+reward_points : "Nagradni bodovi"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Postavke lisnice",
@@ -199,8 +204,13 @@ enterPin: "Unesite PIN",
 incorrectPin: "Netočan PIN",
 protectPinMessage: "Molimo Zaštitite svoj ​​PIN",
 fraudAttemptMessage: "Prijevara pokušaj ! ( na 3 uzastopna netočnih PIN )",
-}
+},
 
+exchange: {
+    price: "tečaj",
+    trade_currency: "trgovina valuta",
+    trade : "TRGOVINA"
+    }
 
 
 

@@ -145,6 +145,11 @@ publicKey: "Public Key",
 privateKey: "Private Key",
 yes: "да",
 no: "Не",
+remaining_balance: "Оставащо Balance",
+excess_amount: "Не може да изпраща количество повече от сумата за фактуриране",
+backup_asset: "Backup Асет",
+reward_points : "бонус точки"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Settings Портфейл",
@@ -199,8 +204,13 @@ enterPin: "диалогови прозорци",
 incorrectPin: "Въведете PIN",
 protectPinMessage: "Грешен ПИН",
 fraudAttemptMessage: "Моля Защитете своя PIN код",
-}
+},
 
+exchange: {
+    price: "обменен курс",
+    trade_currency: "търговия на валута",
+    trade : "Trade",
+    }
 
 
 

@@ -145,6 +145,10 @@ publicKey: "public Key",
 privateKey: "cheie privată",
 yes: "da",
 no: "nu",
+remaining_balance: "Sold rămas",
+excess_amount: "Nu pot trimite sume mai mult decât suma de facturare",
+backup_asset: "activ de backup",
+reward_points : "Puncte de recompensa"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Setări portofel",
@@ -199,8 +203,13 @@ enterPin: "Introduceți codul PIN",
 incorrectPin: "PIN incorect",
 protectPinMessage: "Vă rugăm să Protejeaza-ti codul PIN",
 fraudAttemptMessage: "Fraudă Încercare ! ( pe 3 pini incorecte consecutive )",
-}
+},
 
+exchange: {
+    price: "Rata de schimb",
+    trade_currency: "Moneda de comerț",
+    trade : "Trade",
+    }
 
 
 

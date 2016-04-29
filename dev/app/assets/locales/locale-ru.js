@@ -147,6 +147,10 @@ publicKey: "Открытый ключ",
 privateKey: "Секретный ключ",
 yes: "Да",
 no: "Нет",
+remaining_balance: "Остаток средств",
+excess_amount: "Не удается отправить сумму более суммы выставления счетов",
+backup_asset: "Резервное копирование активов",
+reward_points : "Бонусные очки"
 
 }, settings: {
 bitsharesWalletSettings: "Настройки бумажника BitShares",
@@ -201,8 +205,13 @@ enterPin: "Введите PIN",
 incorrectPin: "Неверный PIN",
 protectPinMessage: "Пожалуйста, защитите свой PIN-код",
 fraudAttemptMessage: "Попытка мошенничества! (3 последовательных неправильных PIN-кода)",
-}
+},
 
+exchange: {
+    price: "Обменный курс",
+    trade_currency: "Торговля валюты",
+    trade : "СДЕЛКА",
+    }
 
 
   }

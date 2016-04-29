@@ -145,6 +145,10 @@ publicKey: "Јавни кључ",
 privateKey: "приватног кључа",
 yes: "јесте",
 no: "Ne",
+remaining_balance: "Преостали износ",
+excess_amount: "Не могу послати износ више од износа за наплату",
+backup_asset: "бацкуп имовине",
+reward_points : "Наградни поени"
 
 }, settings: {
 bitsharesWalletSettings: "БитСхарес новчаника Подешавања",
@@ -199,8 +203,13 @@ enterPin: "Унесите ПИН",
 incorrectPin: "Нетачан ПИН",
 protectPinMessage: "Молимо Вас да Заштитите свој ПИН код",
 fraudAttemptMessage: "Покушај преваре ! ( на 3 узастопна погрешна ПИН )",
-}
+},
 
+exchange: {
+    price: "Курс",
+    trade_currency: "трговина Валута",
+    trade : "ТРГОВИНА",
+    }
 
 
 

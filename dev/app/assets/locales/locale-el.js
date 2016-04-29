@@ -145,6 +145,10 @@ publicKey: "Δημοσίου Κλειδιού",
 privateKey: "ιδιωτικού κλειδιού",
 yes: "ναί",
 no: "Κανένα",
+remaining_balance: "Εναπομείναν ποσό",
+excess_amount: "Δεν μπορείτε να στείλετε το ποσό πάνω από το ποσό χρέωσης",
+backup_asset: "αντιγράφων ασφαλείας Ενεργητικού",
+reward_points : "Πόντοι επιβράβευσης"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Ρυθμίσεις Πορτοφόλι",
@@ -199,8 +203,13 @@ enterPin: "Εισάγετε το PIN",
 incorrectPin: "Λανθασμένο PIN",
 protectPinMessage: "Παρακαλούμε να προστατεύσει τον κωδικό PIN σας",
 fraudAttemptMessage: "Απόπειρα απάτης ! ( για 3 συνεχόμενες εσφαλμένες PIN)",
-}
+},
 
+exchange: {
+    price: "Ισοτιμία",
+    trade_currency: "εμπόριο Νόμισμα",
+    trade : "ΕΜΠΌΡΙΟ",
+    }
 
 
 
