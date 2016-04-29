@@ -148,6 +148,9 @@ publicKey: "Public Key",
 privateKey: "Private Key",
 yes: "Yes",
 no: "No",
+remaining_balance: "Remaining balance",
+excess_amount: "Cannot send amount more than billing amount",
+backup_asset: "Backup Asset"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Wallet Settings",
@@ -274,7 +277,7 @@ exchange: {
     sell: "Sell",
     price: "Exchange Rate",
     trade_currency: "Trade Currency",
-    trade : "Trade"
+    trade : "Trade",
     },
 transaction: {
     seller: "Seller",

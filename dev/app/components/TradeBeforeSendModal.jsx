@@ -247,7 +247,7 @@ class TradeBeforeSendModal extends React.Component {
               onRequestClose={this._handleDismiss.bind(this)}>
 
                     <div className="trade-info"> You don't have asset which merchant wants. Would you like to buy? </div>
-                    <div className="trade-info"> Exchange Rate {exchangeRateSpan} </div>
+                    <div className="trade-info"> {counterpart.translate("wallet.exchange.price")} {exchangeRateSpan} </div>
                     <div className="trade-modal-btn">
                         <div style={{float: 'left'}}>
                         <RaisedButton  label={counterpart.translate("wallet.home.cancel")}

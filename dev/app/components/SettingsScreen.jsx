@@ -215,7 +215,7 @@ class SettingsScreen extends React.Component {
         <main className="no-nav" ref="settingsScreenRef">
 
           <section className="setting-item">
-            <div className="code__item">Backup asset</div>
+            <div className="code__item">{counterpart.translate("wallet.home.backup_asset")}</div>
             {tradeSelector}
           </section>
           <section className="setting-item">

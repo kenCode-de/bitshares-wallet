@@ -696,10 +696,10 @@ class SendScreen extends React.Component {
             asset_types = Object.keys(account_balances);
 
             if (this.state.remaining_amount) {
-              remain_balance = (<span className="bold"> Remaining balance is {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
+              remain_balance = (<span className="bold"> {counterpart.translate("wallet.home.remaining_balance")} : {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
             }
             if (this.state.remaining_amount < 0) {
-              bill_amount_warning = (<span style={{color: '#ff0000'}}>  Cannot send amount more than billing amount  </span>);
+              bill_amount_warning = (<span style={{color: '#ff0000'}}>  {counterpart.translate("wallet.home.excess_amount")}  </span>);
             }
             
             if (this.state.outOfBalance)

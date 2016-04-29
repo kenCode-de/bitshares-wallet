@@ -146,6 +146,11 @@ publicKey: "Key publik",
 privateKey: "Key private",
 yes: "po",
 no: "asnjë",
+remaining_balance: "Bilanci mbetur",
+excess_amount: "Nuk mund të dërgojë sasi më shumë se shuma e faturimit",
+backup_asset: "Asset Backup",
+reward_points : "pikë shpërblim"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Portofolin Cilësimet",
@@ -200,6 +205,12 @@ enterPin: "Futni PIN",
 incorrectPin: "PIN i gabuar",
 protectPinMessage: "Ju lutemi Protect kodin tuaj PIN",
 fraudAttemptMessage: "Mashtrimi Përpjekje ! ( mbi 3 PIN njëpasnjëshme të gabuara )",
+},
+
+exchange: {
+	price: "Exchange Rate",
+	trade_currency: "Trade Valuta",
+	trade : "Trade"
 }
 
 

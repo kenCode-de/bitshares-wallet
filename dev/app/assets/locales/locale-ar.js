@@ -145,6 +145,10 @@ publicKey: "المفتاح العام",
 privateKey: "مفتاح خاص",
 yes: "نعم",
 no: "لا",
+remaining_balance: "الرصيد المتبقي",
+excess_amount: "لا يمكن أن ترسل كمية أكثر من كمية الفواتير",
+backup_asset: "الأصول الاحتياطية",
+reward_points : "نقاط مكافأة"
 
 }, settings: {
 bitsharesWalletSettings: "إعدادات محفظة BitShares",
@@ -199,7 +203,14 @@ enterPin: "أدخل PIN",
 incorrectPin: "PIN غير صحيح",
 protectPinMessage: "يرجى حماية رمز PIN",
 fraudAttemptMessage: "الغش محاولة ! ( في 3 أرقام التعريف الشخصية غير صحيحة متتالية )",
-}
+},
+
+exchange: {
+    price: "سعر الصرف",
+    trade_currency: "تجارة العملات",
+    trade : "التجارة",
+    }
+
 
 
 
