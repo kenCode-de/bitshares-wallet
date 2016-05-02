@@ -210,6 +210,7 @@ exchange: {
     price: "Výmenný kurz",
     trade_currency: "obchod Mena",
     trade : "Trade",
+    trade_msg: "Nemáte aktívum, ktoré obchodník chce. Chceli by ste, aby si jeden?"
     }
 
 

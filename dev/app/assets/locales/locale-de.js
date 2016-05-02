@@ -211,6 +211,7 @@ exchange: {
     price: "Tauschrate",
     trade_currency: "Handelswährung",
     trade : "HANDEL",
+    trade_msg: "Sie haben noch Vermögenswert, der Händler will. Möchten Sie einen zu bekommen?"
     }
 
 

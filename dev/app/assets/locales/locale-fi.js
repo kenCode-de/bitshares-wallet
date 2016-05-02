@@ -210,6 +210,7 @@ exchange: {
     price: "Vaihtokurssi",
     trade_currency: "kauppavaluutta",
     trade : "KÄYDÄ KAUPPAA",
+    trade_msg: "Sinulla ei ole hyödyke, joka kauppias haluaa. Haluatko saada yksi?"
     }
 
 

@@ -211,6 +211,7 @@ exchange: {
     price: "汇率",
     trade_currency: "交易货币",
     trade : "Trade",
+    trade_msg: "您没有哪个商人要给资产。你想一个吗？"
     }
 
 

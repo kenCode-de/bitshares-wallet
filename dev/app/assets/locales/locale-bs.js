@@ -210,6 +210,7 @@ exchange: {
     price: "Kurs",
     trade_currency: "Trade valuta",
     trade : "Trade",
+    trade_msg: "Nemaš sredstava koji trgovac želi. Da li da se jedan?"
     }
 
 

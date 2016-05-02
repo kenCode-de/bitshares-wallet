@@ -210,7 +210,8 @@ fraudAttemptMessage: "Mashtrimi Përpjekje ! ( mbi 3 PIN njëpasnjëshme të gab
 exchange: {
 	price: "Exchange Rate",
 	trade_currency: "Trade Valuta",
-	trade : "Trade"
+	trade : "Trade",
+	trade_msg: "Ju nuk keni pasuri të cilat tregtar dëshiron. Dëshironi të marrë një të tillë?"
 }
 
 

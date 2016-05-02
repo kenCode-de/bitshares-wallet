@@ -210,6 +210,7 @@ exchange: {
     price: "Döviz kuru",
     trade_currency: "Ticaret Döviz",
     trade : "TİCARET",
+    trade_msg: "Sen tüccar istediği varlık yoktur. birini almak ister misiniz?"
     }
 
 

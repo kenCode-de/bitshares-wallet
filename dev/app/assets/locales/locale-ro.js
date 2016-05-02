@@ -209,6 +209,7 @@ exchange: {
     price: "Rata de schimb",
     trade_currency: "Moneda de comerț",
     trade : "Trade",
+    trade_msg: "Nu aveți active care vrea comerciant. V-ar dori să obțină unul?"
     }
 
 

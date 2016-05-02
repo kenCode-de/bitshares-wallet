@@ -418,20 +418,22 @@ class SendScreen extends React.Component {
           remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
           ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
 
-          this.setState({amount, asset, error: null,  outOfBalance: outOfBalance, 
+          this.setState({outOfBalance: outOfBalance, 
           remaining_amount : remaining_amount, rps_eq_amount: ruia_remaining_amount});
         }
-        else if (amount && asset && asset_changed){
-          // let sellAssetId = asset.get("id");
-          // let buyAssetId = this.state.billed_asset_id;
 
-          console.log('------Get excahnge rate block called');
-          console.log(sellAssetId);
-          console.log(buyAssetId);
-          // this.getExchangeRate(sellAssetId, buyAssetId);
-          this.setState({amount, asset, error: null});
+        this.setState({amount, asset, error: null});
+        // else if (amount && asset && asset_changed){
+        //   // let sellAssetId = asset.get("id");
+        //   // let buyAssetId = this.state.billed_asset_id;
 
-        }
+        //   // console.log('------Get excahnge rate block called');
+        //   // console.log(sellAssetId);
+        //   // console.log(buyAssetId);
+        //   // this.getExchangeRate(sellAssetId, buyAssetId);
+        //   this.setState({amount, asset, error: null});
+
+        // }
         
     }
 

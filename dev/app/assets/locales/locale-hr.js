@@ -209,7 +209,8 @@ fraudAttemptMessage: "Prijevara pokušaj ! ( na 3 uzastopna netočnih PIN )",
 exchange: {
     price: "tečaj",
     trade_currency: "trgovina valuta",
-    trade : "TRGOVINA"
+    trade : "TRGOVINA",
+    trade_msg: "Nemate imovine koji trgovac želi. Želite li dobiti jedan?"
     }
 
 

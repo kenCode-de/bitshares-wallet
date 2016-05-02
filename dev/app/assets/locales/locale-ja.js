@@ -209,6 +209,7 @@ exchange: {
     price: "為替レート",
     trade_currency: "貿易通貨",
     trade : "トレード",
+    trade_msg: "あなたは商人が望んでいる資産を持っていません。あなたがいずれかを取得しますか？"
     }
 
 

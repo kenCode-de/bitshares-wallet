@@ -210,6 +210,7 @@ exchange: {
     price: "Árfolyam",
     trade_currency: "Kereskedelmi Árfolyam",
     trade : "KERESKEDELMI",
+    trade_msg: "Nem kell eszköz, amelynek a kereskedő akar. Tudni szeretné, hogy egy?"
     }
 
 

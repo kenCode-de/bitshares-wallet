@@ -278,6 +278,7 @@ exchange: {
     price: "Exchange Rate",
     trade_currency: "Trade Currency",
     trade : "Trade",
+    trade_msg: "You don't have asset which merchant wants. Would you like to get one?"
     },
 transaction: {
     seller: "Seller",

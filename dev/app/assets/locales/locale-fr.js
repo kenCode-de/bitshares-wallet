@@ -210,6 +210,7 @@ exchange: {
     price: "Taux de change",
     trade_currency: "commerce Monnaie",
     trade : "COMMERCE",
+    trade_msg: "Vous ne disposez pas de l'actif qui veut marchand. Aimeriez-vous obtenir?"
     }
 
 

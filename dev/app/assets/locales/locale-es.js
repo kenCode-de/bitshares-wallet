@@ -209,6 +209,7 @@ exchange: {
     price: "Tipo de cambio",
     trade_currency: "comercio de divisas",
     trade : "COMERCIO",
+    trade_msg: "Usted no tiene activo que quiere comerciante. ¿Le gustaría conseguir uno?"
     }
 
     }

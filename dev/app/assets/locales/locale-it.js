@@ -207,6 +207,7 @@ exchange: {
     price: "Tasso di cambio",
     trade_currency: "commercio di valuta",
     trade : "COMMERCIO",
+    trade_msg: "Non si dispone bene che commerciante vuole. Volete ottenere uno?"
  }
 
 

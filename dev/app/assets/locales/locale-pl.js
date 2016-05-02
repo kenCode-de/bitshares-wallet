@@ -210,6 +210,7 @@ exchange: {
     price: "Kurs wymiany",
     trade_currency: "Targi kantor",
     trade : "HANDEL",
+    trade_msg: "Nie masz aktywów, który kupiec chce. Chciałbyś dostać?"
     }
 
 
