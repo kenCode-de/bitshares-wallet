@@ -210,7 +210,14 @@ exchange: {
     trade_currency: "Moneda de comerț",
     trade : "Trade",
     trade_msg: "Nu aveți active care vrea comerciant. V-ar dori să obțină unul?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Copie de rezervă de active nu este selectată în setările. Vă rugăm să selectați mai întâi",
+	low_balance_backup_asset: "Nu aveți echilibru suficient pentru comerț. Vă rugăm să selectați alte active de rezervă",
+	other_backup_asset: "Rata de schimb nu este disponibil. Vă rugăm să selectați alte active de rezervă",
+	cannot_pay: "Nu poți plăti. Ai echilibru scăzut"
+},
 
 
 

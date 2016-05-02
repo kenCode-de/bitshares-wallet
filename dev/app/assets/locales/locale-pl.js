@@ -211,9 +211,14 @@ exchange: {
     trade_currency: "Targi kantor",
     trade : "HANDEL",
     trade_msg: "Nie masz aktywów, który kupiec chce. Chciałbyś dostać?"
-    }
+},
 
-
+trade_warn_msg:{
+	select_backup_asset: "Tworzenie kopii zapasowych aktywów nie został wybrany w ustawieniach. Najpierw wybierz",
+	low_balance_backup_asset: "Nie ma wystarczającej wagi do handlu. Proszę wybrać inny zasób kopii zapasowej",
+	other_backup_asset: "kurs nie jest dostępny. Proszę wybrać inny zasób kopii zapasowej",
+	cannot_pay: "Nie można zapłacić. Masz niską wagę"
+},
 
   }
 };

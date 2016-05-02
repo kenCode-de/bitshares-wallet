@@ -211,7 +211,14 @@ exchange: {
     trade_currency: "Kereskedelmi Árfolyam",
     trade : "KERESKEDELMI",
     trade_msg: "Nem kell eszköz, amelynek a kereskedő akar. Tudni szeretné, hogy egy?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Biztonsági másolatot eszköz nincs kiválasztva beállításokat. Kérjük, válassza ki az első",
+	low_balance_backup_asset: "Nem elég egyensúlyt a kereskedelem. Kérjük, válasszon másik biztonsági eszköz",
+	other_backup_asset: "Az árfolyam nem áll rendelkezésre. Kérjük, válasszon másik biztonsági eszköz",
+	cannot_pay: "Nem tud fizetni. Van alacsony egyenleg"
+},
 
 
 

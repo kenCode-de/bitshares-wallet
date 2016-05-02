@@ -285,6 +285,13 @@ transaction: {
     expiration: "Expired On",
     },
 
+trade_warn_msg:{
+	select_backup_asset: "Back up asset is not selected in settings. Please select first",
+	low_balance_backup_asset: "You do not have enough balance to trade. Please select other backup asset",
+	other_backup_asset: "Exchange rate is not available. Please select other backup asset",
+	cannot_pay: "You cannot pay. You have low balance"
+},
+
 
 	} //wallet
 

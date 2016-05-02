@@ -211,7 +211,14 @@ exchange: {
     trade_currency: "commerce Monnaie",
     trade : "COMMERCE",
     trade_msg: "Vous ne disposez pas de l'actif qui veut marchand. Aimeriez-vous obtenir?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Sauvegardez actif est pas sélectionnée dans les paramètres. S'il vous plaît sélectionnez d'abord",
+	low_balance_backup_asset: "Vous n'avez pas assez d'équilibre pour le commerce. S'il vous plaît choisir d'autres actifs de sauvegarde",
+	other_backup_asset: "Le taux de change ne sont pas disponibles. S'il vous plaît choisir d'autres actifs de sauvegarde",
+	cannot_pay: "Vous ne pouvez pas payer. Vous avez un faible équilibre"
+},
 
 
   }

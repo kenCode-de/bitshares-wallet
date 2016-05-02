@@ -142,7 +142,9 @@ class TradeBeforeSendModal extends React.Component {
                     console.log(buyAmount)
                     if(billedBalance < buyAmount){
                         console.log('----Amount is less');
-                        window.plugins.toast.showLongBottom('You do not have enough balance to trade. Please select other backup asset');    
+                        
+                        // window.plugins.toast.showLongBottom('You do not have enough balance to trade. Please select other backup asset');    
+                        window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.low_balance_backup_asset"));    
                     }
                     else{
                         console.log('----Trade initiate')
@@ -193,11 +195,14 @@ class TradeBeforeSendModal extends React.Component {
         }
         else if(this.props.exchange_rate == -1){
             console.log('Exchange rate is not available');
-            window.plugins.toast.showLongBottom('Exchange rate is not available. Please select other backup asset');    
+            // window.plugins.toast.showLongBottom('Exchange rate is not available. Please select other backup asset');    
+            window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.other_backup_asset"));    
         }
         else{
             console.log('Back up asset not selected');
-            window.plugins.toast.showLongBottom('Back up asset is not selected in settings. Please select first');
+            
+            // window.plugins.toast.showLongBottom('Back up asset is not selected in settings. Please select first');
+            window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.select_backup_asset"));
         }
     }
 

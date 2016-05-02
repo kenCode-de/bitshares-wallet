@@ -503,7 +503,8 @@ class SendScreen extends React.Component {
                       // Pop up for Msg : Sorry you cannot pay
                       this.setState({loading: false});
                       console.log('-----Transfer error');
-                      window.plugins.toast.showLongBottom('You cannot pay. You have low balance');
+                      // window.plugins.toast.showLongBottom('You cannot pay. You have low balance');
+                      window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.cannot_pay"));
                     }
                     TradeConfirmStore.unlisten(this.onTradeTrx);
                     

@@ -210,7 +210,14 @@ exchange: {
     trade_currency: "comercio de divisas",
     trade : "COMERCIO",
     trade_msg: "Usted no tiene activo que quiere comerciante. ¿Le gustaría conseguir uno?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Una copia de seguridad activo no está seleccionado en la configuración. Por favor seleccione primero",
+	low_balance_backup_asset: "Usted no tiene saldo suficiente para el comercio. Por favor seleccione otro elemento de backup",
+	other_backup_asset: "tipo de cambio no está disponible. Por favor seleccione otro elemento de backup",
+	cannot_pay: "No se puede pagar. Tiene un nivel de equilibrio"
+},
 
     }
 };

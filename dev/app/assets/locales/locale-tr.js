@@ -211,7 +211,14 @@ exchange: {
     trade_currency: "Ticaret Döviz",
     trade : "TİCARET",
     trade_msg: "Sen tüccar istediği varlık yoktur. birini almak ister misiniz?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "yedekle varlık ayarlarında seçili değildir. İlk seçiniz",
+	low_balance_backup_asset: "Sen ticaret için yeterli denge yoktur. diğer yedekleme varlık seçiniz",
+	other_backup_asset: "Döviz kuru mevcut değildir. diğer yedekleme varlık seçiniz",
+	cannot_pay: "Sen ödeyemez. Düşük denge var"
+},
 
 
   }

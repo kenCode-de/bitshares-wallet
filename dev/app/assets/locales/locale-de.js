@@ -212,9 +212,14 @@ exchange: {
     trade_currency: "Handelswährung",
     trade : "HANDEL",
     trade_msg: "Sie haben noch Vermögenswert, der Händler will. Möchten Sie einen zu bekommen?"
-    }
+},
 
-
+trade_warn_msg:{
+	select_backup_asset: "Sichern Sie Vermögenswert wird nicht in den Einstellungen ausgewählt. Bitte wählen Sie zuerst",
+	low_balance_backup_asset: "Sie haben nicht genug Balance zu handeln. Bitte wählen Sie andere Backup-Asset",
+	other_backup_asset: "Der Wechselkurs ist nicht verfügbar. Bitte wählen Sie andere Backup-Asset",
+	cannot_pay: "Sie können nicht zahlen. Sie haben eine niedrige Balance"
+},
 
 
 

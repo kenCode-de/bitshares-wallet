@@ -211,7 +211,14 @@ exchange: {
     trade_currency: "kauppavaluutta",
     trade : "KÄYDÄ KAUPPAA",
     trade_msg: "Sinulla ei ole hyödyke, joka kauppias haluaa. Haluatko saada yksi?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Varmuuskopioida hyödyke ei ole valittu asetuksista. Valitse ensin",
+	low_balance_backup_asset: "Sinulla ei ole tarpeeksi tasapaino kaupan. Valitse muut varmuuskopio hyödykkeen",
+	other_backup_asset: "Vaihtokurssi ei ole käytettävissä. Valitse muut varmuuskopio hyödykkeen",
+	cannot_pay: "Et voi maksaa. Sinulla on alhainen saldo"
+},
 
 
 

@@ -212,7 +212,14 @@ exchange: {
     trade_currency: "交易货币",
     trade : "Trade",
     trade_msg: "您没有哪个商人要给资产。你想一个吗？"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "备份资产没有在设置中选择。请选择第一",
+	low_balance_backup_asset: "您没有足够的余额进行交易。请选择其他的备份资产",
+	other_backup_asset: "汇率不可用。请选择其他的备份资产",
+	cannot_pay: "你不能支付。你有低的平衡"
+},
 
 
 

@@ -211,7 +211,14 @@ exchange: {
     trade_currency: "trgovina valuta",
     trade : "TRGOVINA",
     trade_msg: "Nemate imovine koji trgovac želi. Želite li dobiti jedan?"
-    }
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Back up imovina nije odabran u postavkama. Odaberite prvi",
+	low_balance_backup_asset: "Nemate dovoljno ravnotežu u trgovini. Molimo izaberite drugu rezervnu imovinu",
+	other_backup_asset: "Tečaj nije dostupan. Molimo izaberite drugu rezervnu imovinu",
+	cannot_pay: "Vi ne možete platiti. Imate nisko stanje"
+},
 
 
 

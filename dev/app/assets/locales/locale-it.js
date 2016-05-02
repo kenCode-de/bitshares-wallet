@@ -208,9 +208,14 @@ exchange: {
     trade_currency: "commercio di valuta",
     trade : "COMMERCIO",
     trade_msg: "Non si dispone bene che commerciante vuole. Volete ottenere uno?"
- }
+ },
 
-
+trade_warn_msg:{
+	select_backup_asset: "Eseguire il backup di asset non è selezionata nelle impostazioni. Seleziona prima",
+	low_balance_backup_asset: "Non si dispone di sufficiente equilibrio per il commercio. Si prega di selezionare altre attività di backup",
+	other_backup_asset: "Il tasso di cambio non è disponibile. Si prega di selezionare altre attività di backup",
+	cannot_pay: "Non si può pagare. Hai equilibrio basso"
+},
 
 
   }
