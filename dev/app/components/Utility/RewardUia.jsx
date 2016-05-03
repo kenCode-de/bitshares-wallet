@@ -68,7 +68,7 @@ class RewardUia extends React.Component {
 
         return (
             <div>
-            <span className="label-amount bold">{counterpart.translate("wallet.home.reward_points") + ": "}</span>
+            <span className="label-amount bold text-wrap">{counterpart.translate("wallet.home.reward_points") + ": "}</span>
 
                 <input onChange={this._onChange.bind(this)}  
                    onBlur={this._onBlur.bind(this)}

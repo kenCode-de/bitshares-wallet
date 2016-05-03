@@ -2036,3 +2036,8 @@ a {
 .reward-input input{
   width: 69%;
 }
+.text-wrap{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
