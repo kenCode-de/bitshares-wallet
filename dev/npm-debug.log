@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'buildprod' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.37
+4 verbose node symlink /usr/bin/node
+5 verbose run-script [ 'prebuildprod', 'buildprod', 'postbuildprod' ]
+6 info prebuildprod BitShares-Wallet@0.0.1
+7 info buildprod BitShares-Wallet@0.0.1
+8 verbose unsafe-perm in lifecycle true
+9 info BitShares-Wallet@0.0.1 Failed to exec buildprod script
+10 error BitShares-Wallet@0.0.1 buildprod: `webpack --config conf/webpack-prod.js  --progress --profile --colors;`
+10 error Exit status 8
+11 error Failed at the BitShares-Wallet@0.0.1 buildprod script.
+11 error This is most likely a problem with the BitShares-Wallet package,
+11 error not with npm itself.
+11 error Tell the author that this fails on your system:
+11 error     webpack --config conf/webpack-prod.js  --progress --profile --colors;
+11 error You can get their info via:
+11 error     npm owner ls BitShares-Wallet
+11 error There is likely additional logging output above.
+12 error System Linux 3.19.0-58-generic
+13 error command "/usr/bin/node" "/usr/bin/npm" "run" "buildprod"
+14 error cwd /home/tomas/bitshares-wallet/dev
+15 error node -v v0.10.37
+16 error npm -v 1.4.28
+17 error code ELIFECYCLE
+18 verbose exit [ 1, true ]
