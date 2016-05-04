@@ -144,6 +144,10 @@ publicKey: "chiave pubblica",
 privateKey: "chiave privata",
 yes: "sì",
 no: "No",
+remaining_balance: "Equilibrio restante",
+excess_amount: "Non è possibile inviare importo superiore all'importo di fatturazione",
+backup_asset: "Asset Backup",
+reward_points : "Punti premio"
 
 }, settings: {
 bitsharesWalletSettings: "Impostazioni Wallet BitShares",
@@ -198,9 +202,20 @@ enterPin: "Inserire il PIN",
 incorrectPin: "PIN errato",
 protectPinMessage: "Si prega di proteggere il codice PIN",
 fraudAttemptMessage: "Frode Tentativo ! ( su 3 PIN consecutivi errati )",
-}
+},
+exchange: {
+    price: "Tasso di cambio",
+    trade_currency: "commercio di valuta",
+    trade : "COMMERCIO",
+    trade_msg: "Non si dispone bene che commerciante vuole. Volete ottenere uno?"
+ },
 
-
+trade_warn_msg:{
+	select_backup_asset: "Eseguire il backup di asset non è selezionata nelle impostazioni. Seleziona prima",
+	low_balance_backup_asset: "Non si dispone di sufficiente equilibrio per il commercio. Si prega di selezionare altre attività di backup",
+	other_backup_asset: "Il tasso di cambio non è disponibile. Si prega di selezionare altre attività di backup",
+	cannot_pay: "Non si può pagare. Hai equilibrio basso"
+},
 
 
   }

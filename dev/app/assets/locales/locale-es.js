@@ -145,6 +145,10 @@ publicKey: "Llave pública",
 privateKey: "Clave Privada",
 yes: "Sí",
 no: "Sin",
+remaining_balance: "Balance restante",
+excess_amount: "No se puede enviar la cantidad más que la cantidad de facturación",
+backup_asset: "Activos de copia de seguridad",
+reward_points : "Puntos de recompensa"
 
 }, settings: {
 bitsharesWalletSettings: "Ajustes del monedero BitShares",
@@ -199,8 +203,21 @@ enterPin: "Entrez le code PIN",
 incorrectPin: "PIN erroné",
 protectPinMessage: "S'il vous plaît Protégez votre code PIN",
 fraudAttemptMessage: "Tentative de fraude ! ( sur 3 codes PIN erronés consécutifs )",
-}
+},
 	
+exchange: {
+    price: "Tipo de cambio",
+    trade_currency: "comercio de divisas",
+    trade : "COMERCIO",
+    trade_msg: "Usted no tiene activo que quiere comerciante. ¿Le gustaría conseguir uno?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Una copia de seguridad activo no está seleccionado en la configuración. Por favor seleccione primero",
+	low_balance_backup_asset: "Usted no tiene saldo suficiente para el comercio. Por favor seleccione otro elemento de backup",
+	other_backup_asset: "tipo de cambio no está disponible. Por favor seleccione otro elemento de backup",
+	cannot_pay: "No se puede pagar. Tiene un nivel de equilibrio"
+},
 
     }
 };

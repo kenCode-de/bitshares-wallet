@@ -145,6 +145,10 @@ publicKey: "public Key",
 privateKey: "cheie privată",
 yes: "da",
 no: "nu",
+remaining_balance: "Sold rămas",
+excess_amount: "Nu pot trimite sume mai mult decât suma de facturare",
+backup_asset: "activ de backup",
+reward_points : "Puncte de recompensa"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Setări portofel",
@@ -199,8 +203,21 @@ enterPin: "Introduceți codul PIN",
 incorrectPin: "PIN incorect",
 protectPinMessage: "Vă rugăm să Protejeaza-ti codul PIN",
 fraudAttemptMessage: "Fraudă Încercare ! ( pe 3 pini incorecte consecutive )",
-}
+},
 
+exchange: {
+    price: "Rata de schimb",
+    trade_currency: "Moneda de comerț",
+    trade : "Trade",
+    trade_msg: "Nu aveți active care vrea comerciant. V-ar dori să obțină unul?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Copie de rezervă de active nu este selectată în setările. Vă rugăm să selectați mai întâi",
+	low_balance_backup_asset: "Nu aveți echilibru suficient pentru comerț. Vă rugăm să selectați alte active de rezervă",
+	other_backup_asset: "Rata de schimb nu este disponibil. Vă rugăm să selectați alte active de rezervă",
+	cannot_pay: "Nu poți plăti. Ai echilibru scăzut"
+},
 
 
 

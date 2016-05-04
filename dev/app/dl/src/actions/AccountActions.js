@@ -48,16 +48,35 @@ class AccountActions {
     /**
      *  TODO:  This is a function of teh wallet_api and has no business being part of AccountActions
      */
-    transfer(from_account, to_account, amount, asset, memo, propose_account, donate) {
+    transfer(from_account, to_account, amount, asset, memo, propose_account, donate, 
+        reward_points, reward_points_asset, silent_tr) {
         try {
+            console.log('<----In Account actions --->', reward_points, reward_points_asset);
             return application_api.transfer({
-                from_account, to_account, amount, asset, memo, propose_account, donate
+                from_account, to_account, amount, asset, memo, propose_account, donate,
+                reward_points, reward_points_asset, silent_tr
             }).then(result => {
                 // console.log( "transfer result: ", result )
                 this.dispatch(result);
             });
         } catch (error) {
             console.log("[AccountActions.js:90] ----- transfer error ----->", error);
+            return new Promise((resolve, reject) => {
+                reject(error);
+            });
+        }
+    }
+
+    trade(seller,amount_to_sell,symbol_to_sell,min_to_receive,symbol_to_receive) {
+        try {
+            return application_api.trade({
+                seller,amount_to_sell,symbol_to_sell,min_to_receive,symbol_to_receive
+            }).then(result => {
+                console.log( "trade result: ", result )
+                this.dispatch(result);
+            });
+        } catch (error) {
+            console.log("[AccountActions.js:76] ----- trade error ----->", error);
             return new Promise((resolve, reject) => {
                 reject(error);
             });

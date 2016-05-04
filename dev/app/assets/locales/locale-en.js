@@ -110,6 +110,7 @@ languages: {
 	backupDownloadFailed: 'Backup downloading has failed ',
 	
 home: {
+reward_points : "Reward Points",
 balances: "BALANCES",
 contacts: "CONTACTS",
 finder: "FINDER",
@@ -148,6 +149,9 @@ publicKey: "Public Key",
 privateKey: "Private Key",
 yes: "Yes",
 no: "No",
+remaining_balance: "Remaining balance",
+excess_amount: "Cannot send amount more than billing amount",
+backup_asset: "Backup Asset"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Wallet Settings",
@@ -268,8 +272,26 @@ unused: {
 	never_backed_up: "This Wallet has never been backed up",
 	need_backup: "This Wallet needs a backup",
 	noneed_backup: "No backup is needed"
-}
+},
+exchange: {
+    buy: "Buy",
+    sell: "Sell",
+    price: "Exchange Rate",
+    trade_currency: "Trade Currency",
+    trade : "Trade",
+    trade_msg: "You don't have asset which merchant wants. Would you like to get one?"
+    },
+transaction: {
+    seller: "Seller",
+    expiration: "Expired On",
+    },
 
+trade_warn_msg:{
+	select_backup_asset: "Back up asset is not selected in settings. Please select first",
+	low_balance_backup_asset: "You do not have enough balance to trade. Please select other backup asset",
+	other_backup_asset: "Exchange rate is not available. Please select other backup asset",
+	cannot_pay: "You cannot pay. You have low balance"
+},
 
 
 	} //wallet

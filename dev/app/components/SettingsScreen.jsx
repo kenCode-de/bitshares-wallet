@@ -26,6 +26,8 @@ import { createHashHistory, useBasename } from 'history';
 const history = useBasename(createHashHistory)({});
 import Select  from "react-select";
 import BindToChainState from "./Utility/BindToChainState";
+import TradeAssetSelector from "./Utility/TradeAssetSelector";
+import ChainTypes from "./Utility/ChainTypes";
 
 @BindToChainState()
 class SettingsScreen extends React.Component {
@@ -34,6 +36,10 @@ class SettingsScreen extends React.Component {
   childContextTypes: {
     muiTheme: React.PropTypes.object,
   }
+
+  static propTypes = {
+       account: ChainTypes.ChainAccount.isRequired
+    }
 
   constructor(props) {
     super(props);
@@ -64,6 +70,13 @@ class SettingsScreen extends React.Component {
     });
     var advancedSettings = SettingsStore.getAdvancedSettings();
     this.setState({muiTheme: newMuiTheme, advancedSettings: advancedSettings});
+    //Assets
+    let account_balances = this.props.account.get("balances").toJS();
+    let assets = Object.keys(account_balances);
+    this.setState({assets: assets});
+    
+    let assetId = IntlStore.getAsset();
+    this.setState({assetId: assetId});
     // currencies
     var currencies = IntlStore.getCurrencies();
     var rows = [];
@@ -99,6 +112,12 @@ class SettingsScreen extends React.Component {
         rows.push({value:timezone.abbr, label:label});
     }
     this.timezoneEntries = rows;
+  }
+  _switchAsset(value)
+  {
+    IntlActions.switchAsset(value);
+    this.setState({ assetId: value});
+
   }
   _switchCurrency(value)
   {
@@ -175,6 +194,15 @@ class SettingsScreen extends React.Component {
   // Render SettingsScreen view
   render() {
 
+    // let account_balances = this.props.account.get("balances").toJS();
+    let assets = this.state.assets;
+    let tradeSelector = null;
+    tradeSelector = (<div> <TradeAssetSelector
+                           assets={assets}
+                           value={this.state.assetId}
+                           onChange={this._switchAsset.bind(this)}
+                           /> </div>);
+    
     let okActions = [
       { text: counterpart.translate("wallet.ok") },
     ];
@@ -186,6 +214,10 @@ class SettingsScreen extends React.Component {
       <section className="content">
         <main className="no-nav" ref="settingsScreenRef">
 
+          <section className="setting-item">
+            <div className="code__item">{counterpart.translate("wallet.home.backup_asset")}</div>
+            {tradeSelector}
+          </section>
           <section className="setting-item">
             <div className="code__item"><Translate content="wallet.settings.taxableCountry" /></div>
             <Select name="test-selectbox"    value={this.state.currencyId}

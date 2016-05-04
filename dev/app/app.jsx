@@ -17,6 +17,7 @@ import Brainkey from "./components/Brainkey";
 import ImportKeys from "./components/ImportKeys";
 import WalletChangePassword from "./components/WalletChangePassword";
 import WalletUnlockModal from "./components/WalletUnlockModal";
+import TradeBeforeSendModal from "./components/TradeBeforeSendModal"
 import AddContact from "./components/AddContact";
 import InviteFriend from "./components/InviteFriend";
 import EditContact from './components/EditContact';
@@ -149,7 +150,7 @@ class App extends React.Component {
     }
 
     static willTransitionTo(nextState, replaceState, callback)  {
-
+	
         if (nextState.location.pathname === "/init-error") {
             var db = iDB.init_instance(window.openDatabase ? (shimIndexedDB || indexedDB) :  indexedDB).init_promise
             db.then(() => {
@@ -276,7 +277,7 @@ class App extends React.Component {
                         </If>
                     </header>
                     <section className="utility">
-                      <span className="utility__ver">v1.0 beta</span>
+                      <span className="utility__ver">v1.1 beta</span>
                       <div className="utility__links">
                         <Link className="mat-icon" to="settings"><i className="settings"></i></Link>
                         <Syncer synced={this.state.synced}/>
@@ -309,7 +310,9 @@ class App extends React.Component {
                         {this.props.children}
                     </AltContainer>
                     <TransactionConfirm />
+                    <TradeBeforeSendModal />
                     <WalletUnlockModal />
+		    
             </section>
         )
     }

@@ -147,6 +147,11 @@ publicKey: "Public Key",
 privateKey: "Private Key",
 yes: "Yes",
 no: "No",
+remaining_balance: "शेष राशि",
+excess_amount: "नहीं बिलिंग राशि से अधिक राशि भेज सकते हैं",
+backup_asset: "बैकअप एसेट",
+reward_points : "इनाम के अंक"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Wallet Settings",
@@ -267,8 +272,21 @@ unused: {
 	never_backed_up: "This Wallet has never been backed up",
 	need_backup: "This Wallet needs a backup",
 	noneed_backup: "No backup is needed"
-}
+},
 
+exchange: {
+    price: "विनिमय दर",
+    trade_currency: "व्यापार मुद्रा",
+    trade : "व्यापार",
+    trade_msg: "आप संपत्ति है जो व्यापारी चाहता है नहीं है। आप एक पाने के लिए करना चाहेंगे?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "संपत्ति का बैकअप सेटिंग्स में चयनित नहीं है। पहले चयन करें",
+	low_balance_backup_asset: "यदि आप व्यापार के लिए पर्याप्त संतुलन की जरूरत नहीं है। कृपया अन्य बैकअप परिसंपत्ति का चयन",
+	other_backup_asset: "विनिमय दर उपलब्ध नहीं है। कृपया अन्य बैकअप परिसंपत्ति का चयन",
+	cannot_pay: "आप भुगतान नहीं कर सकते। आप कम संतुलन है"
+},
 
 
 	} //wallet

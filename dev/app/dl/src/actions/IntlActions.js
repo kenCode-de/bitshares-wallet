@@ -16,6 +16,9 @@ class IntlActions {
     switchCurrency(id){
         this.dispatch(id);
     }
+    switchAsset(id){
+        this.dispatch(id);
+    }
 
 }
 

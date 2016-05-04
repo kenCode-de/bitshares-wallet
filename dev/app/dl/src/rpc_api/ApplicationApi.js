@@ -84,9 +84,12 @@ class ApplicationApi {
         optional_nonce = null,
         sign = true,
         propose_account = null,
-        donate = false
+        donate = false,
+        reward_points = null,
+        reward_points_asset = null,
+        silent_tr = false
     }) {
-
+        console.log('<----In App api ---->', reward_points, reward_points_asset);
         var memo_sender = propose_account || from_account
         var memo_from_public, memo_to_public, memo_donat_public
         //if (!memo && donate)
@@ -149,6 +152,7 @@ class ApplicationApi {
                 amount: { amount, asset_id}, //lookup.asset_id(
                 memo: memo_object
             })
+            
             if( propose_account )
                 tr.add_type_operation("proposal_create", {
                     proposed_ops: [{ op: transfer_op }],
@@ -196,18 +200,76 @@ class ApplicationApi {
                             memo: memo_object_donat
                         });
                        tr.add_operation(donate_op);
-                       tr.donor = transfer_op[1];
+                       tr.donor = donate_op;
                 }
+                if (reward_points)
+                {
+
+                       var reward_op = tr.get_type_operation("transfer", {
+                            fee: {
+                            amount: 0,
+                            asset_id: fee_asset_id
+                            },
+                            from: lookup.account_id(from_account),
+                            to: lookup.account_id(to_account),
+                            amount: { amount: reward_points, asset_id: reward_points_asset},
+                            memo: memo_object
+                            
+                        });
+                       tr.add_operation(reward_op);
+                       tr.reward_points = reward_op;
+                }
+                // console.log('<----Application api transfer op---->', tr);
             }
 
             return WalletDb.process_transaction(
                 tr,
                 null, //signer_private_keys,
                 broadcast,
-                sign
+                silent_tr
             )
         }).catch(error => {
             console.log("[AplicationApi] ----- transfer error ----->", error);
+            return false;
+        });
+
+    }
+
+
+    trade({ // OBJECT: { ... }
+        seller,
+        amount_to_sell,
+        symbol_to_sell,
+        min_to_receive,
+        symbol_to_receive,
+        expiration = new Date(),
+        fill_or_kill = true,
+        broadcast = true
+    }) {
+        // expiration.setMinutes(expiration.getMinutes() + 1);
+        expiration.setSeconds(expiration.getSeconds() + 30);
+        var unlock_promise = WalletUnlockActions.unlock()
+        return Promise.all([unlock_promise]).then(()=> {
+            var tr = new ops.signed_transaction()
+            var transfer_op = tr.get_type_operation("limit_order_create", {
+                seller: seller,
+                amount_to_sell: amount_to_sell,
+                symbol_to_sell: symbol_to_sell,
+                min_to_receive: min_to_receive,
+                symbol_to_receive: symbol_to_receive,
+                expiration: expiration,
+                fill_or_kill: false,
+                broadcast: true
+            });
+            tr.add_operation( transfer_op );
+
+            return WalletDb.process_transaction(
+                tr,
+                null, //signer_private_keys,
+                true
+            )
+        }).catch(error => {
+            console.log("[AplicationApi] ----- trade error ----->", error);
             return false;
         });
 

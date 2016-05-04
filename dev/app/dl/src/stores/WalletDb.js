@@ -87,7 +87,7 @@ class WalletDb extends BaseStore {
         return this.decryptTcomb_PrivateKey(private_key_tcomb)
     }
 
-    process_transaction(tr, signer_pubkeys, broadcast) {
+    process_transaction(tr, signer_pubkeys, broadcast, silent_tr = false) {
         if(Apis.instance().chain_id !== this.state.wallet.chain_id)
             return Promise.reject("Mismatched chain_id; expecting " +
                 this.state.wallet.chain_id + ", but got " +
@@ -136,7 +136,16 @@ class WalletDb extends BaseStore {
                 }).then(()=> {
                     if(broadcast) {
                         if(this.confirm_transactions) {
-                            TransactionConfirmActions.confirm(tr)
+                            console.log('<---- In process transaction---->');
+                            console.log('-----silent_tr',silent_tr);
+                            if(!silent_tr){
+                                TransactionConfirmActions.confirm(tr);    
+                            }
+                            else{
+                                console.log('-----Silent confirm action called')
+                                TransactionConfirmActions.confirmSilently(tr, true);    
+                            }
+                            
                             return Promise.resolve();
                         }
                         else

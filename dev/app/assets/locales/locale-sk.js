@@ -146,6 +146,10 @@ publicKey: "Verejný kľúč",
 privateKey: "Súkromný kľúč",
 yes: "Áno ,",
 no: "žiadny",
+remaining_balance: "zvyšných",
+excess_amount: "Nemožno odoslať sumu viac ako fakturačná čiastky",
+backup_asset: "zálohovanie Asset",
+reward_points : "vernostné body"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Wallet Nastavenie",
@@ -200,10 +204,21 @@ enterPin: "Zadajte kód PIN",
 incorrectPin: "Nesprávny kód PIN",
 protectPinMessage: "Prosím Chráňte svoj ​​PIN kód",
 fraudAttemptMessage: "Podvod pokus ! ( na 3 po sebe idúcich nesprávnych PIN )",
-}
+},
 
+exchange: {
+    price: "Výmenný kurz",
+    trade_currency: "obchod Mena",
+    trade : "Trade",
+    trade_msg: "Nemáte aktívum, ktoré obchodník chce. Chceli by ste, aby si jeden?"
+},
 
-
+trade_warn_msg:{
+	select_backup_asset: "Zálohovať aktívum nie je vybraná v nastavení. Prosím, vyberte prvý",
+	low_balance_backup_asset: "Tie nemajú dostatok bilanciu obchodu. Prosím, vyberte iný záložný aktívum",
+	other_backup_asset: "Výmenný kurz nie je k dispozícii. Prosím, vyberte iný záložný aktívum",
+	cannot_pay: "Nemôžete zaplatiť. Máte nízky zostatok"
+},
 
 
   }
