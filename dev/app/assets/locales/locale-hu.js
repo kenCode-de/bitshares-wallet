@@ -145,6 +145,11 @@ publicKey: "nyilvános kulcs",
 privateKey: "privát kulcs",
 yes: "Igen",
 no: "Nem",
+remaining_balance: "Fennmaradó egyenleg",
+excess_amount: "Nem lehet elküldeni a mennyiség több mint számlázás összeg",
+backup_asset: "Backup Asset",
+reward_points : "Jutalompontok"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Pénztárca beállítások",
@@ -199,8 +204,21 @@ enterPin: "PIN-kód megadása",
 incorrectPin: "helytelen PIN",
 protectPinMessage: "Kérjük Védje a PIN-kódot",
 fraudAttemptMessage: "Csalás kísérlete ! ( 3 egymást követő helytelen PIN)",
-}
+},
 
+exchange: {
+    price: "Árfolyam",
+    trade_currency: "Kereskedelmi Árfolyam",
+    trade : "KERESKEDELMI",
+    trade_msg: "Nem kell eszköz, amelynek a kereskedő akar. Tudni szeretné, hogy egy?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Biztonsági másolatot eszköz nincs kiválasztva beállításokat. Kérjük, válassza ki az első",
+	low_balance_backup_asset: "Nem elég egyensúlyt a kereskedelem. Kérjük, válasszon másik biztonsági eszköz",
+	other_backup_asset: "Az árfolyam nem áll rendelkezésre. Kérjük, válasszon másik biztonsági eszköz",
+	cannot_pay: "Nem tud fizetni. Van alacsony egyenleg"
+},
 
 
 

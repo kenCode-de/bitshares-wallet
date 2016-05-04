@@ -114,78 +114,65 @@ class TradeBeforeSendModal extends React.Component {
         
     }
 
-    getExchangeRate(baseAssetId, quoteAssetId, amount){
-      console.log('----In Exchange Rate method');
-      console.log(baseAssetId);
-      console.log(quoteAssetId);
-      Promise.all([
-                    Apis.instance().db_api().exec("get_limit_orders", [
-                        baseAssetId,quoteAssetId, 1
-                    ]),
+    onTrade(baseAssetId, quoteAssetId, amount){
+        // seller,amount_to_sell,symbol_to_sell,min_to_receive,symbol_to_receive
+        // seller, amount in BTS, BTS(selected_asset), amount in USD, USD
+
+        console.log(this.props.exchange_rate);
+        let buyAmount = +(amount / this.props.exchange_rate);
+
+        let baseAsset = ChainStore.getAsset(baseAssetId);
+        let quoteAsset = ChainStore.getAsset(quoteAssetId);
+        let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
+        let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
+
+        console.log('-----Call trade method');
+        Promise.all([
+              // In real transaction uncomment these line
+                    Apis.instance().db_api().exec("get_account_balances", 
+                        [this.props.account_id, [baseAssetId] ])
+                    
                 ])
                 .then(results => {
-                    let baseAmount = 0;
-                    let quoteAmount = 0;
-                    if (results[0][0].sell_price.base.asset_id == baseAssetId){
-                        baseAmount = results[0][0].sell_price.base.amount;
-                        quoteAmount = results[0][0].sell_price.quote.amount;
-                    }else if (results[0][0].sell_price.quote.asset_id == baseAssetId){
-                        quoteAmount = results[0][0].sell_price.base.amount;
-                        baseAmount = results[0][0].sell_price.quote.amount;
+                    console.log('----Account balances result');
+                    let billedBalance = results[0][0].amount;
+                    billedBalance = billedBalance / basePrecision;
+
+                    console.log('-----Billed Balance', billedBalance);
+                    console.log(buyAmount)
+                    if(billedBalance < buyAmount){
+                        console.log('----Amount is less');
+                        
+                        // window.plugins.toast.showLongBottom('You do not have enough balance to trade. Please select other backup asset');    
+                        window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.low_balance_backup_asset"));    
                     }
-                    let baseAsset = ChainStore.getAsset(baseAssetId);
-                    let quoteAsset = ChainStore.getAsset(quoteAssetId);
-                    let quotePrecision = utils.get_asset_precision(quoteAsset.get("precision"));
-                    let basePrecision = utils.get_asset_precision(baseAsset.get("precision"));
-                    let exchangeRate = (quoteAmount/quotePrecision)/(baseAmount/basePrecision);
-                    console.log('----Exchange rate block');
-                    console.log(exchangeRate);
-                    let buyAmount = +(amount * exchangeRate);
-                    // buyAmount = Math.round(buyAmount * 100) / 100;
-                    // buyAmount = +((buyAmount + 0.01).toFixed(2));
-                    console.log('-----Buy Amount: ',buyAmount);
-                    console.log('------quote precision: ', quotePrecision);
-                    console.log('-----base Amount: ',amount);
-                    console.log('------base precision: ', basePrecision);
-                    console.log('-----baseAsset symbol: ',baseAsset.get("symbol"));
-                    console.log('------quoteAsset symbol: ', quoteAsset.get("symbol"));
+                    else{
+                        console.log('----Trade initiate')
+                        AccountActions.trade(
+                            this.props.account_id,
+                            {amount: parseInt(buyAmount * basePrecision), asset_id: baseAsset.get("id")},
+                            baseAsset.get("symbol"),
+                            {amount: parseInt(amount * quotePrecision),asset_id: quoteAsset.get("id")},
+                            quoteAsset.get("symbol")
+                        ).then( () => {
+                            console.log('trade then');
+                            TransactionConfirmStore.unlisten(this.onTrxIncluded);
+                            TransactionConfirmStore.listen(this.onTrxIncluded);
+                            TradeBeforeSendActions.close();
 
-// 19.98414
-                    // AccountActions.trade(
-                    //     this.props.account_id,
-
-                    //     {amount: 21999999, asset_id: '1.3.0'},
-                    //     'BTS',
-                    //     {amount: 1000, asset_id: '1.3.120'},
-                    //     'EUR'
-                    // ).then( () => {
-                    //     console.log('trade then');
-                    //     TransactionConfirmStore.unlisten(this.onTrxIncluded);
-                    //     TransactionConfirmStore.listen(this.onTrxIncluded);
-                    //     TradeBeforeSendActions.close();
-
-                    // });
-
-                    AccountActions.trade(
-                        this.props.account_id,
-                        {amount: parseInt(buyAmount * quotePrecision), asset_id: quoteAsset.get("id")},
-                        quoteAsset.get("symbol"),
-                        {amount: parseInt(amount * basePrecision),asset_id: baseAsset.get("id")},
-                        baseAsset.get("symbol")
-                    ).then( () => {
-                        console.log('trade then');
-                        TransactionConfirmStore.unlisten(this.onTrxIncluded);
-                        TransactionConfirmStore.listen(this.onTrxIncluded);
-                        TradeBeforeSendActions.close();
-
-                    });
-
-
-
+                        });
+                    }
+                    
+                    
                 }).catch((error) => {
-                    console.log("Error in fetching exchange rate: ", error);
+                    console.log("Error in transfer method: ", error);
                     console.log(error);
-                });
+                    
+                })
+
+
+        
+
     }
     
     _handleClose(e) {
@@ -199,14 +186,23 @@ class TradeBeforeSendModal extends React.Component {
         console.log('----Trade modal: On Trade');
         e.preventDefault();
         let selected_asset = IntlStore.getAsset();
-        if(selected_asset != undefined && selected_asset != "false"){
+        console.log('-----Exchange rate', this.props.exchange_rate);
+        if(selected_asset != undefined && selected_asset != "false" && 
+            this.props.exchange_rate != -1){
             console.log('Back up asset is selected');
-            this.getExchangeRate(this.props.billed_asset, 
-                selected_asset, +this.props.billed_amount);
+            this.onTrade(selected_asset, 
+                this.props.billed_asset, +this.props.billed_amount);
+        }
+        else if(this.props.exchange_rate == -1){
+            console.log('Exchange rate is not available');
+            // window.plugins.toast.showLongBottom('Exchange rate is not available. Please select other backup asset');    
+            window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.other_backup_asset"));    
         }
         else{
             console.log('Back up asset not selected');
-            window.plugins.toast.showLongBottom('Back up asset is not selected in settings. Please select first');
+            
+            // window.plugins.toast.showLongBottom('Back up asset is not selected in settings. Please select first');
+            window.plugins.toast.showLongBottom(counterpart.translate("wallet.trade_warn_msg.select_backup_asset"));
         }
     }
 
@@ -215,7 +211,7 @@ class TradeBeforeSendModal extends React.Component {
     }
 
     onTrxIncluded(confirm_store_state) {
-        if(confirm_store_state.included && confirm_store_state.broadcasted_transaction) {
+        if(confirm_store_state.included && confirm_store_state.trx_id != null) {
             console.log('----TradeBeforeSend Trx');    
             setTimeout(() => { TradeConfirmActions.talk(); }, 1000);
             TransactionConfirmStore.unlisten(this.onTrxIncluded);
@@ -231,19 +227,17 @@ class TradeBeforeSendModal extends React.Component {
         //DEBUG console.log('... U N L O C K',this.props)
         console.log('-----In Trade Modal');
         if ( !this.props.unclosable ) {return null; }
-
-       let assets = Object.keys(this.props.assets)
-       let tradeSelector = null;
-       if(this.props.assets !== undefined){
-        if(this.state.selected_asset === undefined){
-            this.state.selected_asset = assets[0];
-        } 
-        tradeSelector = (<div> Choose asset to trade:  <TradeAssetSelector
-                           assets={assets}
-                           value={this.state.selected_asset}
-                           onChange={this.onAssetChange.bind(this)}
-                           /> </div>);
-       }
+        let selected_asset = IntlStore.getAsset();
+        let exchangeRateSpan = null;
+        if(selected_asset != undefined && selected_asset != "false" &&
+            this.props.exchange_rate != -1){
+            let baseAsset = ChainStore.getAsset(selected_asset);
+            let quoteAsset = ChainStore.getAsset(this.props.billed_asset);
+            let baseAssetSymbol = baseAsset.get("symbol");
+            let quoteAssetSymbol = quoteAsset.get("symbol");
+        
+            exchangeRateSpan = (<span >  1 {baseAssetSymbol} = {this.props.exchange_rate.toFixed(quoteAsset.get("precision")) } {quoteAssetSymbol} </span>);
+        }
 
         var unlock_what = this.props.unlock_what || counterpart.translate("wallet.title");
 
@@ -257,19 +251,21 @@ class TradeBeforeSendModal extends React.Component {
               ref="tradeDialog" open={this.state.open}
               onRequestClose={this._handleDismiss.bind(this)}>
 
-                    <div> You don't have asset which merchant wants. Would you like to buy? </div>
-                    {tradeSelector}
-                    
-                    <div className="button-group">
-                        
-                       <RaisedButton  label={counterpart.translate("wallet.home.cancel")}
-                                    backgroundColor = "#FF4081" primary = {true}
-                                    onTouchTap={this._handleClose.bind(this)}  />
-                        
-                       <RaisedButton
-                        label={counterpart.translate("wallet.exchange.trade")}
-                        backgroundColor = "#008000" secondary={true}
-                        onTouchTap={this._handleTrade.bind(this)} />
+                    <div className="trade-info"> {counterpart.translate("wallet.exchange.trade_msg")} </div>
+                    <div className="trade-info"> {counterpart.translate("wallet.exchange.price")} {exchangeRateSpan} </div>
+                    <div className="trade-modal-btn">
+                        <div style={{float: 'left'}}>
+                        <RaisedButton  label={counterpart.translate("wallet.home.cancel")}
+                                         backgroundColor = "#FF4081" primary = {true}
+                                         onTouchTap={this._handleClose.bind(this)}  />
+                        </div>
+                        <div className="button-group" style={{float: 'right'}}>
+                            
+                           <RaisedButton
+                            label={counterpart.translate("wallet.exchange.trade")}
+                            backgroundColor = "#008000" secondary={true}
+                            onTouchTap={this._handleTrade.bind(this)} />
+                        </div>
                     </div>
            </Dialog>
         )

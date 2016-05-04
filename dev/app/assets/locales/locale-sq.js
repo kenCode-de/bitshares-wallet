@@ -146,6 +146,11 @@ publicKey: "Key publik",
 privateKey: "Key private",
 yes: "po",
 no: "asnjë",
+remaining_balance: "Bilanci mbetur",
+excess_amount: "Nuk mund të dërgojë sasi më shumë se shuma e faturimit",
+backup_asset: "Asset Backup",
+reward_points : "pikë shpërblim"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Portofolin Cilësimet",
@@ -200,7 +205,21 @@ enterPin: "Futni PIN",
 incorrectPin: "PIN i gabuar",
 protectPinMessage: "Ju lutemi Protect kodin tuaj PIN",
 fraudAttemptMessage: "Mashtrimi Përpjekje ! ( mbi 3 PIN njëpasnjëshme të gabuara )",
-}
+},
+
+exchange: {
+	price: "Exchange Rate",
+	trade_currency: "Trade Valuta",
+	trade : "Trade",
+	trade_msg: "Ju nuk keni pasuri të cilat tregtar dëshiron. Dëshironi të marrë një të tillë?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Mbështetur aset nuk është zgjedhur në mjediset. Ju lutem, përzgjidhni parë",
+	low_balance_backup_asset: "Ju nuk keni ekuilibër të mjaftueshme për të tregtisë. Ju lutem, përzgjidhni pasuri tjetër rezervë",
+	other_backup_asset: "kursit të këmbimit nuk është në dispozicion. Ju lutem, përzgjidhni pasuri tjetër rezervë",
+	cannot_pay: "Ju nuk mund të paguajnë. Ju keni ekuilibër të ulët"
+},
 
 
 

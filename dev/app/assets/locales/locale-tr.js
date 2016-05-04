@@ -146,6 +146,10 @@ publicKey: "Açık Anahtar",
 privateKey: "Özel Anahtar",
 yes: "Evet",
 no: "Hayır",
+remaining_balance: "bakiye",
+excess_amount: "Fatura miktardan fazla miktarda gönderilemiyor",
+backup_asset: "yedekleme Varlık",
+reward_points : "Ödül Puanları"
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Cüzdan Ayarları",
@@ -200,8 +204,21 @@ enterPin: "PIN Kodunu Girin",
 incorrectPin: "Yanlış PIN",
 protectPinMessage: "Lütfen PIN Kodunuzu Koruyun",
 fraudAttemptMessage: "Dolandırıcılık Girişimi ! ( 3 üst üste yanlış PIN)",
-}
+},
 
+exchange: {
+    price: "Döviz kuru",
+    trade_currency: "Ticaret Döviz",
+    trade : "TİCARET",
+    trade_msg: "Sen tüccar istediği varlık yoktur. birini almak ister misiniz?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "yedekle varlık ayarlarında seçili değildir. İlk seçiniz",
+	low_balance_backup_asset: "Sen ticaret için yeterli denge yoktur. diğer yedekleme varlık seçiniz",
+	other_backup_asset: "Döviz kuru mevcut değildir. diğer yedekleme varlık seçiniz",
+	cannot_pay: "Sen ödeyemez. Düşük denge var"
+},
 
 
   }

@@ -145,6 +145,10 @@ publicKey: "公開鍵",
 privateKey: "秘密鍵",
 yes: "はい",
 no: "ノー",
+remaining_balance: "保たれているバランス",
+excess_amount: "請求金額よりも多くの量を送信することはできません",
+backup_asset: "バックアップ・アセット",
+reward_points : "報酬ポイント"
 
 }, settings: {
 bitsharesWalletSettings: "BitSharesウォレット設定",
@@ -199,8 +203,21 @@ enterPin: "INを入力してください",
 incorrectPin: "不正なPIN",
 protectPinMessage: "あなたのPINコードを保護してください",
 fraudAttemptMessage: "詐欺の試み！ （連続3間違ったピンの上）",
-}
+},
 
+exchange: {
+    price: "為替レート",
+    trade_currency: "貿易通貨",
+    trade : "トレード",
+    trade_msg: "あなたは商人が望んでいる資産を持っていません。あなたがいずれかを取得しますか？"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "バックアップした資産は、設定で選択されていません。最初に選択してください",
+	low_balance_backup_asset: "あなたがトレードするのに十分なバランスを持っていません。他のバックアップのアセットを選択してください",
+	other_backup_asset: "為替レートは使用できません。他のバックアップのアセットを選択してください",
+	cannot_pay: "あなたが支払うことができません。あなたは、低バランスを持っています"
+},
 
 
   }

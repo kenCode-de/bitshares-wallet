@@ -56,9 +56,11 @@ class TradeAssetSelector extends React.Component {
         
 
         return (
-            <select value={this.props.value} className="nice-select" style={{"font-weight": "bold"}} onChange={this.onChange.bind(this)}>
-                {options}
-            </select>
+            <div className="Select-control">
+                <select value={this.props.value} className="Select-placeholder backup-asset" onChange={this.onChange.bind(this)}>
+                    {options}
+                </select>
+            </div>
         )
     }
 }

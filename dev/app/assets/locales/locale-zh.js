@@ -146,6 +146,11 @@ publicKey: "公钥",
 privateKey: "私钥",
 yes: "是",
 no: "否",
+remaining_balance: "保持平衡",
+excess_amount: "不能发送量超过开票金额",
+backup_asset: "备份资产",
+reward_points : "奖励分数"
+
 
 }, settings: {
 bitsharesWalletSettings: "比特股钱包设置",
@@ -200,7 +205,21 @@ enterPin: "输入PIN",
 incorrectPin: "PIN无效",
 protectPinMessage: "请保管好您的PIN",
 fraudAttemptMessage: "警告（连续3次输错PIN）",
-}
+},
+
+exchange: {
+    price: "汇率",
+    trade_currency: "交易货币",
+    trade : "Trade",
+    trade_msg: "您没有哪个商人要给资产。你想一个吗？"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "备份资产没有在设置中选择。请选择第一",
+	low_balance_backup_asset: "您没有足够的余额进行交易。请选择其他的备份资产",
+	other_backup_asset: "汇率不可用。请选择其他的备份资产",
+	cannot_pay: "你不能支付。你有低的平衡"
+},
 
 
 

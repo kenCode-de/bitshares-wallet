@@ -145,6 +145,11 @@ publicKey: "Public Key",
 privateKey: "Private Key",
 yes: "да",
 no: "Не",
+remaining_balance: "Оставащо Balance",
+excess_amount: "Не може да изпраща количество повече от сумата за фактуриране",
+backup_asset: "Backup Асет",
+reward_points : "бонус точки"
+
 
 }, settings: {
 bitsharesWalletSettings: "BitShares Settings Портфейл",
@@ -199,8 +204,21 @@ enterPin: "диалогови прозорци",
 incorrectPin: "Въведете PIN",
 protectPinMessage: "Грешен ПИН",
 fraudAttemptMessage: "Моля Защитете своя PIN код",
-}
+},
 
+exchange: {
+    price: "обменен курс",
+    trade_currency: "търговия на валута",
+    trade : "Trade",
+    trade_msg: "Не е нужно актив, който търговец иска. Бихте ли искали да се получи един?"
+},
+
+trade_warn_msg:{
+	select_backup_asset: "Създаване на резервно копие на активите не е избран в настройките. Моля изберете първия",
+	low_balance_backup_asset: "Вие не разполагате с достатъчно баланс на търговията. Моля, изберете друг резервен актив",
+	other_backup_asset: "Валутен курс не е на разположение. Моля, изберете друг резервен актив",
+	cannot_pay: "Вие не може да плати. Имате ниско баланс"
+},
 
 
 

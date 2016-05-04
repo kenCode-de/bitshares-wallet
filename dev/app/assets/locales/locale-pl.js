@@ -145,6 +145,11 @@ publicKey: "Klucz publiczny",
 privateKey: "Klucz prywatny",
 yes: "Tak",
 no: "Nie",
+remaining_balance: "Pozostałe saldo",
+excess_amount: "Nie można wysłać kwotę ponad kwotę rozliczeniowego",
+backup_asset: "Zaleta backup",
+reward_points : "punkty lojalnościowe"
+
 
 }, settings: {
 bitsharesWalletSettings: "Ustawienia Portfela BitShares",
@@ -199,10 +204,21 @@ enterPin: "Wprowadź kod PIN",
 incorrectPin: "Nieprawidłowy kod PIN",
 protectPinMessage: "Pamiętaj aby dbać o bezpieczeństwo swojego kodu PIN",
 fraudAttemptMessage: "Próba nieautoryzowanego dostępu! (3 kolejne błędne kody PIN)",
-}
+},
 
+exchange: {
+    price: "Kurs wymiany",
+    trade_currency: "Targi kantor",
+    trade : "HANDEL",
+    trade_msg: "Nie masz aktywów, który kupiec chce. Chciałbyś dostać?"
+},
 
-
+trade_warn_msg:{
+	select_backup_asset: "Tworzenie kopii zapasowych aktywów nie został wybrany w ustawieniach. Najpierw wybierz",
+	low_balance_backup_asset: "Nie ma wystarczającej wagi do handlu. Proszę wybrać inny zasób kopii zapasowej",
+	other_backup_asset: "kurs nie jest dostępny. Proszę wybrać inny zasób kopii zapasowej",
+	cannot_pay: "Nie można zapłacić. Masz niską wagę"
+},
 
   }
 };
