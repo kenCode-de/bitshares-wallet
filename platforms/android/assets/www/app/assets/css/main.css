@@ -862,6 +862,9 @@ input[type="text"] {
 .form-row .full-input {
   width: 100%;
 }
+full-input {
+  width: 100%;
+}
 .form-row p {
   clear: both;
   font-size: 12px;
@@ -880,7 +883,7 @@ input[type="text"] {
   padding-left: 40px;
 }
 .curr-input input {
-  width: 55%;
+  width: 46%;
 }
 .curr-input .nice-select {
   width: 23%;
@@ -1929,8 +1932,28 @@ a {
 }
 
 .label-amount {
-    width: 22%;
+    width: 31%;
     display: inline-block;
+    font-weight: bold;
+}
+
+.label-amount-rewards {
+    width: auto;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    display: inline-block;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.avalibel-label-reward {
+    width: auto;
+    margin: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 10px;
     font-weight: bold;
 }
 
@@ -1939,6 +1962,16 @@ a {
     text-align: center;
     width: 50%;
     font-weight: bold;
+}
+
+.input-amount-rewards {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+.move-rewards-box-right{
+    padding-left: 5px;
 }
 
 .avalibel-label .amount_span {
@@ -1984,4 +2017,27 @@ a {
 .dt span {
   /*display: table-cell;*/
   vertical-align: middle;
+}
+
+.trade-info{
+  padding-bottom: 10px;
+}
+.trade-modal-btn{
+  padding-top: 15px; 
+}
+.backup-asset{
+  width: 100%;
+  background: #fff;
+  color: #333;
+  border: 1px;
+
+}
+
+.reward-input input{
+  width: 69%;
+}
+.text-wrap{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
