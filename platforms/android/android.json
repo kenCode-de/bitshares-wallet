@@ -9,6 +9,30 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"xwalk_core_library_beta:18+\" name=\"xwalkVersion\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"xwalk_core_library_canary:17+\" name=\"xwalkLiteVersion\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"--disable-pull-to-refresh-effect\" name=\"xwalkCommandLine\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"embedded\" name=\"xwalkMode\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"true\" name=\"xwalkMultipleApk\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
@@ -35,6 +59,10 @@
                         {
                             "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -42,6 +70,14 @@
             "AndroidManifest.xml": {
                 "parents": {
                     "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+                            "count": 1
+                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 4
@@ -577,6 +613,9 @@
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
+        },
         "cordova-plugin-device": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
@@ -602,6 +641,9 @@
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         },
         "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
+        },
+        "cordova-plugin-x-toast": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         }
     },
@@ -814,10 +856,22 @@
             "clobbers": [
                 "cordova.plugins.barcodeScanner"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
+            "id": "cordova-plugin-x-toast.Toast",
+            "clobbers": [
+                "window.plugins.toast"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/test/tests.js",
+            "id": "cordova-plugin-x-toast.tests"
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-compat": "1.0.0",
+        "cordova-plugin-crosswalk-webview": "1.7.0",
         "cordova-plugin-device": "1.1.2-dev",
         "cordova-plugin-file": "4.1.1",
         "cordova-plugin-indexedDB": "0.1.4",
@@ -826,6 +880,7 @@
         "cordova-plugin-social-message": "0.4.0",
         "cordova-plugin-whitelist": "1.2.1",
         "cordova-plugin-x-socialsharing": "5.0.10",
-        "phonegap-plugin-barcodescanner": "4.0.1"
+        "phonegap-plugin-barcodescanner": "4.0.1",
+        "cordova-plugin-x-toast": "2.5.1"
     }
 }
