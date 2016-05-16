@@ -34,6 +34,8 @@
 		4F88E0FB24574259ADF986B1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD38F3D90A2426CA9810BDE /* QuartzCore.framework */; };
 		D6927F0AA26448E89812B8E7 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E27E081EE2D494085FD70BD /* CoreImage.framework */; };
 		6F66465F92D843898CA66F72 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D24D74685924AE99762260A /* AudioToolbox.framework */; };
+		ACFDC4AEAAB04ADAAC49C34F /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409E10D4BFAA41F3A213D9EC /* Toast+UIView.m */; };
+		31D7FD93A5684144AA72FF2B /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890B221FB24935B6F2FA2E /* Toast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +102,10 @@
 		EAD38F3D90A2426CA9810BDE /* QuartzCore.framework */ = {isa = PBXFileReference; name = "QuartzCore.framework"; path = "System/Library/Frameworks/QuartzCore.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		0E27E081EE2D494085FD70BD /* CoreImage.framework */ = {isa = PBXFileReference; name = "CoreImage.framework"; path = "System/Library/Frameworks/CoreImage.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		2D24D74685924AE99762260A /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		409E10D4BFAA41F3A213D9EC /* Toast+UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "cordova-plugin-x-toast/Toast+UIView.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		5A890B221FB24935B6F2FA2E /* Toast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Toast.m"; path = "cordova-plugin-x-toast/Toast.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		D65E3B9A34D645CA94091E48 /* Toast+UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "cordova-plugin-x-toast/Toast+UIView.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		F934B2E4F5974F4AB0222034 /* Toast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Toast.h"; path = "cordova-plugin-x-toast/Toast.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +243,10 @@
 				23F74249F6C24D2EB04EE9EF /* CDVBarcodeScanner.mm */,
 				F93710814B5C4C98AFEBF7F9 /* zxing-all-in-one.cpp */,
 				BC3AE8E16BA14F8780AF4CCA /* zxing-all-in-one.h */,
+				409E10D4BFAA41F3A213D9EC /* Toast+UIView.m */,
+				5A890B221FB24935B6F2FA2E /* Toast.m */,
+				D65E3B9A34D645CA94091E48 /* Toast+UIView.h */,
+				F934B2E4F5974F4AB0222034 /* Toast.h */,
 			);
 			name = Plugins;
 			path = "BitShares Wallet/Plugins";
@@ -362,6 +372,8 @@
 				798F67B3640A49049274677F /* SocialSharing.m in Sources */,
 				80FA9B061AE849D0AFC9024F /* CDVBarcodeScanner.mm in Resources */,
 				AB57F643F5DF4C38A43B794C /* zxing-all-in-one.cpp in Resources */,
+				ACFDC4AEAAB04ADAAC49C34F /* Toast+UIView.m in Sources */,
+				31D7FD93A5684144AA72FF2B /* Toast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

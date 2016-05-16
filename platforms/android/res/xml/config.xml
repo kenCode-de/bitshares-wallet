@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="de.bitsharesmunich.wallet" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine" />
+    <preference default="xwalk_core_library_beta:18+" name="xwalkVersion" />
+    <preference default="xwalk_core_library_canary:17+" name="xwalkLiteVersion" />
+    <preference default="--disable-pull-to-refresh-effect" name="xwalkCommandLine" />
+    <preference default="embedded" name="xwalkMode" />
+    <preference default="true" name="xwalkMultipleApk" />
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
@@ -23,6 +30,18 @@
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
+    <hook src="plugins/install_plugins.js" type="after_platform_add" />
+    <icon density="ldpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="mdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="hdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xhdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xxhdpi" src="www/app/assets/img/icon.PNG" />
+    <icon density="xxxhdpi" src="www/app/assets/img/icon.PNG" />
+    <config-file parent="/*" target="config.xml">
+    </config-file>
     <name>BitShares Wallet</name>
     <description>
         Multiplatform BitShares wallet.
@@ -39,16 +58,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <hook src="plugins/install_plugins.js" type="after_platform_add" />
-    <icon density="ldpi" src="www/app/assets/img/icon.PNG" />
-    <icon density="mdpi" src="www/app/assets/img/icon.PNG" />
-    <icon density="hdpi" src="www/app/assets/img/icon.PNG" />
-    <icon density="xhdpi" src="www/app/assets/img/icon.PNG" />
-    <icon density="xxhdpi" src="www/app/assets/img/icon.PNG" />
-    <icon density="xxxhdpi" src="www/app/assets/img/icon.PNG" />
-    <config-file parent="/*" target="config.xml">
-    </config-file>
-    <preference name="loglevel" value="DEBUG" />
     <preference name="xwalkVersion" value="17+" />
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />

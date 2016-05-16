@@ -33,6 +33,12 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "de.bitsharesmunich.wallet"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "de.bitsharesmunich.wallet"
         }
     },
     "dependent_plugins": {
