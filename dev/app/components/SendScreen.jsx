@@ -413,7 +413,19 @@ class SendScreen extends React.Component {
           if(this.state.reward_points){
             user_typed_rp = this.state.reward_points;
           }
-          let remaining_amount = +this.state.actual_amount - ((+user_typed_rp / +this.state.ruia_ex_rate) + +amount);
+
+          var remaining_amount = 0;
+
+          if ( typeof this.state.actual_amount == 'undefined' )
+          {
+          	remaining_amount = +availableBalance.amount - +amount;
+          	this.state.billed_currency = availableBalance.asset.get("symbol");
+          }
+          else
+          {
+           	remaining_amount = +this.state.actual_amount - ((+user_typed_rp / +this.state.ruia_ex_rate) + +amount);
+          }
+
           let ruia_remaining_amount = remaining_amount * this.state.ruia_ex_rate;
           remaining_amount = remaining_amount.toFixed(this.state.billed_asset_precision);
           ruia_remaining_amount = ruia_remaining_amount.toFixed(this.state.ruia_precision);
@@ -699,8 +711,16 @@ class SendScreen extends React.Component {
             asset_types = Object.keys(account_balances);
 
             if (this.state.remaining_amount) {
-              remain_balance = (<span className="bold"> {counterpart.translate("wallet.home.remaining_balance")}: {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
-            }
+            	 if ( typeof this.state.rps_eq_amount == 'undefined') 
+            	 {
+              		remain_balance = (<span className="bold"> {counterpart.translate("wallet.home.remaining_balance")}: {this.state.remaining_amount} {this.state.billed_currency} ({this.state.rps_eq_amount} {this.state.ruia_symbol})  </span>);
+            	 }
+            	 else
+            	 {
+        	 		remain_balance = (<span className="bold"> {counterpart.translate("wallet.home.remaining_balance")}: {this.state.remaining_amount} {this.state.billed_currency}  </span>);
+            	 }
+              
+            }            
             if (this.state.remaining_amount < 0) {
               bill_amount_warning = (<span style={{color: '#ff0000'}}>  {counterpart.translate("wallet.home.excess_amount")}  </span>);
             }
