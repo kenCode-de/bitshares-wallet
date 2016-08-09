@@ -1,6 +1,7 @@
 {"v1":[
   "wss://bitshares.openledger.info/ws",
   "wss://bitshares.dacplay.org:8089/ws",
+  "wss://openledger.hk/ws",
   "wss://dele-puppy.com/ws",
   "wss://altcap.io/ws"
 ]}
